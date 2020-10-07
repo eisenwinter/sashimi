@@ -1,0 +1,5 @@
+<!-- sashimi:markdown(page)-->
+<div class="md-content">
+  <!-- sashimi:display(page) -->
+  This content wil be replaced with the page contents et al
+</div>
