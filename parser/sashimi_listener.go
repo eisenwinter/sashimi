@@ -1,11 +1,11 @@
-// Code generated from sashimi.g4 by ANTLR 4.8. DO NOT EDIT.
+// Code generated from Sashimi.g4 by ANTLR 4.8. DO NOT EDIT.
 
-package parser // sashimi
+package parser // Sashimi
 
 import "github.com/antlr/antlr4/runtime/Go/antlr"
 
-// sashimiListener is a complete listener for a parse tree produced by sashimiParser.
-type sashimiListener interface {
+// SashimiListener is a complete listener for a parse tree produced by SashimiParser.
+type SashimiListener interface {
 	antlr.ParseTreeListener
 
 	// EnterUnion_decl is called when entering the union_decl production.

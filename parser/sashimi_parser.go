@@ -1,6 +1,6 @@
-// Code generated from sashimi.g4 by ANTLR 4.8. DO NOT EDIT.
+// Code generated from Sashimi.g4 by ANTLR 4.8. DO NOT EDIT.
 
-package parser // sashimi
+package parser // Sashimi
 
 import (
 	"fmt"
@@ -73,12 +73,12 @@ func init() {
 	}
 }
 
-type sashimiParser struct {
+type SashimiParser struct {
 	*antlr.BaseParser
 }
 
-func NewsashimiParser(input antlr.TokenStream) *sashimiParser {
-	this := new(sashimiParser)
+func NewSashimiParser(input antlr.TokenStream) *SashimiParser {
+	this := new(SashimiParser)
 
 	this.BaseParser = antlr.NewBaseParser(input)
 
@@ -86,46 +86,46 @@ func NewsashimiParser(input antlr.TokenStream) *sashimiParser {
 	this.RuleNames = ruleNames
 	this.LiteralNames = literalNames
 	this.SymbolicNames = symbolicNames
-	this.GrammarFileName = "sashimi.g4"
+	this.GrammarFileName = "Sashimi.g4"
 
 	return this
 }
 
-// sashimiParser tokens.
+// SashimiParser tokens.
 const (
-	sashimiParserEOF        = antlr.TokenEOF
-	sashimiParserT__0       = 1
-	sashimiParserT__1       = 2
-	sashimiParserT__2       = 3
-	sashimiParserT__3       = 4
-	sashimiParserT__4       = 5
-	sashimiParserT__5       = 6
-	sashimiParserT__6       = 7
-	sashimiParserT__7       = 8
-	sashimiParserT__8       = 9
-	sashimiParserT__9       = 10
-	sashimiParserDIRECTIVE  = 11
-	sashimiParserCOMMAND    = 12
-	sashimiParserIDENT      = 13
-	sashimiParserALIAS      = 14
-	sashimiParserCONSTRAINT = 15
-	sashimiParserSEPERATOR  = 16
-	sashimiParserTYPE       = 17
-	sashimiParserUNION      = 18
-	sashimiParserWS         = 19
+	SashimiParserEOF        = antlr.TokenEOF
+	SashimiParserT__0       = 1
+	SashimiParserT__1       = 2
+	SashimiParserT__2       = 3
+	SashimiParserT__3       = 4
+	SashimiParserT__4       = 5
+	SashimiParserT__5       = 6
+	SashimiParserT__6       = 7
+	SashimiParserT__7       = 8
+	SashimiParserT__8       = 9
+	SashimiParserT__9       = 10
+	SashimiParserDIRECTIVE  = 11
+	SashimiParserCOMMAND    = 12
+	SashimiParserIDENT      = 13
+	SashimiParserALIAS      = 14
+	SashimiParserCONSTRAINT = 15
+	SashimiParserSEPERATOR  = 16
+	SashimiParserTYPE       = 17
+	SashimiParserUNION      = 18
+	SashimiParserWS         = 19
 )
 
-// sashimiParser rules.
+// SashimiParser rules.
 const (
-	sashimiParserRULE_union_decl  = 0
-	sashimiParserRULE_type_decl   = 1
-	sashimiParserRULE_list_decl   = 2
-	sashimiParserRULE_type_def    = 3
-	sashimiParserRULE_alias_decl  = 4
-	sashimiParserRULE_type_is     = 5
-	sashimiParserRULE_prop_decl   = 6
-	sashimiParserRULE_entity_decl = 7
-	sashimiParserRULE_export      = 8
+	SashimiParserRULE_union_decl  = 0
+	SashimiParserRULE_type_decl   = 1
+	SashimiParserRULE_list_decl   = 2
+	SashimiParserRULE_type_def    = 3
+	SashimiParserRULE_alias_decl  = 4
+	SashimiParserRULE_type_is     = 5
+	SashimiParserRULE_prop_decl   = 6
+	SashimiParserRULE_entity_decl = 7
+	SashimiParserRULE_export      = 8
 )
 
 // IUnion_declContext is an interface to support dynamic dispatch.
@@ -147,7 +147,7 @@ type Union_declContext struct {
 func NewEmptyUnion_declContext() *Union_declContext {
 	var p = new(Union_declContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = sashimiParserRULE_union_decl
+	p.RuleIndex = SashimiParserRULE_union_decl
 	return p
 }
 
@@ -159,7 +159,7 @@ func NewUnion_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, i
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = sashimiParserRULE_union_decl
+	p.RuleIndex = SashimiParserRULE_union_decl
 
 	return p
 }
@@ -167,23 +167,23 @@ func NewUnion_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, i
 func (s *Union_declContext) GetParser() antlr.Parser { return s.parser }
 
 func (s *Union_declContext) UNION() antlr.TerminalNode {
-	return s.GetToken(sashimiParserUNION, 0)
+	return s.GetToken(SashimiParserUNION, 0)
 }
 
 func (s *Union_declContext) AllALIAS() []antlr.TerminalNode {
-	return s.GetTokens(sashimiParserALIAS)
+	return s.GetTokens(SashimiParserALIAS)
 }
 
 func (s *Union_declContext) ALIAS(i int) antlr.TerminalNode {
-	return s.GetToken(sashimiParserALIAS, i)
+	return s.GetToken(SashimiParserALIAS, i)
 }
 
 func (s *Union_declContext) AllSEPERATOR() []antlr.TerminalNode {
-	return s.GetTokens(sashimiParserSEPERATOR)
+	return s.GetTokens(SashimiParserSEPERATOR)
 }
 
 func (s *Union_declContext) SEPERATOR(i int) antlr.TerminalNode {
-	return s.GetToken(sashimiParserSEPERATOR, i)
+	return s.GetToken(SashimiParserSEPERATOR, i)
 }
 
 func (s *Union_declContext) GetRuleContext() antlr.RuleContext {
@@ -195,20 +195,20 @@ func (s *Union_declContext) ToStringTree(ruleNames []string, recog antlr.Recogni
 }
 
 func (s *Union_declContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.EnterUnion_decl(s)
 	}
 }
 
 func (s *Union_declContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.ExitUnion_decl(s)
 	}
 }
 
-func (p *sashimiParser) Union_decl() (localctx IUnion_declContext) {
+func (p *SashimiParser) Union_decl() (localctx IUnion_declContext) {
 	localctx = NewUnion_declContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 0, sashimiParserRULE_union_decl)
+	p.EnterRule(localctx, 0, SashimiParserRULE_union_decl)
 	var _la int
 
 	defer func() {
@@ -230,44 +230,44 @@ func (p *sashimiParser) Union_decl() (localctx IUnion_declContext) {
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(18)
-		p.Match(sashimiParserUNION)
+		p.Match(SashimiParserUNION)
 	}
 	{
 		p.SetState(19)
-		p.Match(sashimiParserT__0)
+		p.Match(SashimiParserT__0)
 	}
 	{
 		p.SetState(20)
-		p.Match(sashimiParserT__1)
+		p.Match(SashimiParserT__1)
 	}
 	{
 		p.SetState(21)
-		p.Match(sashimiParserALIAS)
+		p.Match(SashimiParserALIAS)
 	}
 	{
 		p.SetState(22)
-		p.Match(sashimiParserT__1)
+		p.Match(SashimiParserT__1)
 	}
 	p.SetState(29)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for _la == sashimiParserSEPERATOR {
+	for _la == SashimiParserSEPERATOR {
 		{
 			p.SetState(23)
-			p.Match(sashimiParserSEPERATOR)
+			p.Match(SashimiParserSEPERATOR)
 		}
 		{
 			p.SetState(24)
-			p.Match(sashimiParserT__1)
+			p.Match(SashimiParserT__1)
 		}
 		{
 			p.SetState(25)
-			p.Match(sashimiParserALIAS)
+			p.Match(SashimiParserALIAS)
 		}
 		{
 			p.SetState(26)
-			p.Match(sashimiParserT__1)
+			p.Match(SashimiParserT__1)
 		}
 
 		p.SetState(31)
@@ -276,7 +276,7 @@ func (p *sashimiParser) Union_decl() (localctx IUnion_declContext) {
 	}
 	{
 		p.SetState(32)
-		p.Match(sashimiParserT__2)
+		p.Match(SashimiParserT__2)
 	}
 
 	return localctx
@@ -301,7 +301,7 @@ type Type_declContext struct {
 func NewEmptyType_declContext() *Type_declContext {
 	var p = new(Type_declContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = sashimiParserRULE_type_decl
+	p.RuleIndex = SashimiParserRULE_type_decl
 	return p
 }
 
@@ -313,7 +313,7 @@ func NewType_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, in
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = sashimiParserRULE_type_decl
+	p.RuleIndex = SashimiParserRULE_type_decl
 
 	return p
 }
@@ -321,11 +321,11 @@ func NewType_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, in
 func (s *Type_declContext) GetParser() antlr.Parser { return s.parser }
 
 func (s *Type_declContext) TYPE() antlr.TerminalNode {
-	return s.GetToken(sashimiParserTYPE, 0)
+	return s.GetToken(SashimiParserTYPE, 0)
 }
 
 func (s *Type_declContext) CONSTRAINT() antlr.TerminalNode {
-	return s.GetToken(sashimiParserCONSTRAINT, 0)
+	return s.GetToken(SashimiParserCONSTRAINT, 0)
 }
 
 func (s *Type_declContext) GetRuleContext() antlr.RuleContext {
@@ -337,20 +337,20 @@ func (s *Type_declContext) ToStringTree(ruleNames []string, recog antlr.Recogniz
 }
 
 func (s *Type_declContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.EnterType_decl(s)
 	}
 }
 
 func (s *Type_declContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.ExitType_decl(s)
 	}
 }
 
-func (p *sashimiParser) Type_decl() (localctx IType_declContext) {
+func (p *SashimiParser) Type_decl() (localctx IType_declContext) {
 	localctx = NewType_declContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 2, sashimiParserRULE_type_decl)
+	p.EnterRule(localctx, 2, SashimiParserRULE_type_decl)
 	var _la int
 
 	defer func() {
@@ -372,24 +372,24 @@ func (p *sashimiParser) Type_decl() (localctx IType_declContext) {
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(34)
-		p.Match(sashimiParserTYPE)
+		p.Match(SashimiParserTYPE)
 	}
 	p.SetState(38)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	if _la == sashimiParserT__3 {
+	if _la == SashimiParserT__3 {
 		{
 			p.SetState(35)
-			p.Match(sashimiParserT__3)
+			p.Match(SashimiParserT__3)
 		}
 		{
 			p.SetState(36)
-			p.Match(sashimiParserCONSTRAINT)
+			p.Match(SashimiParserCONSTRAINT)
 		}
 		{
 			p.SetState(37)
-			p.Match(sashimiParserT__4)
+			p.Match(SashimiParserT__4)
 		}
 
 	}
@@ -416,7 +416,7 @@ type List_declContext struct {
 func NewEmptyList_declContext() *List_declContext {
 	var p = new(List_declContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = sashimiParserRULE_list_decl
+	p.RuleIndex = SashimiParserRULE_list_decl
 	return p
 }
 
@@ -428,7 +428,7 @@ func NewList_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, in
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = sashimiParserRULE_list_decl
+	p.RuleIndex = SashimiParserRULE_list_decl
 
 	return p
 }
@@ -454,20 +454,20 @@ func (s *List_declContext) ToStringTree(ruleNames []string, recog antlr.Recogniz
 }
 
 func (s *List_declContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.EnterList_decl(s)
 	}
 }
 
 func (s *List_declContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.ExitList_decl(s)
 	}
 }
 
-func (p *sashimiParser) List_decl() (localctx IList_declContext) {
+func (p *SashimiParser) List_decl() (localctx IList_declContext) {
 	localctx = NewList_declContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 4, sashimiParserRULE_list_decl)
+	p.EnterRule(localctx, 4, SashimiParserRULE_list_decl)
 
 	defer func() {
 		p.ExitRule()
@@ -488,7 +488,7 @@ func (p *sashimiParser) List_decl() (localctx IList_declContext) {
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(40)
-		p.Match(sashimiParserT__5)
+		p.Match(SashimiParserT__5)
 	}
 	{
 		p.SetState(41)
@@ -517,7 +517,7 @@ type Type_defContext struct {
 func NewEmptyType_defContext() *Type_defContext {
 	var p = new(Type_defContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = sashimiParserRULE_type_def
+	p.RuleIndex = SashimiParserRULE_type_def
 	return p
 }
 
@@ -529,7 +529,7 @@ func NewType_defContext(parser antlr.Parser, parent antlr.ParserRuleContext, inv
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = sashimiParserRULE_type_def
+	p.RuleIndex = SashimiParserRULE_type_def
 
 	return p
 }
@@ -575,20 +575,20 @@ func (s *Type_defContext) ToStringTree(ruleNames []string, recog antlr.Recognize
 }
 
 func (s *Type_defContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.EnterType_def(s)
 	}
 }
 
 func (s *Type_defContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.ExitType_def(s)
 	}
 }
 
-func (p *sashimiParser) Type_def() (localctx IType_defContext) {
+func (p *SashimiParser) Type_def() (localctx IType_defContext) {
 	localctx = NewType_defContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 6, sashimiParserRULE_type_def)
+	p.EnterRule(localctx, 6, SashimiParserRULE_type_def)
 
 	defer func() {
 		p.ExitRule()
@@ -610,21 +610,21 @@ func (p *sashimiParser) Type_def() (localctx IType_defContext) {
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
-	case sashimiParserT__5:
+	case SashimiParserT__5:
 		p.EnterOuterAlt(localctx, 1)
 		{
 			p.SetState(43)
 			p.List_decl()
 		}
 
-	case sashimiParserUNION:
+	case SashimiParserUNION:
 		p.EnterOuterAlt(localctx, 2)
 		{
 			p.SetState(44)
 			p.Union_decl()
 		}
 
-	case sashimiParserTYPE:
+	case SashimiParserTYPE:
 		p.EnterOuterAlt(localctx, 3)
 		{
 			p.SetState(45)
@@ -657,7 +657,7 @@ type Alias_declContext struct {
 func NewEmptyAlias_declContext() *Alias_declContext {
 	var p = new(Alias_declContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = sashimiParserRULE_alias_decl
+	p.RuleIndex = SashimiParserRULE_alias_decl
 	return p
 }
 
@@ -669,7 +669,7 @@ func NewAlias_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, i
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = sashimiParserRULE_alias_decl
+	p.RuleIndex = SashimiParserRULE_alias_decl
 
 	return p
 }
@@ -677,7 +677,7 @@ func NewAlias_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, i
 func (s *Alias_declContext) GetParser() antlr.Parser { return s.parser }
 
 func (s *Alias_declContext) ALIAS() antlr.TerminalNode {
-	return s.GetToken(sashimiParserALIAS, 0)
+	return s.GetToken(SashimiParserALIAS, 0)
 }
 
 func (s *Alias_declContext) GetRuleContext() antlr.RuleContext {
@@ -689,20 +689,20 @@ func (s *Alias_declContext) ToStringTree(ruleNames []string, recog antlr.Recogni
 }
 
 func (s *Alias_declContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.EnterAlias_decl(s)
 	}
 }
 
 func (s *Alias_declContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.ExitAlias_decl(s)
 	}
 }
 
-func (p *sashimiParser) Alias_decl() (localctx IAlias_declContext) {
+func (p *SashimiParser) Alias_decl() (localctx IAlias_declContext) {
 	localctx = NewAlias_declContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 8, sashimiParserRULE_alias_decl)
+	p.EnterRule(localctx, 8, SashimiParserRULE_alias_decl)
 
 	defer func() {
 		p.ExitRule()
@@ -723,19 +723,19 @@ func (p *sashimiParser) Alias_decl() (localctx IAlias_declContext) {
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(48)
-		p.Match(sashimiParserT__6)
+		p.Match(SashimiParserT__6)
 	}
 	{
 		p.SetState(49)
-		p.Match(sashimiParserT__1)
+		p.Match(SashimiParserT__1)
 	}
 	{
 		p.SetState(50)
-		p.Match(sashimiParserALIAS)
+		p.Match(SashimiParserALIAS)
 	}
 	{
 		p.SetState(51)
-		p.Match(sashimiParserT__1)
+		p.Match(SashimiParserT__1)
 	}
 
 	return localctx
@@ -760,7 +760,7 @@ type Type_isContext struct {
 func NewEmptyType_isContext() *Type_isContext {
 	var p = new(Type_isContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = sashimiParserRULE_type_is
+	p.RuleIndex = SashimiParserRULE_type_is
 	return p
 }
 
@@ -772,7 +772,7 @@ func NewType_isContext(parser antlr.Parser, parent antlr.ParserRuleContext, invo
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = sashimiParserRULE_type_is
+	p.RuleIndex = SashimiParserRULE_type_is
 
 	return p
 }
@@ -798,20 +798,20 @@ func (s *Type_isContext) ToStringTree(ruleNames []string, recog antlr.Recognizer
 }
 
 func (s *Type_isContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.EnterType_is(s)
 	}
 }
 
 func (s *Type_isContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.ExitType_is(s)
 	}
 }
 
-func (p *sashimiParser) Type_is() (localctx IType_isContext) {
+func (p *SashimiParser) Type_is() (localctx IType_isContext) {
 	localctx = NewType_isContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 10, sashimiParserRULE_type_is)
+	p.EnterRule(localctx, 10, SashimiParserRULE_type_is)
 
 	defer func() {
 		p.ExitRule()
@@ -832,7 +832,7 @@ func (p *sashimiParser) Type_is() (localctx IType_isContext) {
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(53)
-		p.Match(sashimiParserT__7)
+		p.Match(SashimiParserT__7)
 	}
 	{
 		p.SetState(54)
@@ -861,7 +861,7 @@ type Prop_declContext struct {
 func NewEmptyProp_declContext() *Prop_declContext {
 	var p = new(Prop_declContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = sashimiParserRULE_prop_decl
+	p.RuleIndex = SashimiParserRULE_prop_decl
 	return p
 }
 
@@ -873,7 +873,7 @@ func NewProp_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, in
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = sashimiParserRULE_prop_decl
+	p.RuleIndex = SashimiParserRULE_prop_decl
 
 	return p
 }
@@ -881,7 +881,7 @@ func NewProp_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, in
 func (s *Prop_declContext) GetParser() antlr.Parser { return s.parser }
 
 func (s *Prop_declContext) IDENT() antlr.TerminalNode {
-	return s.GetToken(sashimiParserIDENT, 0)
+	return s.GetToken(SashimiParserIDENT, 0)
 }
 
 func (s *Prop_declContext) Type_def() IType_defContext {
@@ -913,20 +913,20 @@ func (s *Prop_declContext) ToStringTree(ruleNames []string, recog antlr.Recogniz
 }
 
 func (s *Prop_declContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.EnterProp_decl(s)
 	}
 }
 
 func (s *Prop_declContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.ExitProp_decl(s)
 	}
 }
 
-func (p *sashimiParser) Prop_decl() (localctx IProp_declContext) {
+func (p *SashimiParser) Prop_decl() (localctx IProp_declContext) {
 	localctx = NewProp_declContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 12, sashimiParserRULE_prop_decl)
+	p.EnterRule(localctx, 12, SashimiParserRULE_prop_decl)
 	var _la int
 
 	defer func() {
@@ -948,17 +948,17 @@ func (p *sashimiParser) Prop_decl() (localctx IProp_declContext) {
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(56)
-		p.Match(sashimiParserT__8)
+		p.Match(SashimiParserT__8)
 	}
 	{
 		p.SetState(57)
-		p.Match(sashimiParserIDENT)
+		p.Match(SashimiParserIDENT)
 	}
 	p.SetState(59)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	if _la == sashimiParserT__6 {
+	if _la == SashimiParserT__6 {
 		{
 			p.SetState(58)
 			p.Alias_decl()
@@ -967,7 +967,7 @@ func (p *sashimiParser) Prop_decl() (localctx IProp_declContext) {
 	}
 	{
 		p.SetState(61)
-		p.Match(sashimiParserT__7)
+		p.Match(SashimiParserT__7)
 	}
 	{
 		p.SetState(62)
@@ -996,7 +996,7 @@ type Entity_declContext struct {
 func NewEmptyEntity_declContext() *Entity_declContext {
 	var p = new(Entity_declContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = sashimiParserRULE_entity_decl
+	p.RuleIndex = SashimiParserRULE_entity_decl
 	return p
 }
 
@@ -1008,7 +1008,7 @@ func NewEntity_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = sashimiParserRULE_entity_decl
+	p.RuleIndex = SashimiParserRULE_entity_decl
 
 	return p
 }
@@ -1047,20 +1047,20 @@ func (s *Entity_declContext) ToStringTree(ruleNames []string, recog antlr.Recogn
 }
 
 func (s *Entity_declContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.EnterEntity_decl(s)
 	}
 }
 
 func (s *Entity_declContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.ExitEntity_decl(s)
 	}
 }
 
-func (p *sashimiParser) Entity_decl() (localctx IEntity_declContext) {
+func (p *SashimiParser) Entity_decl() (localctx IEntity_declContext) {
 	localctx = NewEntity_declContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 14, sashimiParserRULE_entity_decl)
+	p.EnterRule(localctx, 14, SashimiParserRULE_entity_decl)
 	var _la int
 
 	defer func() {
@@ -1082,13 +1082,13 @@ func (p *sashimiParser) Entity_decl() (localctx IEntity_declContext) {
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(64)
-		p.Match(sashimiParserT__9)
+		p.Match(SashimiParserT__9)
 	}
 	p.SetState(66)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for ok := true; ok; ok = _la == sashimiParserT__8 {
+	for ok := true; ok; ok = _la == SashimiParserT__8 {
 		{
 			p.SetState(65)
 			p.Prop_decl()
@@ -1121,7 +1121,7 @@ type ExportContext struct {
 func NewEmptyExportContext() *ExportContext {
 	var p = new(ExportContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = sashimiParserRULE_export
+	p.RuleIndex = SashimiParserRULE_export
 	return p
 }
 
@@ -1133,7 +1133,7 @@ func NewExportContext(parser antlr.Parser, parent antlr.ParserRuleContext, invok
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = sashimiParserRULE_export
+	p.RuleIndex = SashimiParserRULE_export
 
 	return p
 }
@@ -1141,15 +1141,15 @@ func NewExportContext(parser antlr.Parser, parent antlr.ParserRuleContext, invok
 func (s *ExportContext) GetParser() antlr.Parser { return s.parser }
 
 func (s *ExportContext) DIRECTIVE() antlr.TerminalNode {
-	return s.GetToken(sashimiParserDIRECTIVE, 0)
+	return s.GetToken(SashimiParserDIRECTIVE, 0)
 }
 
 func (s *ExportContext) COMMAND() antlr.TerminalNode {
-	return s.GetToken(sashimiParserCOMMAND, 0)
+	return s.GetToken(SashimiParserCOMMAND, 0)
 }
 
 func (s *ExportContext) IDENT() antlr.TerminalNode {
-	return s.GetToken(sashimiParserIDENT, 0)
+	return s.GetToken(SashimiParserIDENT, 0)
 }
 
 func (s *ExportContext) AllProp_decl() []IProp_declContext {
@@ -1184,20 +1184,20 @@ func (s *ExportContext) ToStringTree(ruleNames []string, recog antlr.Recognizer)
 }
 
 func (s *ExportContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.EnterExport(s)
 	}
 }
 
 func (s *ExportContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(sashimiListener); ok {
+	if listenerT, ok := listener.(SashimiListener); ok {
 		listenerT.ExitExport(s)
 	}
 }
 
-func (p *sashimiParser) Export() (localctx IExportContext) {
+func (p *SashimiParser) Export() (localctx IExportContext) {
 	localctx = NewExportContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 16, sashimiParserRULE_export)
+	p.EnterRule(localctx, 16, SashimiParserRULE_export)
 	var _la int
 
 	defer func() {
@@ -1219,29 +1219,29 @@ func (p *sashimiParser) Export() (localctx IExportContext) {
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(70)
-		p.Match(sashimiParserDIRECTIVE)
+		p.Match(SashimiParserDIRECTIVE)
 	}
 	{
 		p.SetState(71)
-		p.Match(sashimiParserCOMMAND)
+		p.Match(SashimiParserCOMMAND)
 	}
 	{
 		p.SetState(72)
-		p.Match(sashimiParserT__0)
+		p.Match(SashimiParserT__0)
 	}
 	{
 		p.SetState(73)
-		p.Match(sashimiParserIDENT)
+		p.Match(SashimiParserIDENT)
 	}
 	{
 		p.SetState(74)
-		p.Match(sashimiParserT__2)
+		p.Match(SashimiParserT__2)
 	}
 	p.SetState(78)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for _la == sashimiParserT__8 {
+	for _la == SashimiParserT__8 {
 		{
 			p.SetState(75)
 			p.Prop_decl()

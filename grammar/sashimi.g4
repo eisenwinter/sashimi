@@ -1,6 +1,6 @@
-grammar sashimi;
+grammar Sashimi;
 DIRECTIVE : 'sashimi:';
-COMMAND : 'markdown' | 'display' | 'repeat' | 'layout_section';
+COMMAND : 'markdown' | 'display' | 'repeat' | 'layout_section' | 'entity';
 IDENT : [a-z]+;
 ALIAS : [a-z]+;
 CONSTRAINT : [a-z]+;
