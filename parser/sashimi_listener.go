@@ -29,8 +29,11 @@ type SashimiListener interface {
 	// EnterProp_decl is called when entering the prop_decl production.
 	EnterProp_decl(c *Prop_declContext)
 
-	// EnterEntity_decl is called when entering the entity_decl production.
-	EnterEntity_decl(c *Entity_declContext)
+	// EnterCommand_call is called when entering the command_call production.
+	EnterCommand_call(c *Command_callContext)
+
+	// EnterEntity_def is called when entering the entity_def production.
+	EnterEntity_def(c *Entity_defContext)
 
 	// EnterExport is called when entering the export production.
 	EnterExport(c *ExportContext)
@@ -56,8 +59,11 @@ type SashimiListener interface {
 	// ExitProp_decl is called when exiting the prop_decl production.
 	ExitProp_decl(c *Prop_declContext)
 
-	// ExitEntity_decl is called when exiting the entity_decl production.
-	ExitEntity_decl(c *Entity_declContext)
+	// ExitCommand_call is called when exiting the command_call production.
+	ExitCommand_call(c *Command_callContext)
+
+	// ExitEntity_def is called when exiting the entity_def production.
+	ExitEntity_def(c *Entity_defContext)
 
 	// ExitExport is called when exiting the export production.
 	ExitExport(c *ExportContext)

@@ -63,11 +63,17 @@ func (s *BaseSashimiListener) EnterProp_decl(ctx *Prop_declContext) {}
 // ExitProp_decl is called when production prop_decl is exited.
 func (s *BaseSashimiListener) ExitProp_decl(ctx *Prop_declContext) {}
 
-// EnterEntity_decl is called when production entity_decl is entered.
-func (s *BaseSashimiListener) EnterEntity_decl(ctx *Entity_declContext) {}
+// EnterCommand_call is called when production command_call is entered.
+func (s *BaseSashimiListener) EnterCommand_call(ctx *Command_callContext) {}
 
-// ExitEntity_decl is called when production entity_decl is exited.
-func (s *BaseSashimiListener) ExitEntity_decl(ctx *Entity_declContext) {}
+// ExitCommand_call is called when production command_call is exited.
+func (s *BaseSashimiListener) ExitCommand_call(ctx *Command_callContext) {}
+
+// EnterEntity_def is called when production entity_def is entered.
+func (s *BaseSashimiListener) EnterEntity_def(ctx *Entity_defContext) {}
+
+// ExitEntity_def is called when production entity_def is exited.
+func (s *BaseSashimiListener) ExitEntity_def(ctx *Entity_defContext) {}
 
 // EnterExport is called when production export is entered.
 func (s *BaseSashimiListener) EnterExport(ctx *ExportContext) {}

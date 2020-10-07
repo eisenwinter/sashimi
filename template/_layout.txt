@@ -16,14 +16,14 @@
 
   <nav>
    <ul>
-    <!-- sashimi: navigation:(main) -->
+    <!-- sashimi:navigation(main) -->
     <li><a href="">Blah</a></li>
    </ul>
   </nav>
   <div class="main">
   </div>
   <div class="content">
-    <!-- sashimi: layout_section:(main) -->
+    <!-- sashimi:layout_section(main) -->
   </div>
 </body>
 
