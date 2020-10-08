@@ -1,5 +1,9 @@
 package parser
 
+import (
+	"fmt"
+)
+
 type defTableEntry struct {
 	Identfier  string
 	IsDefined  bool
@@ -30,6 +34,7 @@ type typeInf interface {
 	String() string
 	Kind() SashimiKind
 	Type() SashimiType
+	ResolveTypeName() string
 	HKT() typeInf
 }
 
@@ -54,6 +59,10 @@ func (t *unionType) String() string {
 	return "manyOf"
 }
 
+func (t *unionType) ResolveTypeName() string {
+	return "Union<text>"
+}
+
 func (t *unionType) Type() SashimiType {
 	return SashimiTypeTextUnion
 }
@@ -72,6 +81,10 @@ func (t *listType) String() string {
 
 func (t *listType) Kind() SashimiKind {
 	return "List"
+}
+
+func (t *listType) ResolveTypeName() string {
+	return fmt.Sprintf("List<%s>", t.baseType.ResolveTypeName())
 }
 
 func (t *listType) Type() SashimiType {
@@ -110,6 +123,10 @@ func (t *scalarType) HKT() typeInf {
 	return nil
 }
 
+func (t *scalarType) ResolveTypeName() string {
+	return t.name
+}
+
 type refType struct {
 	refOf string
 }
@@ -128,6 +145,10 @@ func (t *refType) Type() SashimiType {
 
 func (t *refType) HKT() typeInf {
 	return nil
+}
+
+func (t *refType) ResolveTypeName() string {
+	return t.refOf
 }
 
 func newList(baseType typeInf) typeInf {

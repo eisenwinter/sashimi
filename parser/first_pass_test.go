@@ -147,7 +147,6 @@ func TestDoubleDeclaredEntity(t *testing.T) {
 	}
 }
 
-//tests todo
 func TestConsolidation(t *testing.T) {
 	is := antlr.NewInputStream(`sashimi:entity(page) of
 	- title as "Pagetitle" is text
@@ -227,9 +226,12 @@ func TestConsolidationFailedProperty(t *testing.T) {
 	firstPass := NewFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
-	t.FailNow() // needs deeper check
-	if len(firstPass.ctx.Errors) > 0 {
-		t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+	if len(firstPass.ctx.Errors) == 1 {
+		if firstPass.ctx.Errors[0].Message != "Unknown property path: `page.nonexistent`" {
+			t.Errorf("Consolidation created WRONG error.")
+		}
+	} else {
+		t.Errorf("Consolidation created NO error when it should have.")
 	}
 	if len(firstPass.ctx.Warnings) > 0 {
 		t.Errorf("Consolidation created unwanted warning.")
@@ -243,6 +245,17 @@ func TestConsolidationUndefinedDisplay(t *testing.T) {
 	p := NewSashimiParser(stream)
 	firstPass := NewFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) == 1 {
+		if firstPass.ctx.Errors[0].Message != "Unknown property path: `project.nonexistent`" {
+			t.Errorf("Consolidation created WRONG error (%s).", firstPass.ctx.Errors[0].Message)
+		}
+	} else {
+		t.Errorf("Consolidation created NO error when it should have.")
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
 }
 
 func TestConsolidationUndefinedRepeat(t *testing.T) {
@@ -252,6 +265,17 @@ func TestConsolidationUndefinedRepeat(t *testing.T) {
 	p := NewSashimiParser(stream)
 	firstPass := NewFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) == 1 {
+		if firstPass.ctx.Errors[0].Message != "Unknown property path: `project`" {
+			t.Errorf("Consolidation created WRONG error (%s).", firstPass.ctx.Errors[0].Message)
+		}
+	} else {
+		t.Errorf("Consolidation created NO error when it should have.")
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
 }
 
 func TestConsolidationUndefinedLayout(t *testing.T) {
@@ -261,6 +285,17 @@ func TestConsolidationUndefinedLayout(t *testing.T) {
 	p := NewSashimiParser(stream)
 	firstPass := NewFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) == 1 {
+		if firstPass.ctx.Errors[0].Message != "Undefined layout section `main`" {
+			t.Errorf("Consolidation created WRONG error (%s).", firstPass.ctx.Errors[0].Message)
+		}
+	} else {
+		t.Errorf("Consolidation created NO error when it should have.")
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
 }
 
 func TestConsolidationUnusedLayoutSection(t *testing.T) {
@@ -270,6 +305,17 @@ func TestConsolidationUnusedLayoutSection(t *testing.T) {
 	p := NewSashimiParser(stream)
 	firstPass := NewFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) != 0 {
+		t.Errorf("Consolidation created an error where it should not have.")
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		if firstPass.ctx.Warnings[0].Message != "Unused layout section `main`" {
+			t.Errorf("Consolidation created WRONG warning (%s).", firstPass.ctx.Warnings[0].Message)
+		}
+	} else {
+		t.Errorf("Consolidation created NO warning where it should have.")
+	}
 }
 
 func TestConsolidationUndefinedLink(t *testing.T) {
@@ -279,6 +325,17 @@ func TestConsolidationUndefinedLink(t *testing.T) {
 	p := NewSashimiParser(stream)
 	firstPass := NewFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) == 1 {
+		if firstPass.ctx.Errors[0].Message != "Unknown property path: `user`" {
+			t.Errorf("Consolidation created WRONG error (%s).", firstPass.ctx.Errors[0].Message)
+		}
+	} else {
+		t.Errorf("Consolidation created NO error when it should have.")
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
 }
 
 func TestConsolidationLayoutAndLayoutSectioInSameBlock(t *testing.T) {
@@ -288,4 +345,11 @@ func TestConsolidationLayoutAndLayoutSectioInSameBlock(t *testing.T) {
 	p := NewSashimiParser(stream)
 	firstPass := NewFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) > 0 {
+		t.Errorf("Consolidate created a unwanted error.")
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidate created a unwanted warning.")
+	}
 }

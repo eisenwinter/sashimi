@@ -27,14 +27,27 @@ func (c *parserContext) propertyExists(path string) bool {
 				if !ok {
 					return false
 				}
-				info := t.Type.Type()
-				switch info {
-				case "List":
-				case "Union":
-				case "Scalar":
+				kind := t.Type.Kind()
+				switch kind {
+				case SashimiScalar, SashimiUnion:
 					return true
-				case "Ref":
-					//Todo resolve reference
+				case SashimiList:
+					hkt := t.Type.HKT()
+					if hkt == nil {
+						return true
+					}
+					derefType := hkt.ResolveTypeName()
+					val, ok = c.Def[derefType]
+					if !ok {
+						return false
+					}
+					break
+				case SashimiReference:
+					derefType := t.Type.ResolveTypeName()
+					val, ok = c.Def[derefType]
+					if !ok {
+						return false
+					}
 					break
 				}
 			}
@@ -48,16 +61,7 @@ func (c *parserContext) Consolidate() {
 	for call, prop := range c.Calls {
 		for propName := range prop {
 			switch call {
-			case "display":
-				if !c.propertyExists(propName) {
-					c.Errors = append(c.Errors, &lineReporter{
-						Line:           0,
-						ErrorMarkerPos: 0,
-						Message:        fmt.Sprintf("Unknown property path: `%s`", propName),
-					})
-				}
-				break
-			case "repeat":
+			case "link", "repeat", "display":
 				if !c.propertyExists(propName) {
 					c.Errors = append(c.Errors, &lineReporter{
 						Line:           0,
@@ -72,9 +76,15 @@ func (c *parserContext) Consolidate() {
 						c.Warnings = append(c.Warnings, &lineReporter{
 							Line:           0,
 							ErrorMarkerPos: 0,
-							Message:        fmt.Sprintf("Unused layout section: %s", propName),
+							Message:        fmt.Sprintf("Unused layout section `%s`", propName),
 						})
 					}
+				} else {
+					c.Warnings = append(c.Warnings, &lineReporter{
+						Line:           0,
+						ErrorMarkerPos: 0,
+						Message:        fmt.Sprintf("Unused layout section `%s`", propName),
+					})
 				}
 				break
 			case "layout":
@@ -83,9 +93,15 @@ func (c *parserContext) Consolidate() {
 						c.Errors = append(c.Errors, &lineReporter{
 							Line:           0,
 							ErrorMarkerPos: 0,
-							Message:        fmt.Sprintf("Undefined layout section used by call: %s", propName),
+							Message:        fmt.Sprintf("Undefined layout section `%s`", propName),
 						})
 					}
+				} else {
+					c.Errors = append(c.Errors, &lineReporter{
+						Line:           0,
+						ErrorMarkerPos: 0,
+						Message:        fmt.Sprintf("Undefined layout section `%s`", propName),
+					})
 				}
 				break
 			}
