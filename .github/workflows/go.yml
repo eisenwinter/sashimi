@@ -31,7 +31,7 @@ jobs:
         fi
 
     - name: Build
-      run: go build -v .\cmd\
+      run: go build -v ./cmd
 
     - name: Test
-      run: go test -v .\parser\
+      run: go test -v ./parser
