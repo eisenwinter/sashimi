@@ -1,9 +1,9 @@
 <!-- 
   sashimi:entity(project) of
-   - title as "Project Title" is text,
-   - description as "Description" is text,
-   - image as "Main Image" is picture,
-   - starCount as "Star Count" is number,
+   - title as "Project Title" is text
+   - description as "Description" is text
+   - image as "Main Image" is picture
+   - starCount as "Star Count" is number
    - category as "Category" is oneOf("Archtiecture,"Misc.")
    - tags as "Tags" is manyOf("Cheap","Fast","Good")
    - gallery as "Gallery" is list of picture

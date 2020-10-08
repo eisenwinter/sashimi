@@ -8,11 +8,23 @@ import "github.com/antlr/antlr4/runtime/Go/antlr"
 type SashimiListener interface {
 	antlr.ParseTreeListener
 
+	// EnterKey_value_pair is called when entering the key_value_pair production.
+	EnterKey_value_pair(c *Key_value_pairContext)
+
+	// EnterKey_atom is called when entering the key_atom production.
+	EnterKey_atom(c *Key_atomContext)
+
+	// EnterConstraint_list is called when entering the constraint_list production.
+	EnterConstraint_list(c *Constraint_listContext)
+
 	// EnterUnion_decl is called when entering the union_decl production.
 	EnterUnion_decl(c *Union_declContext)
 
 	// EnterType_decl is called when entering the type_decl production.
 	EnterType_decl(c *Type_declContext)
+
+	// EnterEntity_ref is called when entering the entity_ref production.
+	EnterEntity_ref(c *Entity_refContext)
 
 	// EnterList_decl is called when entering the list_decl production.
 	EnterList_decl(c *List_declContext)
@@ -38,11 +50,26 @@ type SashimiListener interface {
 	// EnterExport is called when entering the export production.
 	EnterExport(c *ExportContext)
 
+	// EnterBlock is called when entering the block production.
+	EnterBlock(c *BlockContext)
+
+	// ExitKey_value_pair is called when exiting the key_value_pair production.
+	ExitKey_value_pair(c *Key_value_pairContext)
+
+	// ExitKey_atom is called when exiting the key_atom production.
+	ExitKey_atom(c *Key_atomContext)
+
+	// ExitConstraint_list is called when exiting the constraint_list production.
+	ExitConstraint_list(c *Constraint_listContext)
+
 	// ExitUnion_decl is called when exiting the union_decl production.
 	ExitUnion_decl(c *Union_declContext)
 
 	// ExitType_decl is called when exiting the type_decl production.
 	ExitType_decl(c *Type_declContext)
+
+	// ExitEntity_ref is called when exiting the entity_ref production.
+	ExitEntity_ref(c *Entity_refContext)
 
 	// ExitList_decl is called when exiting the list_decl production.
 	ExitList_decl(c *List_declContext)
@@ -67,4 +94,7 @@ type SashimiListener interface {
 
 	// ExitExport is called when exiting the export production.
 	ExitExport(c *ExportContext)
+
+	// ExitBlock is called when exiting the block production.
+	ExitBlock(c *BlockContext)
 }

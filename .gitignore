@@ -71,3 +71,4 @@ _testmain.go
 # vendor/
 
 .sass-cache
+.antlr

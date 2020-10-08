@@ -1,5 +1,10 @@
-<!-- sashimi:markdown(page)-->
+<!-- sashimi:layout(main) -->
+<!--
+  sashimi:entity(page) of
+   - title as "Pagetitle" is text
+   - description as "Description" is text[:markdown]
+-->
 <div class="md-content">
-  <!-- sashimi:display(page) -->
+  <!-- sashimi:display(page.description) -->
   This content wil be replaced with the page contents et al
 </div>

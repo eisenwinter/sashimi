@@ -1,3 +1,4 @@
+<!-- sashimi:layout(main) -->
 <!-- sashimi:repeat(project) -->
   <div class="project-item">
 	<h1><!-- sashimi:display(project.title) --> MyProject </h1>
