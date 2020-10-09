@@ -40,6 +40,7 @@ type typeInf interface {
 	Type() SashimiType
 	ResolveTypeName() string
 	HKT() typeInf
+	MetaMap() map[string]string
 }
 
 type propertyDef struct {
@@ -75,6 +76,17 @@ func (t *unionType) HKT() typeInf {
 	return nil
 }
 
+func (t *unionType) MetaMap() map[string]string {
+	meta := make(map[string]string)
+	if t.isExcl {
+		meta["@@union_excl"] = ""
+	}
+	for i, v := range t.tags {
+		meta[fmt.Sprintf("value_%v", i)] = v
+	}
+	return meta
+}
+
 type listType struct {
 	baseType typeInf
 }
@@ -97,6 +109,10 @@ func (t *listType) Type() SashimiType {
 
 func (t *listType) HKT() typeInf {
 	return t.baseType
+}
+
+func (t *listType) MetaMap() map[string]string {
+	return nil
 }
 
 type scalarType struct {
@@ -131,6 +147,10 @@ func (t *scalarType) ResolveTypeName() string {
 	return t.name
 }
 
+func (t *scalarType) MetaMap() map[string]string {
+	return t.constraint
+}
+
 type refType struct {
 	refOf string
 }
@@ -153,6 +173,10 @@ func (t *refType) HKT() typeInf {
 
 func (t *refType) ResolveTypeName() string {
 	return t.refOf
+}
+
+func (t *refType) MetaMap() map[string]string {
+	return nil
 }
 
 func newList(baseType typeInf) typeInf {

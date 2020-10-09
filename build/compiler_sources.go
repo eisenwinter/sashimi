@@ -3,17 +3,20 @@ package build
 import (
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
 type CompilerSource interface {
 	Load() (rc io.ReadCloser, err error)
 	Name() string
+	Format() string
 }
 
 type fileCompilerSource struct {
 	path     string
 	fileName string
+	ext      string
 }
 
 func (f *fileCompilerSource) Load() (rc io.ReadCloser, err error) {
@@ -24,9 +27,15 @@ func (f *fileCompilerSource) Name() string {
 	return f.fileName
 }
 
+func (f *fileCompilerSource) Format() string {
+	return f.ext
+}
+
 //CreateCompilerSourceFromFile creates a new compiler source from the supplied path
 func CreateCompilerSourceFromFile(path string) CompilerSource {
-	return &fileCompilerSource{}
+	_, file := filepath.Split(path)
+	ext := strings.ToLower(filepath.Ext(file))
+	return &fileCompilerSource{fileName: file, ext: ext}
 }
 
 type stringReaderNoopCloser struct {
@@ -51,6 +60,9 @@ func (s *stringCompilerSource) Load() (rc io.ReadCloser, err error) {
 
 func (*stringCompilerSource) Name() string {
 	return "direct input"
+}
+func (*stringCompilerSource) Format() string {
+	return "plain"
 }
 
 //CreateCompilerSourceFromString creates a compiler source based on the supplied string

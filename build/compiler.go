@@ -36,23 +36,32 @@ type Compiler interface {
 }
 
 func NewCompiler() Compiler {
-	return &sashimiCompiler{}
+	return &sashimiCompiler{htmlProc: &htmlProcessor{}}
 }
 
-type sashimiCompiler struct{}
+type sashimiCompiler struct {
+	htmlProc *htmlProcessor
+}
 
 func (c *sashimiCompiler) Analyze(sources []CompilerSource, flags CompilerFlags) (CompilerResult, error) {
 	fp := plainFirstPassParser()
 	for _, v := range sources {
+		var sb strings.Builder
 		rc, err := v.Load()
 		if err != nil {
 			return nil, err
 		}
 		defer rc.Close()
-		var sb strings.Builder
-		_, err = io.Copy(&sb, rc)
-		if err != nil {
-			return nil, err
+		if v.Format() == "html" {
+			err := c.htmlProc.extractFromHTML(rc, &sb)
+			if err != nil {
+				return nil, err
+			}
+		} else {
+			_, err = io.Copy(&sb, rc)
+			if err != nil {
+				return nil, err
+			}
 		}
 		fp.source = v.Name()
 		is := antlr.NewInputStream(sb.String())
