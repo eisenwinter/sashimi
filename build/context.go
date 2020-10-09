@@ -1,4 +1,4 @@
-package parser
+package build
 
 import (
 	"fmt"
@@ -9,13 +9,31 @@ type parserContext struct {
 	Def      map[string]*defTableEntry
 	Errors   []*lineReporter
 	Warnings []*lineReporter
-	Calls    map[string]map[string]bool
+	Calls    map[string]map[string]string
 }
 
 type lineReporter struct {
 	Line           int
 	ErrorMarkerPos int
 	Message        string
+	Source         string
+	Code           SashimiErrorCode
+}
+
+func (l *lineReporter) OnLine() int {
+	return l.Line
+}
+
+func (l *lineReporter) OnPos() int {
+	return l.ErrorMarkerPos
+}
+
+func (l *lineReporter) InSource() int {
+	return l.ErrorMarkerPos
+}
+
+func (l *lineReporter) InternalCode() int {
+	return int(l.Code)
 }
 
 func (c *parserContext) propertyExists(path string) bool {
@@ -59,7 +77,7 @@ func (c *parserContext) propertyExists(path string) bool {
 
 func (c *parserContext) Consolidate() {
 	for call, prop := range c.Calls {
-		for propName := range prop {
+		for propName, source := range prop {
 			switch call {
 			case "link", "repeat", "display":
 				if !c.propertyExists(propName) {
@@ -67,6 +85,8 @@ func (c *parserContext) Consolidate() {
 						Line:           0,
 						ErrorMarkerPos: 0,
 						Message:        fmt.Sprintf("Unknown property path: `%s`", propName),
+						Source:         source,
+						Code:           SashminiUnknownPropertyPath,
 					})
 				}
 				break
@@ -77,6 +97,8 @@ func (c *parserContext) Consolidate() {
 							Line:           0,
 							ErrorMarkerPos: 0,
 							Message:        fmt.Sprintf("Unused layout section `%s`", propName),
+							Source:         source,
+							Code:           SashminiUnusedLayoutSection,
 						})
 					}
 				} else {
@@ -84,6 +106,8 @@ func (c *parserContext) Consolidate() {
 						Line:           0,
 						ErrorMarkerPos: 0,
 						Message:        fmt.Sprintf("Unused layout section `%s`", propName),
+						Code:           SashminiUnusedLayoutSection,
+						Source:         source,
 					})
 				}
 				break
@@ -94,6 +118,8 @@ func (c *parserContext) Consolidate() {
 							Line:           0,
 							ErrorMarkerPos: 0,
 							Message:        fmt.Sprintf("Undefined layout section `%s`", propName),
+							Source:         source,
+							Code:           SashminiUndefinedLayoutSection,
 						})
 					}
 				} else {
@@ -101,6 +127,8 @@ func (c *parserContext) Consolidate() {
 						Line:           0,
 						ErrorMarkerPos: 0,
 						Message:        fmt.Sprintf("Undefined layout section `%s`", propName),
+						Source:         source,
+						Code:           SashminiUndefinedLayoutSection,
 					})
 				}
 				break

@@ -1,4 +1,4 @@
-package parser
+package build
 
 import (
 	"testing"
@@ -20,7 +20,7 @@ func TestSuccessfulEntityRun(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Export())
 
 	if len(firstPass.ctx.Errors) > 0 {
@@ -57,7 +57,7 @@ func TestSuccessfulEntitiesRun(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 
 	if len(firstPass.ctx.Errors) > 0 {
@@ -115,7 +115,7 @@ func TestDoubleDeclaredProperty(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Export())
 
 	if len(firstPass.ctx.Errors) != 1 {
@@ -136,7 +136,7 @@ func TestDoubleDeclaredEntity(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 
 	if len(firstPass.ctx.Errors) != 0 {
@@ -156,7 +156,7 @@ func TestConsolidation(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
 	if len(firstPass.ctx.Errors) > 0 {
@@ -179,11 +179,61 @@ func TestConsolidationReference(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
 	if len(firstPass.ctx.Errors) > 0 {
 		t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
+}
+
+func TestConsolidationListReference(t *testing.T) {
+	is := antlr.NewInputStream(`
+	sashimi:entity(pagepart) of
+		- description as "Description" is text
+	sashimi:entity(page) of
+		- title as "Pagetitle" is text
+		- part as "Description" is list entity pagepart
+	sashimi:repeat(page.part.description)
+	`)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	firstPass := plainFirstPassParser()
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) > 0 {
+		t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
+}
+
+func TestConsolidationListReferenceError(t *testing.T) {
+	is := antlr.NewInputStream(`
+	sashimi:entity(pagepart) of
+		- description as "Description" is text
+	sashimi:entity(page) of
+		- title as "Pagetitle" is text
+		- part as "Description" is list entity pagepart
+	sashimi:repeat(page.part.nonexistent)
+	`)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	firstPass := plainFirstPassParser()
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) == 1 {
+		if firstPass.ctx.Errors[0].Message != "Unknown property path: `page.part.nonexistent`" {
+			t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+		}
+	} else {
+		t.Errorf("Consolidation created NO error when it should have.")
 	}
 	if len(firstPass.ctx.Warnings) > 0 {
 		t.Errorf("Consolidation created unwanted warning.")
@@ -199,7 +249,7 @@ func TestConsolidationFailedEntity(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
 	if len(firstPass.ctx.Errors) == 1 {
@@ -223,7 +273,7 @@ func TestConsolidationFailedProperty(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
 	if len(firstPass.ctx.Errors) == 1 {
@@ -243,7 +293,7 @@ func TestConsolidationUndefinedDisplay(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
 	if len(firstPass.ctx.Errors) == 1 {
@@ -263,7 +313,7 @@ func TestConsolidationUndefinedRepeat(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
 	if len(firstPass.ctx.Errors) == 1 {
@@ -283,7 +333,7 @@ func TestConsolidationUndefinedLayout(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
 	if len(firstPass.ctx.Errors) == 1 {
@@ -303,7 +353,7 @@ func TestConsolidationUnusedLayoutSection(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
 	if len(firstPass.ctx.Errors) != 0 {
@@ -323,7 +373,7 @@ func TestConsolidationUndefinedLink(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
 	if len(firstPass.ctx.Errors) == 1 {
@@ -343,7 +393,7 @@ func TestConsolidationLayoutAndLayoutSectioInSameBlock(t *testing.T) {
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
-	firstPass := NewFirstPassParser()
+	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
 	if len(firstPass.ctx.Errors) > 0 {

@@ -1,30 +1,32 @@
-package parser
+package build
 
 import (
 	"fmt"
 )
 
-type FirstPass struct {
+type firstPass struct {
 	*BaseSashimiListener
 	ctx     *parserContext
 	current *defTableEntry
 	p       *propertyDef
 	builder typeBuilder
+	source  string
 }
 
-func NewFirstPassParser() *FirstPass {
-	return &FirstPass{
+func plainFirstPassParser() *firstPass {
+	return &firstPass{
 		ctx: &parserContext{
 			Def:      make(map[string]*defTableEntry),
 			Errors:   make([]*lineReporter, 0),
 			Warnings: make([]*lineReporter, 0),
-			Calls:    make(map[string]map[string]bool),
+			Calls:    make(map[string]map[string]string),
 		},
+		source:  "not-set",
 		builder: newTypeBuilder(),
 	}
 }
 
-func (l *FirstPass) Dump() {
+func (l *firstPass) Dump() {
 	fmt.Printf("%+v", l.ctx)
 	for k, v := range l.ctx.Def {
 		fmt.Printf("\r\n  %s = %+v", k, v)
@@ -40,14 +42,15 @@ func (l *FirstPass) Dump() {
 	}
 }
 
-func (l *FirstPass) EnterExport(ctx *ExportContext) {
+func (l *firstPass) EnterExport(ctx *ExportContext) {
 	fmt.Println("Parsing sashimi block")
+
 }
 
-func (l *FirstPass) EnterCommand_call(ctx *Command_callContext) {
+func (l *firstPass) EnterCommandCall(ctx *CommandCallContext) {
 	_, ok := l.ctx.Calls[ctx.COMMAND().GetText()]
 	if !ok {
-		l.ctx.Calls[ctx.COMMAND().GetText()] = make(map[string]bool)
+		l.ctx.Calls[ctx.COMMAND().GetText()] = make(map[string]string)
 	}
 	qualifier := ""
 	for _, v := range ctx.AllIDENT() {
@@ -56,10 +59,10 @@ func (l *FirstPass) EnterCommand_call(ctx *Command_callContext) {
 		}
 		qualifier += v.GetText()
 	}
-	l.ctx.Calls[ctx.COMMAND().GetText()][qualifier] = true
+	l.ctx.Calls[ctx.COMMAND().GetText()][qualifier] = l.source
 }
 
-func (l *FirstPass) EnterEntity_def(ctx *Entity_defContext) {
+func (l *firstPass) EnterEntityDef(ctx *EntityDefContext) {
 	identifier := ctx.IDENT().GetText()
 	if val, ok := l.ctx.Def[identifier]; ok {
 		start := ctx.IDENT().GetSymbol().GetStart()
@@ -67,7 +70,9 @@ func (l *FirstPass) EnterEntity_def(ctx *Entity_defContext) {
 		warning := &lineReporter{
 			ErrorMarkerPos: start,
 			Line:           ln,
-			Message:        fmt.Sprintf("Entity with name `%s` has already been declared, reusing known definiton. This should be avoided.", identifier),
+			Message:        fmt.Sprintf("Entity with name `%s` has already been declared, reusing known definiton. This should be avoided", identifier),
+			Source:         l.source,
+			Code:           SashimiEntityAlreadyDeclared,
 		}
 		l.ctx.Warnings = append(l.ctx.Warnings, warning)
 		l.current = val
@@ -82,7 +87,7 @@ func (l *FirstPass) EnterEntity_def(ctx *Entity_defContext) {
 
 }
 
-func (l *FirstPass) EnterProp_decl(c *Prop_declContext) {
+func (l *firstPass) EnterPropDecl(c *PropDeclContext) {
 	identifier := c.IDENT().GetText()
 	if _, ok := l.current.Properties[identifier]; ok {
 		start := c.IDENT().GetSymbol().GetStart()
@@ -90,7 +95,9 @@ func (l *FirstPass) EnterProp_decl(c *Prop_declContext) {
 		error := &lineReporter{
 			ErrorMarkerPos: start,
 			Line:           ln,
-			Message:        fmt.Sprintf("Property with name `%s` has already been declared.", identifier),
+			Message:        fmt.Sprintf("Property with name `%s` has already been declared", identifier),
+			Source:         l.source,
+			Code:           SashimiPropertyAlreadyDeclared,
 		}
 		l.ctx.Errors = append(l.ctx.Errors, error)
 	} else {
@@ -100,7 +107,7 @@ func (l *FirstPass) EnterProp_decl(c *Prop_declContext) {
 	}
 }
 
-func (l *FirstPass) EnterAlias_decl(c *Alias_declContext) {
+func (l *firstPass) EnterAliasDecl(c *AliasDeclContext) {
 	if l.p != nil {
 		l.p.Alias = c.ALIAS().GetText()
 	} else {
@@ -109,20 +116,22 @@ func (l *FirstPass) EnterAlias_decl(c *Alias_declContext) {
 		error := &lineReporter{
 			ErrorMarkerPos: start,
 			Line:           ln,
-			Message:        "Invalid alias declaration at this point.",
+			Message:        "Invalid alias declaration at this point",
+			Source:         l.source,
+			Code:           SashimiInvalidAlias,
 		}
 		l.ctx.Errors = append(l.ctx.Errors, error)
 	}
 }
 
-func (l *FirstPass) ExitExport(ctx *ExportContext) {
+func (l *firstPass) ExitExport(ctx *ExportContext) {
 	fmt.Println("Parsed sashimi block")
 	if l.current != nil {
 		l.current.IsDefined = true
 	}
 }
 
-func (l *FirstPass) ExitUnion_decl(c *Union_declContext) {
+func (l *firstPass) ExitUnionDecl(c *UnionDeclContext) {
 	tags := make([]string, 0)
 	for _, v := range c.AllALIAS() {
 		tags = append(tags, v.GetText())
@@ -131,36 +140,36 @@ func (l *FirstPass) ExitUnion_decl(c *Union_declContext) {
 	l.builder.Union(isExcl, tags)
 }
 
-func (l *FirstPass) EnterType_decl(ctx *Type_declContext) {
+func (l *firstPass) EnterTypeDecl(ctx *TypeDeclContext) {
 	l.builder.Scalar(ctx.TYPE().GetText())
 }
 
-func (l *FirstPass) ExitKey_value_pair(ctx *Key_value_pairContext) {
+func (l *firstPass) ExitKeyValuePair(ctx *KeyValuePairContext) {
 	if l.builder.IsAwaitingConstraint() {
 		kvp := ctx.AllIDENT()
 		l.builder.Constraint(kvp[0].GetText(), kvp[1].GetText())
 	}
 }
 
-func (l *FirstPass) ExitKey_atom(ctx *Key_atomContext) {
+func (l *firstPass) ExitKeyAtom(ctx *KeyAtomContext) {
 	if l.builder.IsAwaitingConstraint() {
 		l.builder.Constraint(ctx.IDENT().GetText(), "atomic")
 	}
 }
 
-func (l *FirstPass) ExitType_is(ctx *Type_isContext) {
+func (l *firstPass) ExitTypeIs(ctx *TypeIsContext) {
 	l.p.Type = l.builder.Build()
 	l.builder.Reset()
 }
 
-func (l *FirstPass) ExitEntity_ref(ctx *Entity_refContext) {
+func (l *firstPass) ExitEntityRef(ctx *EntityRefContext) {
 	l.builder.Ref(ctx.IDENT().GetText())
 }
 
-func (l *FirstPass) EnterType_def(ctx *Type_defContext) {
+func (l *firstPass) EnterTypeDef(ctx *TypeDefContext) {
 	l.builder.Reset()
 }
 
-func (l *FirstPass) EnterList_decl(c *List_declContext) {
+func (l *firstPass) EnterListDecl(c *ListDeclContext) {
 	l.builder.List()
 }

@@ -1,19 +1,19 @@
 grammar Sashimi;
 
-key_value_pair : IDENT EQ IDENT;
-key_atom : ATOM IDENT;
-constraint_list: HLPAREN (key_atom | key_value_pair) (SEPERATOR (key_atom | key_value_pair))* HRPAREN;
-union_decl : UNION LPAREN ALIAS (SEPERATOR ALIAS)* RPAREN;
-type_decl : TYPE ( constraint_list )?;
-entity_ref: ENTITY IDENT;
-list_decl : LIST (type_decl | entity_ref);
-type_def : list_decl | union_decl | type_decl | entity_ref;
-alias_decl : AS ALIAS;
-type_is : IS type_def;
-prop_decl : PROP_START IDENT alias_decl? type_is;
-command_call : COMMAND LPAREN IDENT(DOT IDENT)* RPAREN;
-entity_def :  ENTITY LPAREN IDENT RPAREN OF prop_decl (prop_decl)*;
-export : DIRECTIVE (command_call | entity_def);
+keyValuePair : IDENT EQ IDENT;
+keyAtom : ATOM IDENT;
+constraintList: HLPAREN (keyAtom | keyValuePair) (SEPERATOR (keyAtom | keyValuePair))* HRPAREN;
+unionDecl : UNION LPAREN ALIAS (SEPERATOR ALIAS)* RPAREN;
+typeDecl : TYPE ( constraintList )?;
+entityRef: ENTITY IDENT;
+listDecl : LIST (typeDecl | entityRef);
+typeDef : listDecl | unionDecl | typeDecl | entityRef;
+aliasDecl : AS ALIAS;
+typeIs : IS typeDef;
+propDecl : PROP_START IDENT aliasDecl? typeIs;
+commandCall : COMMAND LPAREN IDENT(DOT IDENT)* RPAREN;
+entityDef :  ENTITY LPAREN IDENT RPAREN OF propDecl (propDecl)*;
+export : DIRECTIVE (commandCall | entityDef) EOF;
 block : export export*;
 
 DIRECTIVE : 'sashimi:';

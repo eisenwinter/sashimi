@@ -1,6 +1,6 @@
-// Code generated from Sashimi.g4 by ANTLR 4.8. DO NOT EDIT.
+// Code generated from C:\tmp\sashimi\sashimi\grammar\Sashimi.g4 by ANTLR 4.8. DO NOT EDIT.
 
-package parser
+package build
 
 import (
 	"fmt"

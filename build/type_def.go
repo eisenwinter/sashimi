@@ -1,33 +1,37 @@
-package parser
+package build
 
-import (
-	"fmt"
-)
+import "fmt"
 
-type defTableEntry struct {
-	Identfier  string
-	IsDefined  bool
-	Properties map[string]*propertyDef
-}
-
+//SashimiKind represents the kind of type
 type SashimiKind string
 
 const (
-	SashimiScalar    SashimiKind = "Scalar"
-	SashimiUnion                 = "Union"
-	SashimiList                  = "List"
-	SashimiReference             = "Ref"
+	//SashimiScalar represents a scalar value
+	SashimiScalar SashimiKind = "Scalar"
+	//SashimiUnion represents a union type
+	SashimiUnion = "Union"
+	//SashimiList represents an iterable abstract list type
+	SashimiList = "List"
+	//SashimiReference represents a followable reference
+	SashimiReference = "Ref"
 )
 
+//SashimiType represents the underlying primitive type
 type SashimiType string
 
 const (
-	SashimiTypeText      SashimiType = "text"
-	SashimiTypePicture               = "picture"
-	SashimiTypeNumber                = "number"
-	SashimiTypeBool                  = "bool"
-	SashimiTypeEntity                = "entity"
-	SashimiTypeTextUnion             = "text-union"
+	//SashimiTypeText is a text type commonly known as string
+	SashimiTypeText SashimiType = "text"
+	//SashimiTypePicture is an image
+	SashimiTypePicture = "picture"
+	//SashimiTypeNumber is a abtiary number
+	SashimiTypeNumber = "number"
+	//SashimiTypeBool is a boolean type
+	SashimiTypeBool = "bool"
+	//SashimiTypeEntity is a reference typ for a compound type
+	SashimiTypeEntity = "entity"
+	//SashimiTypeTextUnion is union of a text type
+	SashimiTypeTextUnion = "text-union"
 )
 
 type typeInf interface {
@@ -132,7 +136,7 @@ type refType struct {
 }
 
 func (t *refType) String() string {
-	return "-->" + t.refOf
+	return "->" + t.refOf
 }
 
 func (t *refType) Kind() SashimiKind {

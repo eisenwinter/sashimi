@@ -1,6 +1,5 @@
 <!doctype html>
 <html class="no-js" lang="">
-
 <head>
   <meta charset="utf-8">
   <title></title>
@@ -11,9 +10,7 @@
   <meta property="og:url" content="">
   <meta property="og:image" content="">
 </head>
-
 <body>
-
   <nav>
    <ul>
     <!-- sashimi:repeat(nav) -->
@@ -26,5 +23,4 @@
     <!-- sashimi:layout_section(main) -->
   </div>
 </body>
-
 </html>
