@@ -12,6 +12,21 @@ type parserContext struct {
 	Calls    map[string]map[string]string
 }
 
+func (c *parserContext) GetErrors() []Report {
+	ret := make([]Report, 0)
+	for _, r := range c.Errors {
+		ret = append(ret, r)
+	}
+	return ret
+}
+func (c *parserContext) GetWarnings() []Report {
+	ret := make([]Report, 0)
+	for _, r := range c.Warnings {
+		ret = append(ret, r)
+	}
+	return ret
+}
+
 type lineReporter struct {
 	Line           int
 	ErrorMarkerPos int
@@ -28,8 +43,8 @@ func (l *lineReporter) OnPos() int {
 	return l.ErrorMarkerPos
 }
 
-func (l *lineReporter) InSource() int {
-	return l.ErrorMarkerPos
+func (l *lineReporter) InSource() string {
+	return l.Source
 }
 
 func (l *lineReporter) InternalCode() int {

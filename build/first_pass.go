@@ -26,6 +26,19 @@ func plainFirstPassParser() *firstPass {
 	}
 }
 
+func firstPassParserWithSource(source string) *firstPass {
+	return &firstPass{
+		ctx: &parserContext{
+			Def:      make(map[string]*defTableEntry),
+			Errors:   make([]*lineReporter, 0),
+			Warnings: make([]*lineReporter, 0),
+			Calls:    make(map[string]map[string]string),
+		},
+		source:  source,
+		builder: newTypeBuilder(),
+	}
+}
+
 func (l *firstPass) Dump() {
 	fmt.Printf("%+v", l.ctx)
 	for k, v := range l.ctx.Def {

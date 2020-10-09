@@ -2,6 +2,9 @@ package build
 
 import (
 	"io"
+	"strings"
+
+	"github.com/antlr/antlr4/runtime/Go/antlr"
 )
 
 //CompilerFlags represent possible flags the compiler takes
@@ -16,10 +19,6 @@ const (
 	OptimizeOff
 )
 
-type CompilerSource interface {
-	Load() (sourceName string, reader io.Reader, err error)
-}
-
 type Report interface {
 	OnLine() int
 	OnPos() int
@@ -28,12 +27,40 @@ type Report interface {
 }
 
 type CompilerResult interface {
-	Errors() []Report
-	Warnings() []Report
+	GetErrors() []Report
+	GetWarnings() []Report
 }
 
 type Compiler interface {
 	Analyze(sources []CompilerSource, flags CompilerFlags) (CompilerResult, error)
 }
 
+func NewCompiler() Compiler {
+	return &sashimiCompiler{}
+}
+
 type sashimiCompiler struct{}
+
+func (c *sashimiCompiler) Analyze(sources []CompilerSource, flags CompilerFlags) (CompilerResult, error) {
+	fp := plainFirstPassParser()
+	for _, v := range sources {
+		rc, err := v.Load()
+		if err != nil {
+			return nil, err
+		}
+		defer rc.Close()
+		var sb strings.Builder
+		_, err = io.Copy(&sb, rc)
+		if err != nil {
+			return nil, err
+		}
+		fp.source = v.Name()
+		is := antlr.NewInputStream(sb.String())
+		lexer := NewSashimiLexer(is)
+		stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+		p := NewSashimiParser(stream)
+		antlr.ParseTreeWalkerDefault.Walk(fp, p.Block())
+	}
+	fp.ctx.Consolidate()
+	return fp.ctx, nil
+}
