@@ -13,8 +13,8 @@ typeIs : IS typeDef;
 propDecl : PROP_START IDENT aliasDecl? typeIs;
 commandCall : COMMAND LPAREN IDENT(DOT IDENT)* RPAREN;
 entityDef :  ENTITY LPAREN IDENT RPAREN OF propDecl (propDecl)*;
-export : DIRECTIVE (commandCall | entityDef) EOF;
-block : export export*;
+export : DIRECTIVE (commandCall | entityDef);
+block : export export* EOF;
 
 DIRECTIVE : 'sashimi:';
 COMMAND : 'display' | 'repeat' | 'layout_section' | 'layout' | 'link';

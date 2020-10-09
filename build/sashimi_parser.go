@@ -28,13 +28,13 @@ var parserATN = []uint16{
 	12, 3, 12, 3, 12, 3, 13, 3, 13, 3, 13, 3, 13, 3, 13, 7, 13, 105, 10, 13,
 	12, 13, 14, 13, 108, 11, 13, 3, 13, 3, 13, 3, 14, 3, 14, 3, 14, 3, 14,
 	3, 14, 3, 14, 3, 14, 7, 14, 119, 10, 14, 12, 14, 14, 14, 122, 11, 14, 3,
-	15, 3, 15, 3, 15, 5, 15, 127, 10, 15, 3, 15, 3, 15, 3, 16, 3, 16, 7, 16,
-	133, 10, 16, 12, 16, 14, 16, 136, 11, 16, 3, 16, 2, 2, 17, 2, 4, 6, 8,
+	15, 3, 15, 3, 15, 5, 15, 127, 10, 15, 3, 16, 3, 16, 7, 16, 131, 10, 16,
+	12, 16, 14, 16, 134, 11, 16, 3, 16, 3, 16, 3, 16, 2, 2, 17, 2, 4, 6, 8,
 	10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 2, 2, 2, 136, 2, 32, 3, 2,
 	2, 2, 4, 36, 3, 2, 2, 2, 6, 39, 3, 2, 2, 2, 8, 56, 3, 2, 2, 2, 10, 68,
 	3, 2, 2, 2, 12, 72, 3, 2, 2, 2, 14, 75, 3, 2, 2, 2, 16, 84, 3, 2, 2, 2,
 	18, 86, 3, 2, 2, 2, 20, 89, 3, 2, 2, 2, 22, 92, 3, 2, 2, 2, 24, 99, 3,
-	2, 2, 2, 26, 111, 3, 2, 2, 2, 28, 123, 3, 2, 2, 2, 30, 130, 3, 2, 2, 2,
+	2, 2, 2, 26, 111, 3, 2, 2, 2, 28, 123, 3, 2, 2, 2, 30, 128, 3, 2, 2, 2,
 	32, 33, 7, 22, 2, 2, 33, 34, 7, 15, 2, 2, 34, 35, 7, 22, 2, 2, 35, 3, 3,
 	2, 2, 2, 36, 37, 7, 16, 2, 2, 37, 38, 7, 22, 2, 2, 38, 5, 3, 2, 2, 2, 39,
 	42, 7, 13, 2, 2, 40, 43, 5, 4, 3, 2, 41, 43, 5, 2, 2, 2, 42, 40, 3, 2,
@@ -66,11 +66,11 @@ var parserATN = []uint16{
 	2, 2, 2, 119, 122, 3, 2, 2, 2, 120, 118, 3, 2, 2, 2, 120, 121, 3, 2, 2,
 	2, 121, 27, 3, 2, 2, 2, 122, 120, 3, 2, 2, 2, 123, 126, 7, 3, 2, 2, 124,
 	127, 5, 24, 13, 2, 125, 127, 5, 26, 14, 2, 126, 124, 3, 2, 2, 2, 126, 125,
-	3, 2, 2, 2, 127, 128, 3, 2, 2, 2, 128, 129, 7, 2, 2, 3, 129, 29, 3, 2,
-	2, 2, 130, 134, 5, 28, 15, 2, 131, 133, 5, 28, 15, 2, 132, 131, 3, 2, 2,
-	2, 133, 136, 3, 2, 2, 2, 134, 132, 3, 2, 2, 2, 134, 135, 3, 2, 2, 2, 135,
-	31, 3, 2, 2, 2, 136, 134, 3, 2, 2, 2, 14, 42, 47, 51, 63, 70, 78, 84, 95,
-	106, 120, 126, 134,
+	3, 2, 2, 2, 127, 29, 3, 2, 2, 2, 128, 132, 5, 28, 15, 2, 129, 131, 5, 28,
+	15, 2, 130, 129, 3, 2, 2, 2, 131, 134, 3, 2, 2, 2, 132, 130, 3, 2, 2, 2,
+	132, 133, 3, 2, 2, 2, 133, 135, 3, 2, 2, 2, 134, 132, 3, 2, 2, 2, 135,
+	136, 7, 2, 2, 3, 136, 31, 3, 2, 2, 2, 14, 42, 47, 51, 63, 70, 78, 84, 95,
+	106, 120, 126, 132,
 }
 var deserializer = antlr.NewATNDeserializer(nil)
 var deserializedATN = deserializer.DeserializeFromUInt16(parserATN)
@@ -1910,10 +1910,6 @@ func (s *ExportContext) DIRECTIVE() antlr.TerminalNode {
 	return s.GetToken(SashimiParserDIRECTIVE, 0)
 }
 
-func (s *ExportContext) EOF() antlr.TerminalNode {
-	return s.GetToken(SashimiParserEOF, 0)
-}
-
 func (s *ExportContext) CommandCall() ICommandCallContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*ICommandCallContext)(nil)).Elem(), 0)
 
@@ -1998,10 +1994,6 @@ func (p *SashimiParser) Export() (localctx IExportContext) {
 	default:
 		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 	}
-	{
-		p.SetState(126)
-		p.Match(SashimiParserEOF)
-	}
 
 	return localctx
 }
@@ -2067,6 +2059,10 @@ func (s *BlockContext) Export(i int) IExportContext {
 	return t.(IExportContext)
 }
 
+func (s *BlockContext) EOF() antlr.TerminalNode {
+	return s.GetToken(SashimiParserEOF, 0)
+}
+
 func (s *BlockContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
@@ -2110,22 +2106,26 @@ func (p *SashimiParser) Block() (localctx IBlockContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(128)
+		p.SetState(126)
 		p.Export()
 	}
-	p.SetState(132)
+	p.SetState(130)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == SashimiParserDIRECTIVE {
 		{
-			p.SetState(129)
+			p.SetState(127)
 			p.Export()
 		}
 
-		p.SetState(134)
+		p.SetState(132)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
+	}
+	{
+		p.SetState(133)
+		p.Match(SashimiParserEOF)
 	}
 
 	return localctx
