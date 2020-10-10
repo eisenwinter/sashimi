@@ -10,6 +10,9 @@ type parserContext struct {
 	Errors   []*lineReporter
 	Warnings []*lineReporter
 	Calls    map[string]map[string]string
+	//Hokay this is very primitive - it doesnt accout for any scoping right now
+	//so it needds to be improved once the ting works
+	KnownTypeAlias map[string]string
 }
 
 func (c *parserContext) GetErrors() []Report {
@@ -53,7 +56,7 @@ func (l *lineReporter) InternalCode() int {
 
 func (c *parserContext) propertyExists(path string) bool {
 	propParts := strings.Split(path, ".")
-	if len(propParts) > 1 {
+	if len(propParts) > 0 {
 		if val, ok := c.Def[propParts[0]]; ok {
 			for i := 1; i < len(propParts); i++ {
 				t, ok := val.Properties[propParts[i]]
@@ -85,6 +88,10 @@ func (c *parserContext) propertyExists(path string) bool {
 				}
 			}
 			return true
+		}
+		if alias, ok := c.KnownTypeAlias[propParts[0]]; ok {
+			propParts[0] = alias
+			return c.propertyExists(strings.Join(propParts, "."))
 		}
 	}
 	return false

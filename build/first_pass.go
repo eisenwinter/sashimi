@@ -16,10 +16,11 @@ type firstPass struct {
 func plainFirstPassParser() *firstPass {
 	return &firstPass{
 		ctx: &parserContext{
-			Def:      make(map[string]*defTableEntry),
-			Errors:   make([]*lineReporter, 0),
-			Warnings: make([]*lineReporter, 0),
-			Calls:    make(map[string]map[string]string),
+			Def:            make(map[string]*defTableEntry),
+			Errors:         make([]*lineReporter, 0),
+			Warnings:       make([]*lineReporter, 0),
+			Calls:          make(map[string]map[string]string),
+			KnownTypeAlias: make(map[string]string),
 		},
 		source:  "not-set",
 		builder: newTypeBuilder(),
@@ -29,10 +30,11 @@ func plainFirstPassParser() *firstPass {
 func firstPassParserWithSource(source string) *firstPass {
 	return &firstPass{
 		ctx: &parserContext{
-			Def:      make(map[string]*defTableEntry),
-			Errors:   make([]*lineReporter, 0),
-			Warnings: make([]*lineReporter, 0),
-			Calls:    make(map[string]map[string]string),
+			Def:            make(map[string]*defTableEntry),
+			Errors:         make([]*lineReporter, 0),
+			Warnings:       make([]*lineReporter, 0),
+			Calls:          make(map[string]map[string]string),
+			KnownTypeAlias: make(map[string]string),
 		},
 		source:  source,
 		builder: newTypeBuilder(),
@@ -65,14 +67,7 @@ func (l *firstPass) EnterCommandCall(ctx *CommandCallContext) {
 	if !ok {
 		l.ctx.Calls[ctx.COMMAND().GetText()] = make(map[string]string)
 	}
-	qualifier := ""
-	for _, v := range ctx.AllIDENT() {
-		if qualifier != "" {
-			qualifier += "."
-		}
-		qualifier += v.GetText()
-	}
-	l.ctx.Calls[ctx.COMMAND().GetText()][qualifier] = l.source
+	l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()] = l.source
 }
 
 func (l *firstPass) EnterEntityDef(ctx *EntityDefContext) {
@@ -185,4 +180,21 @@ func (l *firstPass) EnterTypeDef(ctx *TypeDefContext) {
 
 func (l *firstPass) EnterListDecl(c *ListDeclContext) {
 	l.builder.List()
+}
+
+func (l *firstPass) ExitLoopCall(ctx *LoopCallContext) {
+	//Todo handle alias
+	//fmt.Println("alias", ctx.alias)
+	//Todo we should prolly trace and validate the predicate if it even makes sense ...
+	// if !ctx.Predicate().IsEmpty() {
+	// 	fmt.Println(ctx.Predicate().GetText())
+	// }
+	if ctx.alias != nil {
+		l.ctx.KnownTypeAlias[ctx.alias.GetText()] = ctx.Qualifier().GetText()
+	}
+	_, ok := l.ctx.Calls[ctx.LOOP().GetText()]
+	if !ok {
+		l.ctx.Calls[ctx.LOOP().GetText()] = make(map[string]string)
+	}
+	l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()] = l.source
 }

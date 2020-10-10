@@ -21,7 +21,7 @@ func TestSuccessfulEntityRun(t *testing.T) {
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
 	firstPass := plainFirstPassParser()
-	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Export())
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 
 	if len(firstPass.ctx.Errors) > 0 {
 		t.Errorf("Sematic errors occured, test failed.")
@@ -116,7 +116,7 @@ func TestDoubleDeclaredProperty(t *testing.T) {
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)
 	firstPass := plainFirstPassParser()
-	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Export())
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 
 	if len(firstPass.ctx.Errors) != 1 {
 		t.Errorf("Sematic error for duplicate property reporting failed.")
@@ -238,6 +238,52 @@ func TestConsolidationListReferenceError(t *testing.T) {
 	if len(firstPass.ctx.Warnings) > 0 {
 		t.Errorf("Consolidation created unwanted warning.")
 	}
+}
+
+func TestRepeatAlias(t *testing.T) {
+	is := antlr.NewInputStream(`
+	sashimi:entity(pagepart) of
+		- title is text
+		- description as "Description" is text
+	sashimi:repeat(pagepart) as pp
+	sashimi:display(pp.title)
+	`)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	firstPass := plainFirstPassParser()
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) > 0 {
+		t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
+}
+
+func TestRepeatAliasPredicate(t *testing.T) {
+
+	is := antlr.NewInputStream(`
+	sashimi:entity(pagepart) of
+		- description as "Description" is text
+		- visible is bool
+	sashimi:repeat(pagepart) as pp [x -> x]
+	sashimi:display(pp.description)
+	`)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	firstPass := plainFirstPassParser()
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) > 0 {
+		t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
+
 }
 
 func TestConsolidationFailedEntity(t *testing.T) {

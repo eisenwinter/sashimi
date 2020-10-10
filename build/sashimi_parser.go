@@ -1,4 +1,4 @@
-// Code generated from C:\tmp\sashimi\sashimi\grammar\Sashimi.g4 by ANTLR 4.8. DO NOT EDIT.
+// Code generated from C:\gitrepos\sashimi/grammar/Sashimi.g4 by ANTLR 4.8. DO NOT EDIT.
 
 package build // Sashimi
 import (
@@ -15,80 +15,114 @@ var _ = reflect.Copy
 var _ = strconv.Itoa
 
 var parserATN = []uint16{
-	3, 24715, 42794, 33075, 47597, 16764, 15335, 30598, 22884, 3, 23, 138,
+	3, 24715, 42794, 33075, 47597, 16764, 15335, 30598, 22884, 3, 36, 205,
 	4, 2, 9, 2, 4, 3, 9, 3, 4, 4, 9, 4, 4, 5, 9, 5, 4, 6, 9, 6, 4, 7, 9, 7,
 	4, 8, 9, 8, 4, 9, 9, 9, 4, 10, 9, 10, 4, 11, 9, 11, 4, 12, 9, 12, 4, 13,
-	9, 13, 4, 14, 9, 14, 4, 15, 9, 15, 4, 16, 9, 16, 3, 2, 3, 2, 3, 2, 3, 2,
-	3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 4, 5, 4, 43, 10, 4, 3, 4, 3, 4, 3, 4,
-	5, 4, 48, 10, 4, 7, 4, 50, 10, 4, 12, 4, 14, 4, 53, 11, 4, 3, 4, 3, 4,
-	3, 5, 3, 5, 3, 5, 3, 5, 3, 5, 7, 5, 62, 10, 5, 12, 5, 14, 5, 65, 11, 5,
-	3, 5, 3, 5, 3, 6, 3, 6, 5, 6, 71, 10, 6, 3, 7, 3, 7, 3, 7, 3, 8, 3, 8,
-	3, 8, 5, 8, 79, 10, 8, 3, 9, 3, 9, 3, 9, 3, 9, 5, 9, 85, 10, 9, 3, 10,
-	3, 10, 3, 10, 3, 11, 3, 11, 3, 11, 3, 12, 3, 12, 3, 12, 5, 12, 96, 10,
-	12, 3, 12, 3, 12, 3, 13, 3, 13, 3, 13, 3, 13, 3, 13, 7, 13, 105, 10, 13,
-	12, 13, 14, 13, 108, 11, 13, 3, 13, 3, 13, 3, 14, 3, 14, 3, 14, 3, 14,
-	3, 14, 3, 14, 3, 14, 7, 14, 119, 10, 14, 12, 14, 14, 14, 122, 11, 14, 3,
-	15, 3, 15, 3, 15, 5, 15, 127, 10, 15, 3, 16, 3, 16, 7, 16, 131, 10, 16,
-	12, 16, 14, 16, 134, 11, 16, 3, 16, 3, 16, 3, 16, 2, 2, 17, 2, 4, 6, 8,
-	10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 2, 2, 2, 136, 2, 32, 3, 2,
-	2, 2, 4, 36, 3, 2, 2, 2, 6, 39, 3, 2, 2, 2, 8, 56, 3, 2, 2, 2, 10, 68,
-	3, 2, 2, 2, 12, 72, 3, 2, 2, 2, 14, 75, 3, 2, 2, 2, 16, 84, 3, 2, 2, 2,
-	18, 86, 3, 2, 2, 2, 20, 89, 3, 2, 2, 2, 22, 92, 3, 2, 2, 2, 24, 99, 3,
-	2, 2, 2, 26, 111, 3, 2, 2, 2, 28, 123, 3, 2, 2, 2, 30, 128, 3, 2, 2, 2,
-	32, 33, 7, 22, 2, 2, 33, 34, 7, 15, 2, 2, 34, 35, 7, 22, 2, 2, 35, 3, 3,
-	2, 2, 2, 36, 37, 7, 16, 2, 2, 37, 38, 7, 22, 2, 2, 38, 5, 3, 2, 2, 2, 39,
-	42, 7, 13, 2, 2, 40, 43, 5, 4, 3, 2, 41, 43, 5, 2, 2, 2, 42, 40, 3, 2,
-	2, 2, 42, 41, 3, 2, 2, 2, 43, 51, 3, 2, 2, 2, 44, 47, 7, 6, 2, 2, 45, 48,
-	5, 4, 3, 2, 46, 48, 5, 2, 2, 2, 47, 45, 3, 2, 2, 2, 47, 46, 3, 2, 2, 2,
-	48, 50, 3, 2, 2, 2, 49, 44, 3, 2, 2, 2, 50, 53, 3, 2, 2, 2, 51, 49, 3,
-	2, 2, 2, 51, 52, 3, 2, 2, 2, 52, 54, 3, 2, 2, 2, 53, 51, 3, 2, 2, 2, 54,
-	55, 7, 14, 2, 2, 55, 7, 3, 2, 2, 2, 56, 57, 7, 19, 2, 2, 57, 58, 7, 11,
-	2, 2, 58, 63, 7, 21, 2, 2, 59, 60, 7, 6, 2, 2, 60, 62, 7, 21, 2, 2, 61,
-	59, 3, 2, 2, 2, 62, 65, 3, 2, 2, 2, 63, 61, 3, 2, 2, 2, 63, 64, 3, 2, 2,
-	2, 64, 66, 3, 2, 2, 2, 65, 63, 3, 2, 2, 2, 66, 67, 7, 12, 2, 2, 67, 9,
-	3, 2, 2, 2, 68, 70, 7, 18, 2, 2, 69, 71, 5, 6, 4, 2, 70, 69, 3, 2, 2, 2,
-	70, 71, 3, 2, 2, 2, 71, 11, 3, 2, 2, 2, 72, 73, 7, 5, 2, 2, 73, 74, 7,
-	22, 2, 2, 74, 13, 3, 2, 2, 2, 75, 78, 7, 20, 2, 2, 76, 79, 5, 10, 6, 2,
-	77, 79, 5, 12, 7, 2, 78, 76, 3, 2, 2, 2, 78, 77, 3, 2, 2, 2, 79, 15, 3,
-	2, 2, 2, 80, 85, 5, 14, 8, 2, 81, 85, 5, 8, 5, 2, 82, 85, 5, 10, 6, 2,
-	83, 85, 5, 12, 7, 2, 84, 80, 3, 2, 2, 2, 84, 81, 3, 2, 2, 2, 84, 82, 3,
-	2, 2, 2, 84, 83, 3, 2, 2, 2, 85, 17, 3, 2, 2, 2, 86, 87, 7, 10, 2, 2, 87,
-	88, 7, 21, 2, 2, 88, 19, 3, 2, 2, 2, 89, 90, 7, 9, 2, 2, 90, 91, 5, 16,
-	9, 2, 91, 21, 3, 2, 2, 2, 92, 93, 7, 7, 2, 2, 93, 95, 7, 22, 2, 2, 94,
-	96, 5, 18, 10, 2, 95, 94, 3, 2, 2, 2, 95, 96, 3, 2, 2, 2, 96, 97, 3, 2,
-	2, 2, 97, 98, 5, 20, 11, 2, 98, 23, 3, 2, 2, 2, 99, 100, 7, 4, 2, 2, 100,
-	101, 7, 11, 2, 2, 101, 106, 7, 22, 2, 2, 102, 103, 7, 17, 2, 2, 103, 105,
-	7, 22, 2, 2, 104, 102, 3, 2, 2, 2, 105, 108, 3, 2, 2, 2, 106, 104, 3, 2,
-	2, 2, 106, 107, 3, 2, 2, 2, 107, 109, 3, 2, 2, 2, 108, 106, 3, 2, 2, 2,
-	109, 110, 7, 12, 2, 2, 110, 25, 3, 2, 2, 2, 111, 112, 7, 5, 2, 2, 112,
-	113, 7, 11, 2, 2, 113, 114, 7, 22, 2, 2, 114, 115, 7, 12, 2, 2, 115, 116,
-	7, 8, 2, 2, 116, 120, 5, 22, 12, 2, 117, 119, 5, 22, 12, 2, 118, 117, 3,
-	2, 2, 2, 119, 122, 3, 2, 2, 2, 120, 118, 3, 2, 2, 2, 120, 121, 3, 2, 2,
-	2, 121, 27, 3, 2, 2, 2, 122, 120, 3, 2, 2, 2, 123, 126, 7, 3, 2, 2, 124,
-	127, 5, 24, 13, 2, 125, 127, 5, 26, 14, 2, 126, 124, 3, 2, 2, 2, 126, 125,
-	3, 2, 2, 2, 127, 29, 3, 2, 2, 2, 128, 132, 5, 28, 15, 2, 129, 131, 5, 28,
-	15, 2, 130, 129, 3, 2, 2, 2, 131, 134, 3, 2, 2, 2, 132, 130, 3, 2, 2, 2,
-	132, 133, 3, 2, 2, 2, 133, 135, 3, 2, 2, 2, 134, 132, 3, 2, 2, 2, 135,
-	136, 7, 2, 2, 3, 136, 31, 3, 2, 2, 2, 14, 42, 47, 51, 63, 70, 78, 84, 95,
-	106, 120, 126, 132,
+	9, 13, 4, 14, 9, 14, 4, 15, 9, 15, 4, 16, 9, 16, 4, 17, 9, 17, 4, 18, 9,
+	18, 4, 19, 9, 19, 4, 20, 9, 20, 4, 21, 9, 21, 4, 22, 9, 22, 4, 23, 9, 23,
+	4, 24, 9, 24, 3, 2, 3, 2, 3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3,
+	4, 5, 4, 59, 10, 4, 3, 4, 3, 4, 3, 4, 5, 4, 64, 10, 4, 7, 4, 66, 10, 4,
+	12, 4, 14, 4, 69, 11, 4, 3, 4, 3, 4, 3, 5, 3, 5, 3, 5, 3, 5, 3, 5, 7, 5,
+	78, 10, 5, 12, 5, 14, 5, 81, 11, 5, 3, 5, 3, 5, 3, 6, 3, 6, 5, 6, 87, 10,
+	6, 3, 7, 3, 7, 3, 7, 3, 8, 3, 8, 3, 8, 5, 8, 95, 10, 8, 3, 9, 3, 9, 3,
+	9, 3, 9, 5, 9, 101, 10, 9, 3, 10, 3, 10, 3, 10, 3, 11, 3, 11, 3, 11, 3,
+	12, 3, 12, 3, 12, 5, 12, 112, 10, 12, 3, 12, 3, 12, 3, 13, 3, 13, 3, 13,
+	3, 13, 3, 14, 3, 14, 3, 14, 7, 14, 123, 10, 14, 12, 14, 14, 14, 126, 11,
+	14, 3, 15, 3, 15, 3, 15, 3, 15, 3, 15, 3, 15, 5, 15, 134, 10, 15, 3, 15,
+	3, 15, 3, 15, 3, 15, 5, 15, 140, 10, 15, 3, 16, 3, 16, 3, 16, 3, 16, 3,
+	16, 3, 16, 3, 16, 7, 16, 149, 10, 16, 12, 16, 14, 16, 152, 11, 16, 3, 17,
+	3, 17, 3, 17, 3, 17, 3, 17, 3, 18, 3, 18, 3, 18, 3, 18, 5, 18, 163, 10,
+	18, 3, 19, 7, 19, 166, 10, 19, 12, 19, 14, 19, 169, 11, 19, 3, 19, 3, 19,
+	3, 20, 3, 20, 3, 20, 3, 20, 3, 20, 3, 20, 3, 20, 3, 20, 3, 20, 3, 20, 3,
+	20, 5, 20, 184, 10, 20, 3, 20, 3, 20, 3, 20, 3, 20, 7, 20, 190, 10, 20,
+	12, 20, 14, 20, 193, 11, 20, 3, 21, 3, 21, 5, 21, 197, 10, 21, 3, 22, 3,
+	22, 3, 23, 3, 23, 3, 24, 3, 24, 3, 24, 2, 3, 38, 25, 2, 4, 6, 8, 10, 12,
+	14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 2,
+	5, 4, 2, 17, 21, 23, 23, 3, 2, 24, 25, 3, 2, 34, 35, 2, 205, 2, 48, 3,
+	2, 2, 2, 4, 52, 3, 2, 2, 2, 6, 55, 3, 2, 2, 2, 8, 72, 3, 2, 2, 2, 10, 84,
+	3, 2, 2, 2, 12, 88, 3, 2, 2, 2, 14, 91, 3, 2, 2, 2, 16, 100, 3, 2, 2, 2,
+	18, 102, 3, 2, 2, 2, 20, 105, 3, 2, 2, 2, 22, 108, 3, 2, 2, 2, 24, 115,
+	3, 2, 2, 2, 26, 119, 3, 2, 2, 2, 28, 127, 3, 2, 2, 2, 30, 141, 3, 2, 2,
+	2, 32, 153, 3, 2, 2, 2, 34, 158, 3, 2, 2, 2, 36, 167, 3, 2, 2, 2, 38, 183,
+	3, 2, 2, 2, 40, 196, 3, 2, 2, 2, 42, 198, 3, 2, 2, 2, 44, 200, 3, 2, 2,
+	2, 46, 202, 3, 2, 2, 2, 48, 49, 7, 32, 2, 2, 49, 50, 7, 17, 2, 2, 50, 51,
+	7, 32, 2, 2, 51, 3, 3, 2, 2, 2, 52, 53, 7, 26, 2, 2, 53, 54, 7, 32, 2,
+	2, 54, 5, 3, 2, 2, 2, 55, 58, 7, 15, 2, 2, 56, 59, 5, 4, 3, 2, 57, 59,
+	5, 2, 2, 2, 58, 56, 3, 2, 2, 2, 58, 57, 3, 2, 2, 2, 59, 67, 3, 2, 2, 2,
+	60, 63, 7, 7, 2, 2, 61, 64, 5, 4, 3, 2, 62, 64, 5, 2, 2, 2, 63, 61, 3,
+	2, 2, 2, 63, 62, 3, 2, 2, 2, 64, 66, 3, 2, 2, 2, 65, 60, 3, 2, 2, 2, 66,
+	69, 3, 2, 2, 2, 67, 65, 3, 2, 2, 2, 67, 68, 3, 2, 2, 2, 68, 70, 3, 2, 2,
+	2, 69, 67, 3, 2, 2, 2, 70, 71, 7, 16, 2, 2, 71, 7, 3, 2, 2, 2, 72, 73,
+	7, 29, 2, 2, 73, 74, 7, 13, 2, 2, 74, 79, 7, 31, 2, 2, 75, 76, 7, 7, 2,
+	2, 76, 78, 7, 31, 2, 2, 77, 75, 3, 2, 2, 2, 78, 81, 3, 2, 2, 2, 79, 77,
+	3, 2, 2, 2, 79, 80, 3, 2, 2, 2, 80, 82, 3, 2, 2, 2, 81, 79, 3, 2, 2, 2,
+	82, 83, 7, 14, 2, 2, 83, 9, 3, 2, 2, 2, 84, 86, 7, 28, 2, 2, 85, 87, 5,
+	6, 4, 2, 86, 85, 3, 2, 2, 2, 86, 87, 3, 2, 2, 2, 87, 11, 3, 2, 2, 2, 88,
+	89, 7, 6, 2, 2, 89, 90, 7, 32, 2, 2, 90, 13, 3, 2, 2, 2, 91, 94, 7, 30,
+	2, 2, 92, 95, 5, 10, 6, 2, 93, 95, 5, 12, 7, 2, 94, 92, 3, 2, 2, 2, 94,
+	93, 3, 2, 2, 2, 95, 15, 3, 2, 2, 2, 96, 101, 5, 14, 8, 2, 97, 101, 5, 8,
+	5, 2, 98, 101, 5, 10, 6, 2, 99, 101, 5, 12, 7, 2, 100, 96, 3, 2, 2, 2,
+	100, 97, 3, 2, 2, 2, 100, 98, 3, 2, 2, 2, 100, 99, 3, 2, 2, 2, 101, 17,
+	3, 2, 2, 2, 102, 103, 7, 11, 2, 2, 103, 104, 7, 31, 2, 2, 104, 19, 3, 2,
+	2, 2, 105, 106, 7, 10, 2, 2, 106, 107, 5, 16, 9, 2, 107, 21, 3, 2, 2, 2,
+	108, 109, 7, 8, 2, 2, 109, 111, 7, 32, 2, 2, 110, 112, 5, 18, 10, 2, 111,
+	110, 3, 2, 2, 2, 111, 112, 3, 2, 2, 2, 112, 113, 3, 2, 2, 2, 113, 114,
+	5, 20, 11, 2, 114, 23, 3, 2, 2, 2, 115, 116, 7, 32, 2, 2, 116, 117, 7,
+	12, 2, 2, 117, 118, 5, 38, 20, 2, 118, 25, 3, 2, 2, 2, 119, 124, 7, 32,
+	2, 2, 120, 121, 7, 27, 2, 2, 121, 123, 7, 32, 2, 2, 122, 120, 3, 2, 2,
+	2, 123, 126, 3, 2, 2, 2, 124, 122, 3, 2, 2, 2, 124, 125, 3, 2, 2, 2, 125,
+	27, 3, 2, 2, 2, 126, 124, 3, 2, 2, 2, 127, 128, 7, 5, 2, 2, 128, 129, 7,
+	13, 2, 2, 129, 130, 5, 26, 14, 2, 130, 133, 7, 14, 2, 2, 131, 132, 7, 11,
+	2, 2, 132, 134, 7, 32, 2, 2, 133, 131, 3, 2, 2, 2, 133, 134, 3, 2, 2, 2,
+	134, 139, 3, 2, 2, 2, 135, 136, 7, 15, 2, 2, 136, 137, 5, 24, 13, 2, 137,
+	138, 7, 16, 2, 2, 138, 140, 3, 2, 2, 2, 139, 135, 3, 2, 2, 2, 139, 140,
+	3, 2, 2, 2, 140, 29, 3, 2, 2, 2, 141, 142, 7, 6, 2, 2, 142, 143, 7, 13,
+	2, 2, 143, 144, 7, 32, 2, 2, 144, 145, 7, 14, 2, 2, 145, 146, 7, 9, 2,
+	2, 146, 150, 5, 22, 12, 2, 147, 149, 5, 22, 12, 2, 148, 147, 3, 2, 2, 2,
+	149, 152, 3, 2, 2, 2, 150, 148, 3, 2, 2, 2, 150, 151, 3, 2, 2, 2, 151,
+	31, 3, 2, 2, 2, 152, 150, 3, 2, 2, 2, 153, 154, 7, 4, 2, 2, 154, 155, 7,
+	13, 2, 2, 155, 156, 5, 26, 14, 2, 156, 157, 7, 14, 2, 2, 157, 33, 3, 2,
+	2, 2, 158, 162, 7, 3, 2, 2, 159, 163, 5, 32, 17, 2, 160, 163, 5, 28, 15,
+	2, 161, 163, 5, 30, 16, 2, 162, 159, 3, 2, 2, 2, 162, 160, 3, 2, 2, 2,
+	162, 161, 3, 2, 2, 2, 163, 35, 3, 2, 2, 2, 164, 166, 5, 34, 18, 2, 165,
+	164, 3, 2, 2, 2, 166, 169, 3, 2, 2, 2, 167, 165, 3, 2, 2, 2, 167, 168,
+	3, 2, 2, 2, 168, 170, 3, 2, 2, 2, 169, 167, 3, 2, 2, 2, 170, 171, 7, 2,
+	2, 3, 171, 37, 3, 2, 2, 2, 172, 173, 8, 20, 1, 2, 173, 174, 7, 13, 2, 2,
+	174, 175, 5, 38, 20, 2, 175, 176, 7, 14, 2, 2, 176, 184, 3, 2, 2, 2, 177,
+	178, 7, 22, 2, 2, 178, 184, 5, 38, 20, 8, 179, 184, 5, 46, 24, 2, 180,
+	184, 5, 26, 14, 2, 181, 184, 7, 31, 2, 2, 182, 184, 7, 33, 2, 2, 183, 172,
+	3, 2, 2, 2, 183, 177, 3, 2, 2, 2, 183, 179, 3, 2, 2, 2, 183, 180, 3, 2,
+	2, 2, 183, 181, 3, 2, 2, 2, 183, 182, 3, 2, 2, 2, 184, 191, 3, 2, 2, 2,
+	185, 186, 12, 7, 2, 2, 186, 187, 5, 40, 21, 2, 187, 188, 5, 38, 20, 8,
+	188, 190, 3, 2, 2, 2, 189, 185, 3, 2, 2, 2, 190, 193, 3, 2, 2, 2, 191,
+	189, 3, 2, 2, 2, 191, 192, 3, 2, 2, 2, 192, 39, 3, 2, 2, 2, 193, 191, 3,
+	2, 2, 2, 194, 197, 5, 44, 23, 2, 195, 197, 5, 42, 22, 2, 196, 194, 3, 2,
+	2, 2, 196, 195, 3, 2, 2, 2, 197, 41, 3, 2, 2, 2, 198, 199, 9, 2, 2, 2,
+	199, 43, 3, 2, 2, 2, 200, 201, 9, 3, 2, 2, 201, 45, 3, 2, 2, 2, 202, 203,
+	9, 4, 2, 2, 203, 47, 3, 2, 2, 2, 19, 58, 63, 67, 79, 86, 94, 100, 111,
+	124, 133, 139, 150, 162, 167, 183, 191, 196,
 }
 var deserializer = antlr.NewATNDeserializer(nil)
 var deserializedATN = deserializer.DeserializeFromUInt16(parserATN)
 
 var literalNames = []string{
-	"", "'sashimi:'", "", "'entity'", "','", "'-'", "'of'", "'is'", "'as'",
-	"'('", "')'", "'['", "']'", "'='", "':'", "'.'", "", "", "'list'",
+	"", "'sashimi:'", "", "'repeat'", "'entity'", "','", "'-'", "'of'", "'is'",
+	"'as'", "'->'", "'('", "')'", "'['", "']'", "'='", "'<='", "'<'", "'>='",
+	"'>'", "'!'", "'<>'", "'&'", "'|'", "':'", "'.'", "", "", "'list'", "",
+	"", "", "'true'", "'false'",
 }
 var symbolicNames = []string{
-	"", "DIRECTIVE", "COMMAND", "ENTITY", "SEPERATOR", "PROP_START", "OF",
-	"IS", "AS", "LPAREN", "RPAREN", "HLPAREN", "HRPAREN", "EQ", "ATOM", "DOT",
-	"TYPE", "UNION", "LIST", "ALIAS", "IDENT", "WS",
+	"", "DIRECTIVE", "COMMAND", "LOOP", "ENTITY", "SEPERATOR", "PROP_START",
+	"OF", "IS", "AS", "ARROW", "LPAREN", "RPAREN", "HLPAREN", "HRPAREN", "EQ",
+	"LEQ", "LT", "GEQ", "GT", "NOT", "NEQ", "AND", "OR", "ATOM", "DOT", "TYPE",
+	"UNION", "LIST", "ALIAS", "IDENT", "NUMBER", "TRUE", "FALSE", "WS",
 }
 
 var ruleNames = []string{
 	"keyValuePair", "keyAtom", "constraintList", "unionDecl", "typeDecl", "entityRef",
-	"listDecl", "typeDef", "aliasDecl", "typeIs", "propDecl", "commandCall",
-	"entityDef", "export", "block",
+	"listDecl", "typeDef", "aliasDecl", "typeIs", "propDecl", "predicate",
+	"qualifier", "loopCall", "entityDef", "commandCall", "export", "block",
+	"boolExpression", "op", "comparator", "binary", "truth",
 }
 var decisionToDFA = make([]*antlr.DFA, len(deserializedATN.DecisionToState))
 
@@ -121,25 +155,38 @@ const (
 	SashimiParserEOF        = antlr.TokenEOF
 	SashimiParserDIRECTIVE  = 1
 	SashimiParserCOMMAND    = 2
-	SashimiParserENTITY     = 3
-	SashimiParserSEPERATOR  = 4
-	SashimiParserPROP_START = 5
-	SashimiParserOF         = 6
-	SashimiParserIS         = 7
-	SashimiParserAS         = 8
-	SashimiParserLPAREN     = 9
-	SashimiParserRPAREN     = 10
-	SashimiParserHLPAREN    = 11
-	SashimiParserHRPAREN    = 12
-	SashimiParserEQ         = 13
-	SashimiParserATOM       = 14
-	SashimiParserDOT        = 15
-	SashimiParserTYPE       = 16
-	SashimiParserUNION      = 17
-	SashimiParserLIST       = 18
-	SashimiParserALIAS      = 19
-	SashimiParserIDENT      = 20
-	SashimiParserWS         = 21
+	SashimiParserLOOP       = 3
+	SashimiParserENTITY     = 4
+	SashimiParserSEPERATOR  = 5
+	SashimiParserPROP_START = 6
+	SashimiParserOF         = 7
+	SashimiParserIS         = 8
+	SashimiParserAS         = 9
+	SashimiParserARROW      = 10
+	SashimiParserLPAREN     = 11
+	SashimiParserRPAREN     = 12
+	SashimiParserHLPAREN    = 13
+	SashimiParserHRPAREN    = 14
+	SashimiParserEQ         = 15
+	SashimiParserLEQ        = 16
+	SashimiParserLT         = 17
+	SashimiParserGEQ        = 18
+	SashimiParserGT         = 19
+	SashimiParserNOT        = 20
+	SashimiParserNEQ        = 21
+	SashimiParserAND        = 22
+	SashimiParserOR         = 23
+	SashimiParserATOM       = 24
+	SashimiParserDOT        = 25
+	SashimiParserTYPE       = 26
+	SashimiParserUNION      = 27
+	SashimiParserLIST       = 28
+	SashimiParserALIAS      = 29
+	SashimiParserIDENT      = 30
+	SashimiParserNUMBER     = 31
+	SashimiParserTRUE       = 32
+	SashimiParserFALSE      = 33
+	SashimiParserWS         = 34
 )
 
 // SashimiParser rules.
@@ -155,10 +202,18 @@ const (
 	SashimiParserRULE_aliasDecl      = 8
 	SashimiParserRULE_typeIs         = 9
 	SashimiParserRULE_propDecl       = 10
-	SashimiParserRULE_commandCall    = 11
-	SashimiParserRULE_entityDef      = 12
-	SashimiParserRULE_export         = 13
-	SashimiParserRULE_block          = 14
+	SashimiParserRULE_predicate      = 11
+	SashimiParserRULE_qualifier      = 12
+	SashimiParserRULE_loopCall       = 13
+	SashimiParserRULE_entityDef      = 14
+	SashimiParserRULE_commandCall    = 15
+	SashimiParserRULE_export         = 16
+	SashimiParserRULE_block          = 17
+	SashimiParserRULE_boolExpression = 18
+	SashimiParserRULE_op             = 19
+	SashimiParserRULE_comparator     = 20
+	SashimiParserRULE_binary         = 21
+	SashimiParserRULE_truth          = 22
 )
 
 // IKeyValuePairContext is an interface to support dynamic dispatch.
@@ -253,15 +308,15 @@ func (p *SashimiParser) KeyValuePair() (localctx IKeyValuePairContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(30)
+		p.SetState(46)
 		p.Match(SashimiParserIDENT)
 	}
 	{
-		p.SetState(31)
+		p.SetState(47)
 		p.Match(SashimiParserEQ)
 	}
 	{
-		p.SetState(32)
+		p.SetState(48)
 		p.Match(SashimiParserIDENT)
 	}
 
@@ -356,11 +411,11 @@ func (p *SashimiParser) KeyAtom() (localctx IKeyAtomContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(34)
+		p.SetState(50)
 		p.Match(SashimiParserATOM)
 	}
 	{
-		p.SetState(35)
+		p.SetState(51)
 		p.Match(SashimiParserIDENT)
 	}
 
@@ -510,50 +565,50 @@ func (p *SashimiParser) ConstraintList() (localctx IConstraintListContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(37)
+		p.SetState(53)
 		p.Match(SashimiParserHLPAREN)
 	}
-	p.SetState(40)
+	p.SetState(56)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case SashimiParserATOM:
 		{
-			p.SetState(38)
+			p.SetState(54)
 			p.KeyAtom()
 		}
 
 	case SashimiParserIDENT:
 		{
-			p.SetState(39)
+			p.SetState(55)
 			p.KeyValuePair()
 		}
 
 	default:
 		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 	}
-	p.SetState(49)
+	p.SetState(65)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == SashimiParserSEPERATOR {
 		{
-			p.SetState(42)
+			p.SetState(58)
 			p.Match(SashimiParserSEPERATOR)
 		}
-		p.SetState(45)
+		p.SetState(61)
 		p.GetErrorHandler().Sync(p)
 
 		switch p.GetTokenStream().LA(1) {
 		case SashimiParserATOM:
 			{
-				p.SetState(43)
+				p.SetState(59)
 				p.KeyAtom()
 			}
 
 		case SashimiParserIDENT:
 			{
-				p.SetState(44)
+				p.SetState(60)
 				p.KeyValuePair()
 			}
 
@@ -561,12 +616,12 @@ func (p *SashimiParser) ConstraintList() (localctx IConstraintListContext) {
 			panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 		}
 
-		p.SetState(51)
+		p.SetState(67)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
-		p.SetState(52)
+		p.SetState(68)
 		p.Match(SashimiParserHRPAREN)
 	}
 
@@ -682,37 +737,37 @@ func (p *SashimiParser) UnionDecl() (localctx IUnionDeclContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(54)
+		p.SetState(70)
 		p.Match(SashimiParserUNION)
 	}
 	{
-		p.SetState(55)
+		p.SetState(71)
 		p.Match(SashimiParserLPAREN)
 	}
 	{
-		p.SetState(56)
+		p.SetState(72)
 		p.Match(SashimiParserALIAS)
 	}
-	p.SetState(61)
+	p.SetState(77)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == SashimiParserSEPERATOR {
 		{
-			p.SetState(57)
+			p.SetState(73)
 			p.Match(SashimiParserSEPERATOR)
 		}
 		{
-			p.SetState(58)
+			p.SetState(74)
 			p.Match(SashimiParserALIAS)
 		}
 
-		p.SetState(63)
+		p.SetState(79)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
-		p.SetState(64)
+		p.SetState(80)
 		p.Match(SashimiParserRPAREN)
 	}
 
@@ -814,16 +869,16 @@ func (p *SashimiParser) TypeDecl() (localctx ITypeDeclContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(66)
+		p.SetState(82)
 		p.Match(SashimiParserTYPE)
 	}
-	p.SetState(68)
+	p.SetState(84)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == SashimiParserHLPAREN {
 		{
-			p.SetState(67)
+			p.SetState(83)
 			p.ConstraintList()
 		}
 
@@ -920,11 +975,11 @@ func (p *SashimiParser) EntityRef() (localctx IEntityRefContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(70)
+		p.SetState(86)
 		p.Match(SashimiParserENTITY)
 	}
 	{
-		p.SetState(71)
+		p.SetState(87)
 		p.Match(SashimiParserIDENT)
 	}
 
@@ -1035,22 +1090,22 @@ func (p *SashimiParser) ListDecl() (localctx IListDeclContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(73)
+		p.SetState(89)
 		p.Match(SashimiParserLIST)
 	}
-	p.SetState(76)
+	p.SetState(92)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case SashimiParserTYPE:
 		{
-			p.SetState(74)
+			p.SetState(90)
 			p.TypeDecl()
 		}
 
 	case SashimiParserENTITY:
 		{
-			p.SetState(75)
+			p.SetState(91)
 			p.EntityRef()
 		}
 
@@ -1179,35 +1234,35 @@ func (p *SashimiParser) TypeDef() (localctx ITypeDefContext) {
 		}
 	}()
 
-	p.SetState(82)
+	p.SetState(98)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case SashimiParserLIST:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(78)
+			p.SetState(94)
 			p.ListDecl()
 		}
 
 	case SashimiParserUNION:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(79)
+			p.SetState(95)
 			p.UnionDecl()
 		}
 
 	case SashimiParserTYPE:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(80)
+			p.SetState(96)
 			p.TypeDecl()
 		}
 
 	case SashimiParserENTITY:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(81)
+			p.SetState(97)
 			p.EntityRef()
 		}
 
@@ -1306,11 +1361,11 @@ func (p *SashimiParser) AliasDecl() (localctx IAliasDeclContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(84)
+		p.SetState(100)
 		p.Match(SashimiParserAS)
 	}
 	{
-		p.SetState(85)
+		p.SetState(101)
 		p.Match(SashimiParserALIAS)
 	}
 
@@ -1411,11 +1466,11 @@ func (p *SashimiParser) TypeIs() (localctx ITypeIsContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(87)
+		p.SetState(103)
 		p.Match(SashimiParserIS)
 	}
 	{
-		p.SetState(88)
+		p.SetState(104)
 		p.TypeDef()
 	}
 
@@ -1531,121 +1586,390 @@ func (p *SashimiParser) PropDecl() (localctx IPropDeclContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(90)
+		p.SetState(106)
 		p.Match(SashimiParserPROP_START)
 	}
 	{
-		p.SetState(91)
+		p.SetState(107)
 		p.Match(SashimiParserIDENT)
 	}
-	p.SetState(93)
+	p.SetState(109)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == SashimiParserAS {
 		{
-			p.SetState(92)
+			p.SetState(108)
 			p.AliasDecl()
 		}
 
 	}
 	{
-		p.SetState(95)
+		p.SetState(111)
 		p.TypeIs()
 	}
 
 	return localctx
 }
 
-// ICommandCallContext is an interface to support dynamic dispatch.
-type ICommandCallContext interface {
+// IPredicateContext is an interface to support dynamic dispatch.
+type IPredicateContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsCommandCallContext differentiates from other interfaces.
-	IsCommandCallContext()
+	// IsPredicateContext differentiates from other interfaces.
+	IsPredicateContext()
 }
 
-type CommandCallContext struct {
+type PredicateContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyCommandCallContext() *CommandCallContext {
-	var p = new(CommandCallContext)
+func NewEmptyPredicateContext() *PredicateContext {
+	var p = new(PredicateContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = SashimiParserRULE_commandCall
+	p.RuleIndex = SashimiParserRULE_predicate
 	return p
 }
 
-func (*CommandCallContext) IsCommandCallContext() {}
+func (*PredicateContext) IsPredicateContext() {}
 
-func NewCommandCallContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *CommandCallContext {
-	var p = new(CommandCallContext)
+func NewPredicateContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *PredicateContext {
+	var p = new(PredicateContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = SashimiParserRULE_commandCall
+	p.RuleIndex = SashimiParserRULE_predicate
 
 	return p
 }
 
-func (s *CommandCallContext) GetParser() antlr.Parser { return s.parser }
+func (s *PredicateContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *CommandCallContext) COMMAND() antlr.TerminalNode {
-	return s.GetToken(SashimiParserCOMMAND, 0)
+func (s *PredicateContext) IDENT() antlr.TerminalNode {
+	return s.GetToken(SashimiParserIDENT, 0)
 }
 
-func (s *CommandCallContext) LPAREN() antlr.TerminalNode {
-	return s.GetToken(SashimiParserLPAREN, 0)
+func (s *PredicateContext) ARROW() antlr.TerminalNode {
+	return s.GetToken(SashimiParserARROW, 0)
 }
 
-func (s *CommandCallContext) AllIDENT() []antlr.TerminalNode {
-	return s.GetTokens(SashimiParserIDENT)
+func (s *PredicateContext) BoolExpression() IBoolExpressionContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IBoolExpressionContext)(nil)).Elem(), 0)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IBoolExpressionContext)
 }
 
-func (s *CommandCallContext) IDENT(i int) antlr.TerminalNode {
-	return s.GetToken(SashimiParserIDENT, i)
-}
-
-func (s *CommandCallContext) RPAREN() antlr.TerminalNode {
-	return s.GetToken(SashimiParserRPAREN, 0)
-}
-
-func (s *CommandCallContext) AllDOT() []antlr.TerminalNode {
-	return s.GetTokens(SashimiParserDOT)
-}
-
-func (s *CommandCallContext) DOT(i int) antlr.TerminalNode {
-	return s.GetToken(SashimiParserDOT, i)
-}
-
-func (s *CommandCallContext) GetRuleContext() antlr.RuleContext {
+func (s *PredicateContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *CommandCallContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *PredicateContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *CommandCallContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *PredicateContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(SashimiListener); ok {
-		listenerT.EnterCommandCall(s)
+		listenerT.EnterPredicate(s)
 	}
 }
 
-func (s *CommandCallContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *PredicateContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(SashimiListener); ok {
-		listenerT.ExitCommandCall(s)
+		listenerT.ExitPredicate(s)
 	}
 }
 
-func (p *SashimiParser) CommandCall() (localctx ICommandCallContext) {
-	localctx = NewCommandCallContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 22, SashimiParserRULE_commandCall)
+func (p *SashimiParser) Predicate() (localctx IPredicateContext) {
+	localctx = NewPredicateContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 22, SashimiParserRULE_predicate)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(113)
+		p.Match(SashimiParserIDENT)
+	}
+	{
+		p.SetState(114)
+		p.Match(SashimiParserARROW)
+	}
+	{
+		p.SetState(115)
+		p.boolExpression(0)
+	}
+
+	return localctx
+}
+
+// IQualifierContext is an interface to support dynamic dispatch.
+type IQualifierContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsQualifierContext differentiates from other interfaces.
+	IsQualifierContext()
+}
+
+type QualifierContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyQualifierContext() *QualifierContext {
+	var p = new(QualifierContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = SashimiParserRULE_qualifier
+	return p
+}
+
+func (*QualifierContext) IsQualifierContext() {}
+
+func NewQualifierContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *QualifierContext {
+	var p = new(QualifierContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = SashimiParserRULE_qualifier
+
+	return p
+}
+
+func (s *QualifierContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *QualifierContext) AllIDENT() []antlr.TerminalNode {
+	return s.GetTokens(SashimiParserIDENT)
+}
+
+func (s *QualifierContext) IDENT(i int) antlr.TerminalNode {
+	return s.GetToken(SashimiParserIDENT, i)
+}
+
+func (s *QualifierContext) AllDOT() []antlr.TerminalNode {
+	return s.GetTokens(SashimiParserDOT)
+}
+
+func (s *QualifierContext) DOT(i int) antlr.TerminalNode {
+	return s.GetToken(SashimiParserDOT, i)
+}
+
+func (s *QualifierContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *QualifierContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *QualifierContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.EnterQualifier(s)
+	}
+}
+
+func (s *QualifierContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.ExitQualifier(s)
+	}
+}
+
+func (p *SashimiParser) Qualifier() (localctx IQualifierContext) {
+	localctx = NewQualifierContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 24, SashimiParserRULE_qualifier)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	var _alt int
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(117)
+		p.Match(SashimiParserIDENT)
+	}
+	p.SetState(122)
+	p.GetErrorHandler().Sync(p)
+	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 8, p.GetParserRuleContext())
+
+	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
+		if _alt == 1 {
+			{
+				p.SetState(118)
+				p.Match(SashimiParserDOT)
+			}
+			{
+				p.SetState(119)
+				p.Match(SashimiParserIDENT)
+			}
+
+		}
+		p.SetState(124)
+		p.GetErrorHandler().Sync(p)
+		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 8, p.GetParserRuleContext())
+	}
+
+	return localctx
+}
+
+// ILoopCallContext is an interface to support dynamic dispatch.
+type ILoopCallContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// GetAlias returns the alias token.
+	GetAlias() antlr.Token
+
+	// SetAlias sets the alias token.
+	SetAlias(antlr.Token)
+
+	// IsLoopCallContext differentiates from other interfaces.
+	IsLoopCallContext()
+}
+
+type LoopCallContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+	alias  antlr.Token
+}
+
+func NewEmptyLoopCallContext() *LoopCallContext {
+	var p = new(LoopCallContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = SashimiParserRULE_loopCall
+	return p
+}
+
+func (*LoopCallContext) IsLoopCallContext() {}
+
+func NewLoopCallContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *LoopCallContext {
+	var p = new(LoopCallContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = SashimiParserRULE_loopCall
+
+	return p
+}
+
+func (s *LoopCallContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *LoopCallContext) GetAlias() antlr.Token { return s.alias }
+
+func (s *LoopCallContext) SetAlias(v antlr.Token) { s.alias = v }
+
+func (s *LoopCallContext) LOOP() antlr.TerminalNode {
+	return s.GetToken(SashimiParserLOOP, 0)
+}
+
+func (s *LoopCallContext) LPAREN() antlr.TerminalNode {
+	return s.GetToken(SashimiParserLPAREN, 0)
+}
+
+func (s *LoopCallContext) Qualifier() IQualifierContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IQualifierContext)(nil)).Elem(), 0)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IQualifierContext)
+}
+
+func (s *LoopCallContext) RPAREN() antlr.TerminalNode {
+	return s.GetToken(SashimiParserRPAREN, 0)
+}
+
+func (s *LoopCallContext) AS() antlr.TerminalNode {
+	return s.GetToken(SashimiParserAS, 0)
+}
+
+func (s *LoopCallContext) HLPAREN() antlr.TerminalNode {
+	return s.GetToken(SashimiParserHLPAREN, 0)
+}
+
+func (s *LoopCallContext) Predicate() IPredicateContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IPredicateContext)(nil)).Elem(), 0)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IPredicateContext)
+}
+
+func (s *LoopCallContext) HRPAREN() antlr.TerminalNode {
+	return s.GetToken(SashimiParserHRPAREN, 0)
+}
+
+func (s *LoopCallContext) IDENT() antlr.TerminalNode {
+	return s.GetToken(SashimiParserIDENT, 0)
+}
+
+func (s *LoopCallContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *LoopCallContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *LoopCallContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.EnterLoopCall(s)
+	}
+}
+
+func (s *LoopCallContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.ExitLoopCall(s)
+	}
+}
+
+func (p *SashimiParser) LoopCall() (localctx ILoopCallContext) {
+	localctx = NewLoopCallContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 26, SashimiParserRULE_loopCall)
 	var _la int
 
 	defer func() {
@@ -1666,38 +1990,57 @@ func (p *SashimiParser) CommandCall() (localctx ICommandCallContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(97)
-		p.Match(SashimiParserCOMMAND)
+		p.SetState(125)
+		p.Match(SashimiParserLOOP)
 	}
 	{
-		p.SetState(98)
+		p.SetState(126)
 		p.Match(SashimiParserLPAREN)
 	}
 	{
-		p.SetState(99)
-		p.Match(SashimiParserIDENT)
+		p.SetState(127)
+		p.Qualifier()
 	}
-	p.SetState(104)
+	{
+		p.SetState(128)
+		p.Match(SashimiParserRPAREN)
+	}
+	p.SetState(131)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for _la == SashimiParserDOT {
+	if _la == SashimiParserAS {
 		{
-			p.SetState(100)
-			p.Match(SashimiParserDOT)
+			p.SetState(129)
+			p.Match(SashimiParserAS)
 		}
 		{
-			p.SetState(101)
-			p.Match(SashimiParserIDENT)
+			p.SetState(130)
+
+			var _m = p.Match(SashimiParserIDENT)
+
+			localctx.(*LoopCallContext).alias = _m
 		}
 
-		p.SetState(106)
-		p.GetErrorHandler().Sync(p)
-		_la = p.GetTokenStream().LA(1)
 	}
-	{
-		p.SetState(107)
-		p.Match(SashimiParserRPAREN)
+	p.SetState(137)
+	p.GetErrorHandler().Sync(p)
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == SashimiParserHLPAREN {
+		{
+			p.SetState(133)
+			p.Match(SashimiParserHLPAREN)
+		}
+		{
+			p.SetState(134)
+			p.Predicate()
+		}
+		{
+			p.SetState(135)
+			p.Match(SashimiParserHRPAREN)
+		}
+
 	}
 
 	return localctx
@@ -1806,7 +2149,7 @@ func (s *EntityDefContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *SashimiParser) EntityDef() (localctx IEntityDefContext) {
 	localctx = NewEntityDefContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 24, SashimiParserRULE_entityDef)
+	p.EnterRule(localctx, 28, SashimiParserRULE_entityDef)
 	var _la int
 
 	defer func() {
@@ -1827,42 +2170,163 @@ func (p *SashimiParser) EntityDef() (localctx IEntityDefContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(109)
+		p.SetState(139)
 		p.Match(SashimiParserENTITY)
 	}
 	{
-		p.SetState(110)
+		p.SetState(140)
 		p.Match(SashimiParserLPAREN)
 	}
 	{
-		p.SetState(111)
+		p.SetState(141)
 		p.Match(SashimiParserIDENT)
 	}
 	{
-		p.SetState(112)
+		p.SetState(142)
 		p.Match(SashimiParserRPAREN)
 	}
 	{
-		p.SetState(113)
+		p.SetState(143)
 		p.Match(SashimiParserOF)
 	}
 	{
-		p.SetState(114)
+		p.SetState(144)
 		p.PropDecl()
 	}
-	p.SetState(118)
+	p.SetState(148)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == SashimiParserPROP_START {
 		{
-			p.SetState(115)
+			p.SetState(145)
 			p.PropDecl()
 		}
 
-		p.SetState(120)
+		p.SetState(150)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
+	}
+
+	return localctx
+}
+
+// ICommandCallContext is an interface to support dynamic dispatch.
+type ICommandCallContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsCommandCallContext differentiates from other interfaces.
+	IsCommandCallContext()
+}
+
+type CommandCallContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyCommandCallContext() *CommandCallContext {
+	var p = new(CommandCallContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = SashimiParserRULE_commandCall
+	return p
+}
+
+func (*CommandCallContext) IsCommandCallContext() {}
+
+func NewCommandCallContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *CommandCallContext {
+	var p = new(CommandCallContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = SashimiParserRULE_commandCall
+
+	return p
+}
+
+func (s *CommandCallContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *CommandCallContext) COMMAND() antlr.TerminalNode {
+	return s.GetToken(SashimiParserCOMMAND, 0)
+}
+
+func (s *CommandCallContext) LPAREN() antlr.TerminalNode {
+	return s.GetToken(SashimiParserLPAREN, 0)
+}
+
+func (s *CommandCallContext) Qualifier() IQualifierContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IQualifierContext)(nil)).Elem(), 0)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IQualifierContext)
+}
+
+func (s *CommandCallContext) RPAREN() antlr.TerminalNode {
+	return s.GetToken(SashimiParserRPAREN, 0)
+}
+
+func (s *CommandCallContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *CommandCallContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *CommandCallContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.EnterCommandCall(s)
+	}
+}
+
+func (s *CommandCallContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.ExitCommandCall(s)
+	}
+}
+
+func (p *SashimiParser) CommandCall() (localctx ICommandCallContext) {
+	localctx = NewCommandCallContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 30, SashimiParserRULE_commandCall)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(151)
+		p.Match(SashimiParserCOMMAND)
+	}
+	{
+		p.SetState(152)
+		p.Match(SashimiParserLPAREN)
+	}
+	{
+		p.SetState(153)
+		p.Qualifier()
+	}
+	{
+		p.SetState(154)
+		p.Match(SashimiParserRPAREN)
 	}
 
 	return localctx
@@ -1920,6 +2384,16 @@ func (s *ExportContext) CommandCall() ICommandCallContext {
 	return t.(ICommandCallContext)
 }
 
+func (s *ExportContext) LoopCall() ILoopCallContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*ILoopCallContext)(nil)).Elem(), 0)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ILoopCallContext)
+}
+
 func (s *ExportContext) EntityDef() IEntityDefContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IEntityDefContext)(nil)).Elem(), 0)
 
@@ -1952,7 +2426,7 @@ func (s *ExportContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *SashimiParser) Export() (localctx IExportContext) {
 	localctx = NewExportContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 26, SashimiParserRULE_export)
+	p.EnterRule(localctx, 32, SashimiParserRULE_export)
 
 	defer func() {
 		p.ExitRule()
@@ -1972,22 +2446,28 @@ func (p *SashimiParser) Export() (localctx IExportContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(121)
+		p.SetState(156)
 		p.Match(SashimiParserDIRECTIVE)
 	}
-	p.SetState(124)
+	p.SetState(160)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case SashimiParserCOMMAND:
 		{
-			p.SetState(122)
+			p.SetState(157)
 			p.CommandCall()
+		}
+
+	case SashimiParserLOOP:
+		{
+			p.SetState(158)
+			p.LoopCall()
 		}
 
 	case SashimiParserENTITY:
 		{
-			p.SetState(123)
+			p.SetState(159)
 			p.EntityDef()
 		}
 
@@ -2036,6 +2516,10 @@ func NewBlockContext(parser antlr.Parser, parent antlr.ParserRuleContext, invoki
 
 func (s *BlockContext) GetParser() antlr.Parser { return s.parser }
 
+func (s *BlockContext) EOF() antlr.TerminalNode {
+	return s.GetToken(SashimiParserEOF, 0)
+}
+
 func (s *BlockContext) AllExport() []IExportContext {
 	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IExportContext)(nil)).Elem())
 	var tst = make([]IExportContext, len(ts))
@@ -2057,10 +2541,6 @@ func (s *BlockContext) Export(i int) IExportContext {
 	}
 
 	return t.(IExportContext)
-}
-
-func (s *BlockContext) EOF() antlr.TerminalNode {
-	return s.GetToken(SashimiParserEOF, 0)
 }
 
 func (s *BlockContext) GetRuleContext() antlr.RuleContext {
@@ -2085,7 +2565,536 @@ func (s *BlockContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *SashimiParser) Block() (localctx IBlockContext) {
 	localctx = NewBlockContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 28, SashimiParserRULE_block)
+	p.EnterRule(localctx, 34, SashimiParserRULE_block)
+	var _la int
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	p.SetState(165)
+	p.GetErrorHandler().Sync(p)
+	_la = p.GetTokenStream().LA(1)
+
+	for _la == SashimiParserDIRECTIVE {
+		{
+			p.SetState(162)
+			p.Export()
+		}
+
+		p.SetState(167)
+		p.GetErrorHandler().Sync(p)
+		_la = p.GetTokenStream().LA(1)
+	}
+	{
+		p.SetState(168)
+		p.Match(SashimiParserEOF)
+	}
+
+	return localctx
+}
+
+// IBoolExpressionContext is an interface to support dynamic dispatch.
+type IBoolExpressionContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// GetLeft returns the left rule contexts.
+	GetLeft() IBoolExpressionContext
+
+	// GetRight returns the right rule contexts.
+	GetRight() IBoolExpressionContext
+
+	// SetLeft sets the left rule contexts.
+	SetLeft(IBoolExpressionContext)
+
+	// SetRight sets the right rule contexts.
+	SetRight(IBoolExpressionContext)
+
+	// IsBoolExpressionContext differentiates from other interfaces.
+	IsBoolExpressionContext()
+}
+
+type BoolExpressionContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+	left   IBoolExpressionContext
+	right  IBoolExpressionContext
+}
+
+func NewEmptyBoolExpressionContext() *BoolExpressionContext {
+	var p = new(BoolExpressionContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = SashimiParserRULE_boolExpression
+	return p
+}
+
+func (*BoolExpressionContext) IsBoolExpressionContext() {}
+
+func NewBoolExpressionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *BoolExpressionContext {
+	var p = new(BoolExpressionContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = SashimiParserRULE_boolExpression
+
+	return p
+}
+
+func (s *BoolExpressionContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *BoolExpressionContext) GetLeft() IBoolExpressionContext { return s.left }
+
+func (s *BoolExpressionContext) GetRight() IBoolExpressionContext { return s.right }
+
+func (s *BoolExpressionContext) SetLeft(v IBoolExpressionContext) { s.left = v }
+
+func (s *BoolExpressionContext) SetRight(v IBoolExpressionContext) { s.right = v }
+
+func (s *BoolExpressionContext) LPAREN() antlr.TerminalNode {
+	return s.GetToken(SashimiParserLPAREN, 0)
+}
+
+func (s *BoolExpressionContext) AllBoolExpression() []IBoolExpressionContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IBoolExpressionContext)(nil)).Elem())
+	var tst = make([]IBoolExpressionContext, len(ts))
+
+	for i, t := range ts {
+		if t != nil {
+			tst[i] = t.(IBoolExpressionContext)
+		}
+	}
+
+	return tst
+}
+
+func (s *BoolExpressionContext) BoolExpression(i int) IBoolExpressionContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IBoolExpressionContext)(nil)).Elem(), i)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IBoolExpressionContext)
+}
+
+func (s *BoolExpressionContext) RPAREN() antlr.TerminalNode {
+	return s.GetToken(SashimiParserRPAREN, 0)
+}
+
+func (s *BoolExpressionContext) NOT() antlr.TerminalNode {
+	return s.GetToken(SashimiParserNOT, 0)
+}
+
+func (s *BoolExpressionContext) Truth() ITruthContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*ITruthContext)(nil)).Elem(), 0)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ITruthContext)
+}
+
+func (s *BoolExpressionContext) Qualifier() IQualifierContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IQualifierContext)(nil)).Elem(), 0)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IQualifierContext)
+}
+
+func (s *BoolExpressionContext) ALIAS() antlr.TerminalNode {
+	return s.GetToken(SashimiParserALIAS, 0)
+}
+
+func (s *BoolExpressionContext) NUMBER() antlr.TerminalNode {
+	return s.GetToken(SashimiParserNUMBER, 0)
+}
+
+func (s *BoolExpressionContext) Op() IOpContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IOpContext)(nil)).Elem(), 0)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IOpContext)
+}
+
+func (s *BoolExpressionContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *BoolExpressionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *BoolExpressionContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.EnterBoolExpression(s)
+	}
+}
+
+func (s *BoolExpressionContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.ExitBoolExpression(s)
+	}
+}
+
+func (p *SashimiParser) BoolExpression() (localctx IBoolExpressionContext) {
+	return p.boolExpression(0)
+}
+
+func (p *SashimiParser) boolExpression(_p int) (localctx IBoolExpressionContext) {
+	var _parentctx antlr.ParserRuleContext = p.GetParserRuleContext()
+	_parentState := p.GetState()
+	localctx = NewBoolExpressionContext(p, p.GetParserRuleContext(), _parentState)
+	var _prevctx IBoolExpressionContext = localctx
+	var _ antlr.ParserRuleContext = _prevctx // TODO: To prevent unused variable warning.
+	_startState := 36
+	p.EnterRecursionRule(localctx, 36, SashimiParserRULE_boolExpression, _p)
+
+	defer func() {
+		p.UnrollRecursionContexts(_parentctx)
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	var _alt int
+
+	p.EnterOuterAlt(localctx, 1)
+	p.SetState(181)
+	p.GetErrorHandler().Sync(p)
+
+	switch p.GetTokenStream().LA(1) {
+	case SashimiParserLPAREN:
+		{
+			p.SetState(171)
+			p.Match(SashimiParserLPAREN)
+		}
+		{
+			p.SetState(172)
+			p.boolExpression(0)
+		}
+		{
+			p.SetState(173)
+			p.Match(SashimiParserRPAREN)
+		}
+
+	case SashimiParserNOT:
+		{
+			p.SetState(175)
+			p.Match(SashimiParserNOT)
+		}
+		{
+			p.SetState(176)
+			p.boolExpression(6)
+		}
+
+	case SashimiParserTRUE, SashimiParserFALSE:
+		{
+			p.SetState(177)
+			p.Truth()
+		}
+
+	case SashimiParserIDENT:
+		{
+			p.SetState(178)
+			p.Qualifier()
+		}
+
+	case SashimiParserALIAS:
+		{
+			p.SetState(179)
+			p.Match(SashimiParserALIAS)
+		}
+
+	case SashimiParserNUMBER:
+		{
+			p.SetState(180)
+			p.Match(SashimiParserNUMBER)
+		}
+
+	default:
+		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+	}
+	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
+	p.SetState(189)
+	p.GetErrorHandler().Sync(p)
+	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 15, p.GetParserRuleContext())
+
+	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
+		if _alt == 1 {
+			if p.GetParseListeners() != nil {
+				p.TriggerExitRuleEvent()
+			}
+			_prevctx = localctx
+			localctx = NewBoolExpressionContext(p, _parentctx, _parentState)
+			localctx.(*BoolExpressionContext).left = _prevctx
+			p.PushNewRecursionContext(localctx, _startState, SashimiParserRULE_boolExpression)
+			p.SetState(183)
+
+			if !(p.Precpred(p.GetParserRuleContext(), 5)) {
+				panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
+			}
+			{
+				p.SetState(184)
+				p.Op()
+			}
+			{
+				p.SetState(185)
+
+				var _x = p.boolExpression(6)
+
+				localctx.(*BoolExpressionContext).right = _x
+			}
+
+		}
+		p.SetState(191)
+		p.GetErrorHandler().Sync(p)
+		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 15, p.GetParserRuleContext())
+	}
+
+	return localctx
+}
+
+// IOpContext is an interface to support dynamic dispatch.
+type IOpContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsOpContext differentiates from other interfaces.
+	IsOpContext()
+}
+
+type OpContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyOpContext() *OpContext {
+	var p = new(OpContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = SashimiParserRULE_op
+	return p
+}
+
+func (*OpContext) IsOpContext() {}
+
+func NewOpContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *OpContext {
+	var p = new(OpContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = SashimiParserRULE_op
+
+	return p
+}
+
+func (s *OpContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *OpContext) Binary() IBinaryContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IBinaryContext)(nil)).Elem(), 0)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IBinaryContext)
+}
+
+func (s *OpContext) Comparator() IComparatorContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IComparatorContext)(nil)).Elem(), 0)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IComparatorContext)
+}
+
+func (s *OpContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *OpContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *OpContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.EnterOp(s)
+	}
+}
+
+func (s *OpContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.ExitOp(s)
+	}
+}
+
+func (p *SashimiParser) Op() (localctx IOpContext) {
+	localctx = NewOpContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 38, SashimiParserRULE_op)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.SetState(194)
+	p.GetErrorHandler().Sync(p)
+
+	switch p.GetTokenStream().LA(1) {
+	case SashimiParserAND, SashimiParserOR:
+		p.EnterOuterAlt(localctx, 1)
+		{
+			p.SetState(192)
+			p.Binary()
+		}
+
+	case SashimiParserEQ, SashimiParserLEQ, SashimiParserLT, SashimiParserGEQ, SashimiParserGT, SashimiParserNEQ:
+		p.EnterOuterAlt(localctx, 2)
+		{
+			p.SetState(193)
+			p.Comparator()
+		}
+
+	default:
+		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+	}
+
+	return localctx
+}
+
+// IComparatorContext is an interface to support dynamic dispatch.
+type IComparatorContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsComparatorContext differentiates from other interfaces.
+	IsComparatorContext()
+}
+
+type ComparatorContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyComparatorContext() *ComparatorContext {
+	var p = new(ComparatorContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = SashimiParserRULE_comparator
+	return p
+}
+
+func (*ComparatorContext) IsComparatorContext() {}
+
+func NewComparatorContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ComparatorContext {
+	var p = new(ComparatorContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = SashimiParserRULE_comparator
+
+	return p
+}
+
+func (s *ComparatorContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ComparatorContext) EQ() antlr.TerminalNode {
+	return s.GetToken(SashimiParserEQ, 0)
+}
+
+func (s *ComparatorContext) LEQ() antlr.TerminalNode {
+	return s.GetToken(SashimiParserLEQ, 0)
+}
+
+func (s *ComparatorContext) LT() antlr.TerminalNode {
+	return s.GetToken(SashimiParserLT, 0)
+}
+
+func (s *ComparatorContext) GEQ() antlr.TerminalNode {
+	return s.GetToken(SashimiParserGEQ, 0)
+}
+
+func (s *ComparatorContext) GT() antlr.TerminalNode {
+	return s.GetToken(SashimiParserGT, 0)
+}
+
+func (s *ComparatorContext) NEQ() antlr.TerminalNode {
+	return s.GetToken(SashimiParserNEQ, 0)
+}
+
+func (s *ComparatorContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ComparatorContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ComparatorContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.EnterComparator(s)
+	}
+}
+
+func (s *ComparatorContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.ExitComparator(s)
+	}
+}
+
+func (p *SashimiParser) Comparator() (localctx IComparatorContext) {
+	localctx = NewComparatorContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 40, SashimiParserRULE_comparator)
 	var _la int
 
 	defer func() {
@@ -2106,27 +3115,246 @@ func (p *SashimiParser) Block() (localctx IBlockContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(126)
-		p.Export()
-	}
-	p.SetState(130)
-	p.GetErrorHandler().Sync(p)
-	_la = p.GetTokenStream().LA(1)
-
-	for _la == SashimiParserDIRECTIVE {
-		{
-			p.SetState(127)
-			p.Export()
-		}
-
-		p.SetState(132)
-		p.GetErrorHandler().Sync(p)
+		p.SetState(196)
 		_la = p.GetTokenStream().LA(1)
-	}
-	{
-		p.SetState(133)
-		p.Match(SashimiParserEOF)
+
+		if !(((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<SashimiParserEQ)|(1<<SashimiParserLEQ)|(1<<SashimiParserLT)|(1<<SashimiParserGEQ)|(1<<SashimiParserGT)|(1<<SashimiParserNEQ))) != 0) {
+			p.GetErrorHandler().RecoverInline(p)
+		} else {
+			p.GetErrorHandler().ReportMatch(p)
+			p.Consume()
+		}
 	}
 
 	return localctx
+}
+
+// IBinaryContext is an interface to support dynamic dispatch.
+type IBinaryContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsBinaryContext differentiates from other interfaces.
+	IsBinaryContext()
+}
+
+type BinaryContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyBinaryContext() *BinaryContext {
+	var p = new(BinaryContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = SashimiParserRULE_binary
+	return p
+}
+
+func (*BinaryContext) IsBinaryContext() {}
+
+func NewBinaryContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *BinaryContext {
+	var p = new(BinaryContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = SashimiParserRULE_binary
+
+	return p
+}
+
+func (s *BinaryContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *BinaryContext) AND() antlr.TerminalNode {
+	return s.GetToken(SashimiParserAND, 0)
+}
+
+func (s *BinaryContext) OR() antlr.TerminalNode {
+	return s.GetToken(SashimiParserOR, 0)
+}
+
+func (s *BinaryContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *BinaryContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *BinaryContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.EnterBinary(s)
+	}
+}
+
+func (s *BinaryContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.ExitBinary(s)
+	}
+}
+
+func (p *SashimiParser) Binary() (localctx IBinaryContext) {
+	localctx = NewBinaryContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 42, SashimiParserRULE_binary)
+	var _la int
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(198)
+		_la = p.GetTokenStream().LA(1)
+
+		if !(_la == SashimiParserAND || _la == SashimiParserOR) {
+			p.GetErrorHandler().RecoverInline(p)
+		} else {
+			p.GetErrorHandler().ReportMatch(p)
+			p.Consume()
+		}
+	}
+
+	return localctx
+}
+
+// ITruthContext is an interface to support dynamic dispatch.
+type ITruthContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsTruthContext differentiates from other interfaces.
+	IsTruthContext()
+}
+
+type TruthContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyTruthContext() *TruthContext {
+	var p = new(TruthContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = SashimiParserRULE_truth
+	return p
+}
+
+func (*TruthContext) IsTruthContext() {}
+
+func NewTruthContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *TruthContext {
+	var p = new(TruthContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = SashimiParserRULE_truth
+
+	return p
+}
+
+func (s *TruthContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *TruthContext) TRUE() antlr.TerminalNode {
+	return s.GetToken(SashimiParserTRUE, 0)
+}
+
+func (s *TruthContext) FALSE() antlr.TerminalNode {
+	return s.GetToken(SashimiParserFALSE, 0)
+}
+
+func (s *TruthContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *TruthContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *TruthContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.EnterTruth(s)
+	}
+}
+
+func (s *TruthContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(SashimiListener); ok {
+		listenerT.ExitTruth(s)
+	}
+}
+
+func (p *SashimiParser) Truth() (localctx ITruthContext) {
+	localctx = NewTruthContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 44, SashimiParserRULE_truth)
+	var _la int
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(200)
+		_la = p.GetTokenStream().LA(1)
+
+		if !(_la == SashimiParserTRUE || _la == SashimiParserFALSE) {
+			p.GetErrorHandler().RecoverInline(p)
+		} else {
+			p.GetErrorHandler().ReportMatch(p)
+			p.Consume()
+		}
+	}
+
+	return localctx
+}
+
+func (p *SashimiParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex int) bool {
+	switch ruleIndex {
+	case 18:
+		var t *BoolExpressionContext = nil
+		if localctx != nil {
+			t = localctx.(*BoolExpressionContext)
+		}
+		return p.BoolExpression_Sempred(t, predIndex)
+
+	default:
+		panic("No predicate with index: " + fmt.Sprint(ruleIndex))
+	}
+}
+
+func (p *SashimiParser) BoolExpression_Sempred(localctx antlr.RuleContext, predIndex int) bool {
+	switch predIndex {
+	case 0:
+		return p.Precpred(p.GetParserRuleContext(), 5)
+
+	default:
+		panic("No predicate with index: " + fmt.Sprint(predIndex))
+	}
 }

@@ -11,30 +11,59 @@ typeDef : listDecl | unionDecl | typeDecl | entityRef;
 aliasDecl : AS ALIAS;
 typeIs : IS typeDef;
 propDecl : PROP_START IDENT aliasDecl? typeIs;
-commandCall : COMMAND LPAREN IDENT(DOT IDENT)* RPAREN;
+predicate: IDENT ARROW boolExpression;
+qualifier: IDENT(DOT IDENT)*;
+loopCall: LOOP LPAREN qualifier  RPAREN (AS alias=IDENT)? (HLPAREN predicate HRPAREN)?;
 entityDef :  ENTITY LPAREN IDENT RPAREN OF propDecl (propDecl)*;
-export : DIRECTIVE (commandCall | entityDef);
-block : export export* EOF;
+commandCall : COMMAND LPAREN qualifier RPAREN;
+export : DIRECTIVE (commandCall | loopCall | entityDef);
+block : export* EOF;
+
+
+boolExpression: LPAREN boolExpression RPAREN 
+    | NOT boolExpression 
+    | left=boolExpression op right=boolExpression
+    | truth 
+    | qualifier 
+    | ALIAS
+    | NUMBER;
+
+op : binary | comparator;
+comparator : EQ | LEQ | LT | GEQ | GT | NEQ; 
+binary: AND | OR;
+truth: TRUE | FALSE;
 
 DIRECTIVE : 'sashimi:';
-COMMAND : 'display' | 'repeat' | 'layout_section' | 'layout' | 'link';
+COMMAND : 'display' |  'layout_section' | 'layout' | 'link';
+LOOP: 'repeat';
 ENTITY: 'entity';
 SEPERATOR : ',';
 PROP_START: '-';
 OF : 'of';
 IS : 'is';
 AS : 'as';
+ARROW: '->';
 LPAREN : '(';
 RPAREN : ')';
 HLPAREN : '[';
 HRPAREN : ']';
 EQ : '=';
+LEQ: '<=';
+LT: '<';
+GEQ: '>=';
+GT: '>';
+NOT: '!';
+NEQ: '<>';
+AND: '&';
+OR: '|';
 ATOM : ':';
 DOT : '.';
 TYPE : 'text' | 'picture' | 'number' | 'bool';
 UNION : 'manyOf' | 'oneOf';
-LIST : 'list';
+LIST : 'list'; 
 ALIAS : '"' ~["\r\n]* '"';
 IDENT : [a-zA-Z0-9_]+;
-
-WS : [ \t\r\n]+ -> skip;
+NUMBER : '-'?[0-9]+('.'[0-9]+)? ;
+TRUE: 'true';
+FALSE: 'false';
+WS : [ \t\r\n]+ -> skip; 

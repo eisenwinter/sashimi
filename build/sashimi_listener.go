@@ -1,4 +1,4 @@
-// Code generated from C:\tmp\sashimi\sashimi\grammar\Sashimi.g4 by ANTLR 4.8. DO NOT EDIT.
+// Code generated from C:\gitrepos\sashimi/grammar/Sashimi.g4 by ANTLR 4.8. DO NOT EDIT.
 
 package build // Sashimi
 import "github.com/antlr/antlr4/runtime/Go/antlr"
@@ -40,17 +40,41 @@ type SashimiListener interface {
 	// EnterPropDecl is called when entering the propDecl production.
 	EnterPropDecl(c *PropDeclContext)
 
-	// EnterCommandCall is called when entering the commandCall production.
-	EnterCommandCall(c *CommandCallContext)
+	// EnterPredicate is called when entering the predicate production.
+	EnterPredicate(c *PredicateContext)
+
+	// EnterQualifier is called when entering the qualifier production.
+	EnterQualifier(c *QualifierContext)
+
+	// EnterLoopCall is called when entering the loopCall production.
+	EnterLoopCall(c *LoopCallContext)
 
 	// EnterEntityDef is called when entering the entityDef production.
 	EnterEntityDef(c *EntityDefContext)
+
+	// EnterCommandCall is called when entering the commandCall production.
+	EnterCommandCall(c *CommandCallContext)
 
 	// EnterExport is called when entering the export production.
 	EnterExport(c *ExportContext)
 
 	// EnterBlock is called when entering the block production.
 	EnterBlock(c *BlockContext)
+
+	// EnterBoolExpression is called when entering the boolExpression production.
+	EnterBoolExpression(c *BoolExpressionContext)
+
+	// EnterOp is called when entering the op production.
+	EnterOp(c *OpContext)
+
+	// EnterComparator is called when entering the comparator production.
+	EnterComparator(c *ComparatorContext)
+
+	// EnterBinary is called when entering the binary production.
+	EnterBinary(c *BinaryContext)
+
+	// EnterTruth is called when entering the truth production.
+	EnterTruth(c *TruthContext)
 
 	// ExitKeyValuePair is called when exiting the keyValuePair production.
 	ExitKeyValuePair(c *KeyValuePairContext)
@@ -85,15 +109,39 @@ type SashimiListener interface {
 	// ExitPropDecl is called when exiting the propDecl production.
 	ExitPropDecl(c *PropDeclContext)
 
-	// ExitCommandCall is called when exiting the commandCall production.
-	ExitCommandCall(c *CommandCallContext)
+	// ExitPredicate is called when exiting the predicate production.
+	ExitPredicate(c *PredicateContext)
+
+	// ExitQualifier is called when exiting the qualifier production.
+	ExitQualifier(c *QualifierContext)
+
+	// ExitLoopCall is called when exiting the loopCall production.
+	ExitLoopCall(c *LoopCallContext)
 
 	// ExitEntityDef is called when exiting the entityDef production.
 	ExitEntityDef(c *EntityDefContext)
+
+	// ExitCommandCall is called when exiting the commandCall production.
+	ExitCommandCall(c *CommandCallContext)
 
 	// ExitExport is called when exiting the export production.
 	ExitExport(c *ExportContext)
 
 	// ExitBlock is called when exiting the block production.
 	ExitBlock(c *BlockContext)
+
+	// ExitBoolExpression is called when exiting the boolExpression production.
+	ExitBoolExpression(c *BoolExpressionContext)
+
+	// ExitOp is called when exiting the op production.
+	ExitOp(c *OpContext)
+
+	// ExitComparator is called when exiting the comparator production.
+	ExitComparator(c *ComparatorContext)
+
+	// ExitBinary is called when exiting the binary production.
+	ExitBinary(c *BinaryContext)
+
+	// ExitTruth is called when exiting the truth production.
+	ExitTruth(c *TruthContext)
 }

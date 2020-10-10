@@ -1,4 +1,4 @@
-// Code generated from C:\tmp\sashimi\sashimi\grammar\Sashimi.g4 by ANTLR 4.8. DO NOT EDIT.
+// Code generated from C:\gitrepos\sashimi/grammar/Sashimi.g4 by ANTLR 4.8. DO NOT EDIT.
 
 package build // Sashimi
 import "github.com/antlr/antlr4/runtime/Go/antlr"
@@ -86,17 +86,35 @@ func (s *BaseSashimiListener) EnterPropDecl(ctx *PropDeclContext) {}
 // ExitPropDecl is called when production propDecl is exited.
 func (s *BaseSashimiListener) ExitPropDecl(ctx *PropDeclContext) {}
 
-// EnterCommandCall is called when production commandCall is entered.
-func (s *BaseSashimiListener) EnterCommandCall(ctx *CommandCallContext) {}
+// EnterPredicate is called when production predicate is entered.
+func (s *BaseSashimiListener) EnterPredicate(ctx *PredicateContext) {}
 
-// ExitCommandCall is called when production commandCall is exited.
-func (s *BaseSashimiListener) ExitCommandCall(ctx *CommandCallContext) {}
+// ExitPredicate is called when production predicate is exited.
+func (s *BaseSashimiListener) ExitPredicate(ctx *PredicateContext) {}
+
+// EnterQualifier is called when production qualifier is entered.
+func (s *BaseSashimiListener) EnterQualifier(ctx *QualifierContext) {}
+
+// ExitQualifier is called when production qualifier is exited.
+func (s *BaseSashimiListener) ExitQualifier(ctx *QualifierContext) {}
+
+// EnterLoopCall is called when production loopCall is entered.
+func (s *BaseSashimiListener) EnterLoopCall(ctx *LoopCallContext) {}
+
+// ExitLoopCall is called when production loopCall is exited.
+func (s *BaseSashimiListener) ExitLoopCall(ctx *LoopCallContext) {}
 
 // EnterEntityDef is called when production entityDef is entered.
 func (s *BaseSashimiListener) EnterEntityDef(ctx *EntityDefContext) {}
 
 // ExitEntityDef is called when production entityDef is exited.
 func (s *BaseSashimiListener) ExitEntityDef(ctx *EntityDefContext) {}
+
+// EnterCommandCall is called when production commandCall is entered.
+func (s *BaseSashimiListener) EnterCommandCall(ctx *CommandCallContext) {}
+
+// ExitCommandCall is called when production commandCall is exited.
+func (s *BaseSashimiListener) ExitCommandCall(ctx *CommandCallContext) {}
 
 // EnterExport is called when production export is entered.
 func (s *BaseSashimiListener) EnterExport(ctx *ExportContext) {}
@@ -109,3 +127,33 @@ func (s *BaseSashimiListener) EnterBlock(ctx *BlockContext) {}
 
 // ExitBlock is called when production block is exited.
 func (s *BaseSashimiListener) ExitBlock(ctx *BlockContext) {}
+
+// EnterBoolExpression is called when production boolExpression is entered.
+func (s *BaseSashimiListener) EnterBoolExpression(ctx *BoolExpressionContext) {}
+
+// ExitBoolExpression is called when production boolExpression is exited.
+func (s *BaseSashimiListener) ExitBoolExpression(ctx *BoolExpressionContext) {}
+
+// EnterOp is called when production op is entered.
+func (s *BaseSashimiListener) EnterOp(ctx *OpContext) {}
+
+// ExitOp is called when production op is exited.
+func (s *BaseSashimiListener) ExitOp(ctx *OpContext) {}
+
+// EnterComparator is called when production comparator is entered.
+func (s *BaseSashimiListener) EnterComparator(ctx *ComparatorContext) {}
+
+// ExitComparator is called when production comparator is exited.
+func (s *BaseSashimiListener) ExitComparator(ctx *ComparatorContext) {}
+
+// EnterBinary is called when production binary is entered.
+func (s *BaseSashimiListener) EnterBinary(ctx *BinaryContext) {}
+
+// ExitBinary is called when production binary is exited.
+func (s *BaseSashimiListener) ExitBinary(ctx *BinaryContext) {}
+
+// EnterTruth is called when production truth is entered.
+func (s *BaseSashimiListener) EnterTruth(ctx *TruthContext) {}
+
+// ExitTruth is called when production truth is exited.
+func (s *BaseSashimiListener) ExitTruth(ctx *TruthContext) {}
