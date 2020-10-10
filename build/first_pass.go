@@ -88,6 +88,7 @@ func (l *firstPass) EnterEntityDef(ctx *EntityDefContext) {
 		table := &defTableEntry{
 			Identfier:  identifier,
 			Properties: make(map[string]*propertyDef),
+			IsUnique:   ctx.UNIQUE() != nil,
 		}
 		l.ctx.Def[identifier] = table
 		l.current = table
@@ -183,8 +184,6 @@ func (l *firstPass) EnterListDecl(c *ListDeclContext) {
 }
 
 func (l *firstPass) ExitLoopCall(ctx *LoopCallContext) {
-	//Todo handle alias
-	//fmt.Println("alias", ctx.alias)
 	//Todo we should prolly trace and validate the predicate if it even makes sense ...
 	// if !ctx.Predicate().IsEmpty() {
 	// 	fmt.Println(ctx.Predicate().GetText())

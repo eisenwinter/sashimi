@@ -32,6 +32,8 @@ const (
 	SashimiTypeEntity = "entity"
 	//SashimiTypeTextUnion is union of a text type
 	SashimiTypeTextUnion = "text-union"
+	//SashimiTypeDate represents date time
+	SashimiTypeDate = "date"
 )
 
 type typeInf interface {
