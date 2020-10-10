@@ -25,3 +25,9 @@ type Node struct {
 	Fields []*Field
 	Edges  []*Edge
 }
+
+type SchemaGraph struct {
+	Nodes []*Node
+}
+
+func (s *SchemaGraph) Diff(graph *SchemaGraph) {}

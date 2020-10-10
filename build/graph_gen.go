@@ -7,7 +7,7 @@ import (
 	"github.com/eisenwinter/sashimi/graph"
 )
 
-func createNodes(def map[string]*defTableEntry) []*graph.Node {
+func createNodes(def map[string]*defTableEntry) *graph.SchemaGraph {
 	nodes := make([]*graph.Node, 0)
 	for k, v := range def {
 		if v.IsDefined {
@@ -111,5 +111,5 @@ func createNodes(def map[string]*defTableEntry) []*graph.Node {
 		}
 
 	}
-	return nodes
+	return &graph.SchemaGraph{nodes}
 }

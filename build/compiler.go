@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
+	"github.com/eisenwinter/sashimi/graph"
 )
 
 //CompilerFlags represent possible flags the compiler takes
@@ -31,8 +32,13 @@ type CompilerResult interface {
 	GetWarnings() []Report
 }
 
+type AnalyizeResult interface {
+	CompilerResult
+	GetGraph() *graph.SchemaGraph
+}
+
 type Compiler interface {
-	Analyze(sources []CompilerSource, flags CompilerFlags) (CompilerResult, error)
+	Analyze(sources []CompilerSource, flags CompilerFlags) (AnalyizeResult, error)
 }
 
 func NewCompiler() Compiler {
@@ -43,7 +49,7 @@ type sashimiCompiler struct {
 	htmlProc *htmlProcessor
 }
 
-func (c *sashimiCompiler) Analyze(sources []CompilerSource, flags CompilerFlags) (CompilerResult, error) {
+func (c *sashimiCompiler) Analyze(sources []CompilerSource, flags CompilerFlags) (AnalyizeResult, error) {
 	fp := plainFirstPassParser()
 	for _, v := range sources {
 		var sb strings.Builder

@@ -3,6 +3,8 @@ package build
 import (
 	"fmt"
 	"strings"
+
+	"github.com/eisenwinter/sashimi/graph"
 )
 
 type parserContext struct {
@@ -28,6 +30,10 @@ func (c *parserContext) GetWarnings() []Report {
 		ret = append(ret, r)
 	}
 	return ret
+}
+
+func (c *parserContext) GetGraph() *graph.SchemaGraph {
+	return nil
 }
 
 type lineReporter struct {
