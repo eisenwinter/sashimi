@@ -287,6 +287,34 @@ func TestRepeatAliasNoScopeError(t *testing.T) {
 	}
 }
 
+func TestRepeatAliasOutOfScopeError(t *testing.T) {
+	is := antlr.NewInputStream(`
+	sashimi:entity(pagepart) of
+		- title is text
+		- description as "Description" is text
+	sashimi:repeat(pagepart) as pp
+	sashimi:begin
+	sashimi:end
+	sashimi:display(pp.title)
+	`)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	firstPass := plainFirstPassParser()
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) == 1 {
+		if firstPass.ctx.Errors[0].Message != "Unknown property path: `pp.title`" {
+			t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+		}
+	} else {
+		t.Errorf("Consolidation created NO error when it should have.")
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
+}
+
 func TestRepeatAliasExplicitScope(t *testing.T) {
 	is := antlr.NewInputStream(`
 	sashimi:entity(pagepart) of
