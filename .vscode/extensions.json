@@ -2,9 +2,9 @@
 	// See https://go.microsoft.com/fwlink/?LinkId=827846 to learn about workspace recommendations.
 	// Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
 
-	// List of extensions which should be recommended for users of this workspace.
+	// List of extensions which should be recommended for users of this workspace. "windmilleng.vscode-go-autotest", 
 	"recommendations": [
-		"golang.go","windmilleng.vscode-go-autotest", "766b.go-outliner","mike-lischke.vscode-antlr4", "hbenl.vscode-test-explorer", "ethan-reesor.vscode-go-test-adapter"
+		"golang.go","766b.go-outliner","mike-lischke.vscode-antlr4", "hbenl.vscode-test-explorer", "ethan-reesor.vscode-go-test-adapter"
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": [
