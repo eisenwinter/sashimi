@@ -11,10 +11,10 @@ type parserContext struct {
 	Def      map[string]*defTableEntry
 	Errors   []*lineReporter
 	Warnings []*lineReporter
-	Calls    map[string]map[string]string
+	Calls    map[string]map[string][]*callEntry
 	//Hokay this is very primitive - it doesnt accout for any scoping right now
 	//so it needds to be improved once the ting works
-	KnownTypeAlias map[string]string
+	KnownTypeAlias map[string][]*aliasEntry
 }
 
 func (c *parserContext) GetErrors() []Report {
@@ -60,7 +60,7 @@ func (l *lineReporter) InternalCode() int {
 	return int(l.Code)
 }
 
-func (c *parserContext) propertyExists(path string) bool {
+func (c *parserContext) propertyExists(path string, ctx []*callEntry) bool {
 	propParts := strings.Split(path, ".")
 	if len(propParts) > 0 {
 		if val, ok := c.Def[propParts[0]]; ok {
@@ -96,24 +96,37 @@ func (c *parserContext) propertyExists(path string) bool {
 			return true
 		}
 		if alias, ok := c.KnownTypeAlias[propParts[0]]; ok {
-			propParts[0] = alias
-			return c.propertyExists(strings.Join(propParts, "."))
+			for _, av := range alias {
+				for _, cv := range ctx {
+					if av.Source == cv.Source {
+						if isValidForScope(av.Scope, cv.Scope) {
+							propParts[0] = av.UnderlyingType
+							return c.propertyExists(strings.Join(propParts, "."), ctx)
+						}
+					}
+				}
+			}
+
 		}
 	}
 	return false
 }
 
+func isValidForScope(aliasScope, contextScope string) bool {
+	return strings.HasPrefix(contextScope, aliasScope)
+}
+
 func (c *parserContext) Consolidate() {
 	for call, prop := range c.Calls {
-		for propName, source := range prop {
+		for propName, callCtx := range prop {
 			switch call {
 			case "link", "repeat", "display":
-				if !c.propertyExists(propName) {
+				if !c.propertyExists(propName, callCtx) {
 					c.Errors = append(c.Errors, &lineReporter{
 						Line:           0,
 						ErrorMarkerPos: 0,
 						Message:        fmt.Sprintf("Unknown property path: `%s`", propName),
-						Source:         source,
+						Source:         callCtx[0].Source,
 						Code:           SashminiUnknownPropertyPath,
 					})
 				}
@@ -125,7 +138,7 @@ func (c *parserContext) Consolidate() {
 							Line:           0,
 							ErrorMarkerPos: 0,
 							Message:        fmt.Sprintf("Unused layout section `%s`", propName),
-							Source:         source,
+							Source:         callCtx[0].Source,
 							Code:           SashminiUnusedLayoutSection,
 						})
 					}
@@ -135,7 +148,7 @@ func (c *parserContext) Consolidate() {
 						ErrorMarkerPos: 0,
 						Message:        fmt.Sprintf("Unused layout section `%s`", propName),
 						Code:           SashminiUnusedLayoutSection,
-						Source:         source,
+						Source:         callCtx[0].Source,
 					})
 				}
 				break
@@ -146,7 +159,7 @@ func (c *parserContext) Consolidate() {
 							Line:           0,
 							ErrorMarkerPos: 0,
 							Message:        fmt.Sprintf("Undefined layout section `%s`", propName),
-							Source:         source,
+							Source:         callCtx[0].Source,
 							Code:           SashminiUndefinedLayoutSection,
 						})
 					}
@@ -155,7 +168,7 @@ func (c *parserContext) Consolidate() {
 						Line:           0,
 						ErrorMarkerPos: 0,
 						Message:        fmt.Sprintf("Undefined layout section `%s`", propName),
-						Source:         source,
+						Source:         callCtx[0].Source,
 						Code:           SashminiUndefinedLayoutSection,
 					})
 				}

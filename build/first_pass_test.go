@@ -190,6 +190,26 @@ func TestConsolidationReference(t *testing.T) {
 	}
 }
 
+func TestRepeatExplicitHTMLScope(t *testing.T) {
+	is := antlr.NewInputStream(`
+	sashimi:entity(something) of
+		- desc as "Description" is text
+		sashimi:repeat(something) as a sashimi:begin('div:5') sashimi:begin('div:5::span:6') sashimi:display(a.desc) sashimi:end('div:5::span:6')sashimi:end('div:5')
+	`)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	firstPass := plainFirstPassParser()
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) > 0 {
+		t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
+}
+
 func TestConsolidationListReference(t *testing.T) {
 	is := antlr.NewInputStream(`
 	sashimi:entity(pagepart) of
@@ -197,7 +217,9 @@ func TestConsolidationListReference(t *testing.T) {
 	sashimi:entity(page) of
 		- title as "Pagetitle" is text
 		- part as "Description" is list entity pagepart
-	sashimi:repeat(page.part.description)
+	sashimi:repeat(page.part.description) 
+	sashimi:begin
+	sashimi:end
 	`)
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
@@ -221,6 +243,8 @@ func TestConsolidationListReferenceError(t *testing.T) {
 		- title as "Pagetitle" is text
 		- part as "Description" is list entity pagepart
 	sashimi:repeat(page.part.nonexistent)
+	sashimi:begin
+	sashimi:end
 	`)
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
@@ -240,13 +264,114 @@ func TestConsolidationListReferenceError(t *testing.T) {
 	}
 }
 
-func TestRepeatAlias(t *testing.T) {
+func TestRepeatAliasNoScopeError(t *testing.T) {
+	t.Skip("done on lexer base now")
 	is := antlr.NewInputStream(`
 	sashimi:entity(pagepart) of
 		- title is text
 		- description as "Description" is text
 	sashimi:repeat(pagepart) as pp
 	sashimi:display(pp.title)
+	`)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	firstPass := plainFirstPassParser()
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) > 0 {
+		t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
+}
+
+func TestRepeatAliasExplicitScope(t *testing.T) {
+	is := antlr.NewInputStream(`
+	sashimi:entity(pagepart) of
+		- title is text
+		- description as "Description" is text
+	sashimi:repeat(pagepart) as pp
+	sashimi:begin('r:f')
+	sashimi:display(pp.title)
+	sashimi:end('r:f')
+	`)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	firstPass := plainFirstPassParser()
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) > 0 {
+		t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
+}
+
+func TestRepeatAliasExplicitNestedScope(t *testing.T) {
+	is := antlr.NewInputStream(`
+	sashimi:entity(pagepart) of
+		- title is text
+		- description as "Description" is text
+	sashimi:repeat(pagepart) as pp
+	sashimi:begin('r')
+	sashimi:begin('r:a')
+	sashimi:begin('r:a:b')
+	sashimi:display(pp.title)
+	sashimi:end('r:a:b')
+	sashimi:end('r:a')
+	sashimi:end('r')
+	`)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	firstPass := plainFirstPassParser()
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) > 0 {
+		t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
+}
+
+func TestRepeatAliasExplicitScopeNoEndTag(t *testing.T) {
+	t.Skip("happends on token level need to fix up")
+	is := antlr.NewInputStream(`
+	sashimi:entity(pagepart) of
+		- title is text
+		- description as "Description" is text
+	sashimi:repeat(pagepart) as pp
+	sashimi:begin('r')
+	sashimi:display(pp.title)
+	`)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	firstPass := plainFirstPassParser()
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) > 0 {
+		t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
+}
+
+func TestRepeatAliasImplicitScope(t *testing.T) {
+	is := antlr.NewInputStream(`
+	sashimi:entity(pagepart) of
+		- title is text
+		- description as "Description" is text
+	sashimi:repeat(pagepart) as pp
+	sashimi:begin
+	sashimi:display(pp.title)
+	sashimi:end
 	`)
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
@@ -269,7 +394,9 @@ func TestRepeatAliasPredicate(t *testing.T) {
 		- description as "Description" is text
 		- visible is bool
 	sashimi:repeat(pagepart) as pp [x -> x]
+	sashimi:begin
 	sashimi:display(pp.description)
+	sashimi:end
 	`)
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
@@ -355,7 +482,7 @@ func TestConsolidationUndefinedDisplay(t *testing.T) {
 }
 
 func TestConsolidationUndefinedRepeat(t *testing.T) {
-	is := antlr.NewInputStream(`sashimi:repeat(project)`)
+	is := antlr.NewInputStream(`sashimi:repeat(project) sashimi:begin sashimi:end`)
 	lexer := NewSashimiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := NewSashimiParser(stream)

@@ -2,15 +2,21 @@ package build
 
 import (
 	"fmt"
+	"strings"
 )
 
 type firstPass struct {
 	*BaseSashimiListener
-	ctx     *parserContext
-	current *defTableEntry
-	p       *propertyDef
-	builder typeBuilder
-	source  string
+	ctx                   *parserContext
+	current               *defTableEntry
+	p                     *propertyDef
+	builder               typeBuilder
+	source                string
+	scopeStack            []string
+	scopeAutoIdent        int
+	loopAliasScopePending bool
+	pendingAliasType      string
+	pendingAlias          string
 }
 
 func plainFirstPassParser() *firstPass {
@@ -19,11 +25,12 @@ func plainFirstPassParser() *firstPass {
 			Def:            make(map[string]*defTableEntry),
 			Errors:         make([]*lineReporter, 0),
 			Warnings:       make([]*lineReporter, 0),
-			Calls:          make(map[string]map[string]string),
-			KnownTypeAlias: make(map[string]string),
+			Calls:          make(map[string]map[string][]*callEntry),
+			KnownTypeAlias: make(map[string][]*aliasEntry),
 		},
-		source:  "not-set",
-		builder: newTypeBuilder(),
+		source:     "not-set",
+		builder:    newTypeBuilder(),
+		scopeStack: make([]string, 0),
 	}
 }
 
@@ -33,11 +40,12 @@ func firstPassParserWithSource(source string) *firstPass {
 			Def:            make(map[string]*defTableEntry),
 			Errors:         make([]*lineReporter, 0),
 			Warnings:       make([]*lineReporter, 0),
-			Calls:          make(map[string]map[string]string),
-			KnownTypeAlias: make(map[string]string),
+			Calls:          make(map[string]map[string][]*callEntry),
+			KnownTypeAlias: make(map[string][]*aliasEntry),
 		},
-		source:  source,
-		builder: newTypeBuilder(),
+		source:     source,
+		builder:    newTypeBuilder(),
+		scopeStack: make([]string, 0),
 	}
 }
 
@@ -62,12 +70,58 @@ func (l *firstPass) EnterExport(ctx *ExportContext) {
 
 }
 
+func (l *firstPass) ExitBlock(ctx *BlockContext) {
+	if len(l.scopeStack) > 0 {
+		error := &lineReporter{
+			ErrorMarkerPos: 0,
+			Line:           0,
+			Message:        "The found start tag does not have a matching end tag. (Explicit scoping only.)",
+			Source:         l.source,
+			Code:           SashimiInvalidScopingStart,
+		}
+		l.ctx.Errors = append(l.ctx.Errors, error)
+	}
+}
+
+func (l *firstPass) getCurrentScope() string {
+	if len(l.scopeStack) == 0 {
+		return ""
+	}
+	n := len(l.scopeStack) - 1
+	return fmt.Sprintf("%s::%v", l.source, l.scopeStack[n])
+}
+
+func (l *firstPass) PushScope(scope string) {
+	l.scopeStack = append(l.scopeStack, scope)
+}
+
+func (l *firstPass) PopScope() string {
+	if len(l.scopeStack) == 0 {
+		error := &lineReporter{
+			ErrorMarkerPos: 0,
+			Line:           0,
+			Message:        "The found end tag does not have a matching start tag. (Explicit scoping only.)",
+			Source:         l.source,
+			Code:           SashimiInvalidScopingEnd,
+		}
+		l.ctx.Errors = append(l.ctx.Errors, error)
+		return ""
+	}
+	n := len(l.scopeStack) - 1
+	val := l.scopeStack[n]
+	l.scopeStack = l.scopeStack[:n]
+	return val
+
+}
+
 func (l *firstPass) EnterCommandCall(ctx *CommandCallContext) {
 	_, ok := l.ctx.Calls[ctx.COMMAND().GetText()]
 	if !ok {
-		l.ctx.Calls[ctx.COMMAND().GetText()] = make(map[string]string)
+		l.ctx.Calls[ctx.COMMAND().GetText()] = make(map[string][]*callEntry)
+		l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()] = make([]*callEntry, 0)
 	}
-	l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()] = l.source
+	entries := l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()]
+	l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()] = append(entries, &callEntry{Source: l.source, Scope: l.getCurrentScope()})
 }
 
 func (l *firstPass) EnterEntityDef(ctx *EntityDefContext) {
@@ -183,17 +237,68 @@ func (l *firstPass) EnterListDecl(c *ListDeclContext) {
 	l.builder.List()
 }
 
+func (l *firstPass) EnterLoopCall(ctx *LoopCallContext) {
+	if ctx.alias != nil {
+		l.loopAliasScopePending = true
+		l.pendingAlias = ctx.alias.GetText()
+		l.pendingAliasType = ctx.Qualifier().GetText()
+	}
+}
+
 func (l *firstPass) ExitLoopCall(ctx *LoopCallContext) {
 	//Todo we should prolly trace and validate the predicate if it even makes sense ...
 	// if !ctx.Predicate().IsEmpty() {
 	// 	fmt.Println(ctx.Predicate().GetText())
 	// }
-	if ctx.alias != nil {
-		l.ctx.KnownTypeAlias[ctx.alias.GetText()] = ctx.Qualifier().GetText()
-	}
+
 	_, ok := l.ctx.Calls[ctx.LOOP().GetText()]
 	if !ok {
-		l.ctx.Calls[ctx.LOOP().GetText()] = make(map[string]string)
+		l.ctx.Calls[ctx.LOOP().GetText()] = make(map[string][]*callEntry)
+		l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()] = make([]*callEntry, 0)
 	}
-	l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()] = l.source
+	//set awaiting with scope
+	entries := l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()]
+	l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()] = append(entries, &callEntry{Source: l.source, Scope: l.getCurrentScope()})
+}
+
+func (l *firstPass) ExitScopeBegin(ctx *ScopeBeginContext) {
+	var scopeIdent string
+	//decide if its explicit or implicit scoping
+	if ctx.SCOPEIDENT() != nil {
+		scopeIdent = strings.Trim(ctx.SCOPEIDENT().GetText(), "'")
+	} else {
+		l.scopeAutoIdent++
+		scopeIdent = fmt.Sprintf("~:%v", l.scopeAutoIdent)
+	}
+	l.PushScope(scopeIdent)
+
+	if l.loopAliasScopePending {
+		if _, ok := l.ctx.KnownTypeAlias[l.pendingAlias]; !ok {
+			l.ctx.KnownTypeAlias[l.pendingAlias] = make([]*aliasEntry, 0)
+		}
+		l.ctx.KnownTypeAlias[l.pendingAlias] = append(l.ctx.KnownTypeAlias[l.pendingAlias], &aliasEntry{
+			UnderlyingType: l.pendingAliasType,
+			Scope:          l.getCurrentScope(),
+			Source:         l.source,
+		})
+		l.loopAliasScopePending = false
+	}
+
+}
+
+func (l *firstPass) ExitScopeEnd(ctx *ScopeEndContext) {
+	scopeIdent := l.PopScope()
+	if ctx.SCOPEIDENT() != nil {
+		trimmed := strings.Trim(ctx.SCOPEIDENT().GetText(), "'")
+		if trimmed != scopeIdent {
+			error := &lineReporter{
+				ErrorMarkerPos: 0,
+				Line:           0,
+				Message:        "The found end tag has a not expected scope identifier. (Explicit scoping only.)",
+				Source:         l.source,
+				Code:           SashimiInvalidScopingEnd,
+			}
+			l.ctx.Errors = append(l.ctx.Errors, error)
+		}
+	}
 }
