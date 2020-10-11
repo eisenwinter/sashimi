@@ -52,8 +52,17 @@ type SashimiListener interface {
 	// EnterEntityDef is called when entering the entityDef production.
 	EnterEntityDef(c *EntityDefContext)
 
+	// EnterScopeBegin is called when entering the scopeBegin production.
+	EnterScopeBegin(c *ScopeBeginContext)
+
+	// EnterScopeEnd is called when entering the scopeEnd production.
+	EnterScopeEnd(c *ScopeEndContext)
+
 	// EnterCommandCall is called when entering the commandCall production.
 	EnterCommandCall(c *CommandCallContext)
+
+	// EnterBlockScope is called when entering the blockScope production.
+	EnterBlockScope(c *BlockScopeContext)
 
 	// EnterExport is called when entering the export production.
 	EnterExport(c *ExportContext)
@@ -121,8 +130,17 @@ type SashimiListener interface {
 	// ExitEntityDef is called when exiting the entityDef production.
 	ExitEntityDef(c *EntityDefContext)
 
+	// ExitScopeBegin is called when exiting the scopeBegin production.
+	ExitScopeBegin(c *ScopeBeginContext)
+
+	// ExitScopeEnd is called when exiting the scopeEnd production.
+	ExitScopeEnd(c *ScopeEndContext)
+
 	// ExitCommandCall is called when exiting the commandCall production.
 	ExitCommandCall(c *CommandCallContext)
+
+	// ExitBlockScope is called when exiting the blockScope production.
+	ExitBlockScope(c *BlockScopeContext)
 
 	// ExitExport is called when exiting the export production.
 	ExitExport(c *ExportContext)

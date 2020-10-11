@@ -96,3 +96,17 @@ func TestMultipleCommentsWithSashimiDirectiveExtraction(t *testing.T) {
 		}
 	}
 }
+
+func TestBasicRepeatScope(t *testing.T) {
+	r := strings.NewReader(TestValidHTMLLower + `<!--  sashimi:repeat(something) as a --><div><span><!-- sashimi:display(a) --></span></div>` + TestValidHTMLLower)
+	p := &htmlProcessor{}
+	var builder strings.Builder
+	err := p.extractFromHTML(r, &builder)
+	if err != nil {
+		t.Error(err)
+	}
+	if builder.Len() == 153 {
+		t.Errorf("Unexpected builder length of %v", builder.Len())
+		t.Errorf("Unexpected builder content %v", builder.String())
+	}
+}

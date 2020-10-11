@@ -110,11 +110,29 @@ func (s *BaseSashimiListener) EnterEntityDef(ctx *EntityDefContext) {}
 // ExitEntityDef is called when production entityDef is exited.
 func (s *BaseSashimiListener) ExitEntityDef(ctx *EntityDefContext) {}
 
+// EnterScopeBegin is called when production scopeBegin is entered.
+func (s *BaseSashimiListener) EnterScopeBegin(ctx *ScopeBeginContext) {}
+
+// ExitScopeBegin is called when production scopeBegin is exited.
+func (s *BaseSashimiListener) ExitScopeBegin(ctx *ScopeBeginContext) {}
+
+// EnterScopeEnd is called when production scopeEnd is entered.
+func (s *BaseSashimiListener) EnterScopeEnd(ctx *ScopeEndContext) {}
+
+// ExitScopeEnd is called when production scopeEnd is exited.
+func (s *BaseSashimiListener) ExitScopeEnd(ctx *ScopeEndContext) {}
+
 // EnterCommandCall is called when production commandCall is entered.
 func (s *BaseSashimiListener) EnterCommandCall(ctx *CommandCallContext) {}
 
 // ExitCommandCall is called when production commandCall is exited.
 func (s *BaseSashimiListener) ExitCommandCall(ctx *CommandCallContext) {}
+
+// EnterBlockScope is called when production blockScope is entered.
+func (s *BaseSashimiListener) EnterBlockScope(ctx *BlockScopeContext) {}
+
+// ExitBlockScope is called when production blockScope is exited.
+func (s *BaseSashimiListener) ExitBlockScope(ctx *BlockScopeContext) {}
 
 // EnterExport is called when production export is entered.
 func (s *BaseSashimiListener) EnterExport(ctx *ExportContext) {}
