@@ -11,10 +11,17 @@ func createNodes(def map[string]*defTableEntry) *graph.SchemaGraph {
 	nodes := make([]*graph.Node, 0)
 	for k, v := range def {
 		if v.IsDefined {
+			var card graph.CardinalityType
+			if v.IsUnique {
+				card = graph.One
+			} else {
+				card = graph.Many
+			}
 			node := &graph.Node{
-				Name:   k,
-				Fields: make([]*graph.Field, 0),
-				Edges:  make([]*graph.Edge, 0),
+				Name:         k,
+				Fields:       make([]*graph.Field, 0),
+				Edges:        make([]*graph.Edge, 0),
+				ConstraintTo: card,
 			}
 			for n, p := range v.Properties {
 				typeInfo := p.Type
@@ -67,8 +74,9 @@ func createNodes(def map[string]*defTableEntry) *graph.SchemaGraph {
 						Type:  string(SashimiTypeText),
 					}
 					nodes = append(nodes, &graph.Node{
-						Name:   edgeName,
-						Fields: []*graph.Field{valueField},
+						Name:         edgeName,
+						ConstraintTo: graph.Many,
+						Fields:       []*graph.Field{valueField},
 					})
 					node.Fields = append(node.Fields, field)
 					break
@@ -92,8 +100,9 @@ func createNodes(def map[string]*defTableEntry) *graph.SchemaGraph {
 							Type:  string(hkt.Type()),
 						}
 						nodes = append(nodes, &graph.Node{
-							Name:   edgeName,
-							Fields: []*graph.Field{valueField},
+							Name:         edgeName,
+							ConstraintTo: graph.Many,
+							Fields:       []*graph.Field{valueField},
 						})
 					}
 					if hkt.Kind() == SashimiReference {

@@ -7,11 +7,6 @@ type defTableEntry struct {
 	Properties map[string]*propertyDef
 }
 
-type callEntry struct {
-	Scope  string
-	Source string
-}
-
 type aliasEntry struct {
 	Scope          string
 	Source         string

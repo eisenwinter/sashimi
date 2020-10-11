@@ -11,7 +11,7 @@ type parserContext struct {
 	Def      map[string]*defTableEntry
 	Errors   []*lineReporter
 	Warnings []*lineReporter
-	Calls    map[string]map[string][]*callEntry
+	Calls    map[string]map[string]map[string][]string
 	//Hokay this is very primitive - it doesnt accout for any scoping right now
 	//so it needds to be improved once the ting works
 	KnownTypeAlias map[string][]*aliasEntry
@@ -60,7 +60,7 @@ func (l *lineReporter) InternalCode() int {
 	return int(l.Code)
 }
 
-func (c *parserContext) propertyExists(path string, ctx []*callEntry) bool {
+func (c *parserContext) propertyExists(path string, callSource string, callScopes []string) bool {
 	propParts := strings.Split(path, ".")
 	if len(propParts) > 0 {
 		if val, ok := c.Def[propParts[0]]; ok {
@@ -97,11 +97,11 @@ func (c *parserContext) propertyExists(path string, ctx []*callEntry) bool {
 		}
 		if alias, ok := c.KnownTypeAlias[propParts[0]]; ok {
 			for _, av := range alias {
-				for _, cv := range ctx {
-					if av.Source == cv.Source {
-						if isValidForScope(av.Scope, cv.Scope) {
+				if av.Source == callSource {
+					for _, scope := range callScopes {
+						if isValidForScope(av.Scope, scope) {
 							propParts[0] = av.UnderlyingType
-							return c.propertyExists(strings.Join(propParts, "."), ctx)
+							return c.propertyExists(strings.Join(propParts, "."), callSource, callScopes)
 						}
 					}
 				}
@@ -119,61 +119,64 @@ func isValidForScope(aliasScope, contextScope string) bool {
 func (c *parserContext) Consolidate() {
 	for call, prop := range c.Calls {
 		for propName, callCtx := range prop {
-			switch call {
-			case "link", "repeat", "display":
-				if !c.propertyExists(propName, callCtx) {
-					c.Errors = append(c.Errors, &lineReporter{
-						Line:           0,
-						ErrorMarkerPos: 0,
-						Message:        fmt.Sprintf("Unknown property path: `%s`", propName),
-						Source:         callCtx[0].Source,
-						Code:           SashminiUnknownPropertyPath,
-					})
-				}
-				break
-			case "layout_section":
-				if layout, ok := c.Calls["layout"]; ok {
-					if _, ok := layout[propName]; !ok {
+			for source, scopes := range callCtx {
+				switch call {
+				case "link", "repeat", "display":
+					if !c.propertyExists(propName, source, scopes) {
+						c.Errors = append(c.Errors, &lineReporter{
+							Line:           0,
+							ErrorMarkerPos: 0,
+							Message:        fmt.Sprintf("Unknown property path: `%s`", propName),
+							Source:         source,
+							Code:           SashminiUnknownPropertyPath,
+						})
+					}
+					break
+				case "layout_section":
+					if layout, ok := c.Calls["layout"]; ok {
+						if _, ok := layout[propName]; !ok {
+							c.Warnings = append(c.Warnings, &lineReporter{
+								Line:           0,
+								ErrorMarkerPos: 0,
+								Message:        fmt.Sprintf("Unused layout section `%s`", propName),
+								Source:         source,
+								Code:           SashminiUnusedLayoutSection,
+							})
+						}
+					} else {
 						c.Warnings = append(c.Warnings, &lineReporter{
 							Line:           0,
 							ErrorMarkerPos: 0,
 							Message:        fmt.Sprintf("Unused layout section `%s`", propName),
-							Source:         callCtx[0].Source,
 							Code:           SashminiUnusedLayoutSection,
+							Source:         source,
 						})
 					}
-				} else {
-					c.Warnings = append(c.Warnings, &lineReporter{
-						Line:           0,
-						ErrorMarkerPos: 0,
-						Message:        fmt.Sprintf("Unused layout section `%s`", propName),
-						Code:           SashminiUnusedLayoutSection,
-						Source:         callCtx[0].Source,
-					})
-				}
-				break
-			case "layout":
-				if layout, ok := c.Calls["layout_section"]; ok {
-					if _, ok := layout[propName]; !ok {
+					break
+				case "layout":
+					if layout, ok := c.Calls["layout_section"]; ok {
+						if _, ok := layout[propName]; !ok {
+							c.Errors = append(c.Errors, &lineReporter{
+								Line:           0,
+								ErrorMarkerPos: 0,
+								Message:        fmt.Sprintf("Undefined layout section `%s`", propName),
+								Source:         source,
+								Code:           SashminiUndefinedLayoutSection,
+							})
+						}
+					} else {
 						c.Errors = append(c.Errors, &lineReporter{
 							Line:           0,
 							ErrorMarkerPos: 0,
 							Message:        fmt.Sprintf("Undefined layout section `%s`", propName),
-							Source:         callCtx[0].Source,
+							Source:         source,
 							Code:           SashminiUndefinedLayoutSection,
 						})
 					}
-				} else {
-					c.Errors = append(c.Errors, &lineReporter{
-						Line:           0,
-						ErrorMarkerPos: 0,
-						Message:        fmt.Sprintf("Undefined layout section `%s`", propName),
-						Source:         callCtx[0].Source,
-						Code:           SashminiUndefinedLayoutSection,
-					})
+					break
 				}
-				break
 			}
+
 		}
 
 	}

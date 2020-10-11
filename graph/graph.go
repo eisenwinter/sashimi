@@ -21,9 +21,10 @@ type Edge struct {
 }
 
 type Node struct {
-	Name   string
-	Fields []*Field
-	Edges  []*Edge
+	Name         string
+	ConstraintTo CardinalityType
+	Fields       []*Field
+	Edges        []*Edge
 }
 
 type SchemaGraph struct {

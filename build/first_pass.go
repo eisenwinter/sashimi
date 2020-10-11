@@ -25,7 +25,7 @@ func plainFirstPassParser() *firstPass {
 			Def:            make(map[string]*defTableEntry),
 			Errors:         make([]*lineReporter, 0),
 			Warnings:       make([]*lineReporter, 0),
-			Calls:          make(map[string]map[string][]*callEntry),
+			Calls:          make(map[string]map[string]map[string][]string),
 			KnownTypeAlias: make(map[string][]*aliasEntry),
 		},
 		source:     "not-set",
@@ -40,7 +40,7 @@ func firstPassParserWithSource(source string) *firstPass {
 			Def:            make(map[string]*defTableEntry),
 			Errors:         make([]*lineReporter, 0),
 			Warnings:       make([]*lineReporter, 0),
-			Calls:          make(map[string]map[string][]*callEntry),
+			Calls:          make(map[string]map[string]map[string][]string),
 			KnownTypeAlias: make(map[string][]*aliasEntry),
 		},
 		source:     source,
@@ -115,13 +115,16 @@ func (l *firstPass) PopScope() string {
 }
 
 func (l *firstPass) EnterCommandCall(ctx *CommandCallContext) {
-	_, ok := l.ctx.Calls[ctx.COMMAND().GetText()]
-	if !ok {
-		l.ctx.Calls[ctx.COMMAND().GetText()] = make(map[string][]*callEntry)
-		l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()] = make([]*callEntry, 0)
+
+	if _, ok := l.ctx.Calls[ctx.COMMAND().GetText()]; !ok {
+		l.ctx.Calls[ctx.COMMAND().GetText()] = make(map[string]map[string][]string)
 	}
-	entries := l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()]
-	l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()] = append(entries, &callEntry{Source: l.source, Scope: l.getCurrentScope()})
+	if _, ok := l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()]; !ok {
+		l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()] = make(map[string][]string, 0)
+		l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()][l.source] = make([]string, 0)
+	}
+	entries := l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()][l.source]
+	l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()][l.source] = append(entries, l.getCurrentScope())
 }
 
 func (l *firstPass) EnterEntityDef(ctx *EntityDefContext) {
@@ -251,14 +254,17 @@ func (l *firstPass) ExitLoopCall(ctx *LoopCallContext) {
 	// 	fmt.Println(ctx.Predicate().GetText())
 	// }
 
-	_, ok := l.ctx.Calls[ctx.LOOP().GetText()]
-	if !ok {
-		l.ctx.Calls[ctx.LOOP().GetText()] = make(map[string][]*callEntry)
-		l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()] = make([]*callEntry, 0)
+	if _, ok := l.ctx.Calls[ctx.LOOP().GetText()]; !ok {
+		l.ctx.Calls[ctx.LOOP().GetText()] = make(map[string]map[string][]string)
 	}
+	if _, ok := l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()]; !ok {
+		l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()] = make(map[string][]string, 0)
+		l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()][l.source] = make([]string, 0)
+	}
+
 	//set awaiting with scope
-	entries := l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()]
-	l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()] = append(entries, &callEntry{Source: l.source, Scope: l.getCurrentScope()})
+	entries := l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()][l.source]
+	l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()][l.source] = append(entries, l.getCurrentScope())
 }
 
 func (l *firstPass) ExitScopeBegin(ctx *ScopeBeginContext) {
