@@ -63,6 +63,7 @@ func createNodes(def map[string]*defTableEntry) *graph.SchemaGraph {
 					edgeName := fmt.Sprintf("@@%s__%s", k, n)
 					node.Edges = append(node.Edges, &graph.Edge{
 						To:          edgeName,
+						From:        fmt.Sprintf("%s.%s", k, n),
 						Cardinality: graph.Many,
 					})
 					for _, metaval := range meta {
@@ -82,7 +83,8 @@ func createNodes(def map[string]*defTableEntry) *graph.SchemaGraph {
 					break
 				case SashimiReference:
 					node.Edges = append(node.Edges, &graph.Edge{
-						To:          fmt.Sprintf("%s.%s->%s", k, n, typeInfo.ResolveTypeName()),
+						From:        fmt.Sprintf("%s.%s", k, n),
+						To:          typeInfo.ResolveTypeName(),
 						Cardinality: graph.One,
 					})
 					break
@@ -91,6 +93,7 @@ func createNodes(def map[string]*defTableEntry) *graph.SchemaGraph {
 					if hkt.Kind() == SashimiScalar {
 						edgeName := fmt.Sprintf("@@%s__%s", k, n)
 						node.Edges = append(node.Edges, &graph.Edge{
+							From:        fmt.Sprintf("%s.%s", k, n),
 							To:          edgeName,
 							Cardinality: graph.Many,
 						})
@@ -107,7 +110,8 @@ func createNodes(def map[string]*defTableEntry) *graph.SchemaGraph {
 					}
 					if hkt.Kind() == SashimiReference {
 						node.Edges = append(node.Edges, &graph.Edge{
-							To:          fmt.Sprintf("%s.%s->%s", k, n, hkt.ResolveTypeName()),
+							From:        fmt.Sprintf("%s.%s", k, n),
+							To:          hkt.ResolveTypeName(),
 							Cardinality: graph.Many,
 						})
 					}
@@ -120,5 +124,5 @@ func createNodes(def map[string]*defTableEntry) *graph.SchemaGraph {
 		}
 
 	}
-	return &graph.SchemaGraph{nodes}
+	return &graph.SchemaGraph{Nodes: nodes}
 }

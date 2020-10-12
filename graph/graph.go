@@ -16,6 +16,7 @@ type Field struct {
 }
 
 type Edge struct {
+	From        string
 	To          string
 	Cardinality CardinalityType
 }

@@ -33,7 +33,7 @@ func TestSuccessfulEntityRun(t *testing.T) {
 		if !val.IsDefined {
 			t.Error("IsDefined not set on defined entity")
 		}
-		if val.Identfier != "project" {
+		if val.Identifier != "project" {
 			t.Error("Identifier not set correctly")
 		}
 		if len(val.Properties) != 7 {
@@ -70,7 +70,7 @@ func TestSuccessfulEntitiesRun(t *testing.T) {
 		if !val.IsDefined {
 			t.Error("IsDefined not set on defined entity")
 		}
-		if val.Identfier != "project" {
+		if val.Identifier != "project" {
 			t.Error("Identifier not set correctly")
 		}
 		if len(val.Properties) != 1 {
@@ -86,7 +86,7 @@ func TestSuccessfulEntitiesRun(t *testing.T) {
 		if !val.IsDefined {
 			t.Error("IsDefined not set on defined entity")
 		}
-		if val.Identfier != "employee" {
+		if val.Identifier != "employee" {
 			t.Error("Identifier not set correctly")
 		}
 		if len(val.Properties) != 1 {

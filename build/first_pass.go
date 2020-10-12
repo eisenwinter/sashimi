@@ -143,7 +143,7 @@ func (l *firstPass) EnterEntityDef(ctx *EntityDefContext) {
 		l.current = val
 	} else {
 		table := &defTableEntry{
-			Identfier:  identifier,
+			Identifier: identifier,
 			Properties: make(map[string]*propertyDef),
 			IsUnique:   ctx.UNIQUE() != nil,
 		}
