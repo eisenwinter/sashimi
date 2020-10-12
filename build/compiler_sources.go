@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+//CompilerSource represents a data input source for the compiler
 type CompilerSource interface {
 	Load() (rc io.ReadCloser, err error)
 	Name() string

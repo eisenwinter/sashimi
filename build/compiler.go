@@ -20,6 +20,7 @@ const (
 	OptimizeOff
 )
 
+//Report contains hints to certain parts of the source
 type Report interface {
 	OnLine() int
 	OnPos() int
@@ -27,20 +28,24 @@ type Report interface {
 	InternalCode() int
 }
 
+//CompilerResult contains any warnings or errors generated during a pass
 type CompilerResult interface {
 	GetErrors() []Report
 	GetWarnings() []Report
 }
 
+//AnalyizeResult contains the result of a analyze run, it may contain errors or warnings as well as the generated schema graph for the entities
 type AnalyizeResult interface {
 	CompilerResult
 	GetGraph() *graph.SchemaGraph
 }
 
+//Compiler is a sashimi compiler
 type Compiler interface {
 	Analyze(sources []CompilerSource, flags CompilerFlags) (AnalyizeResult, error)
 }
 
+//NewCompiler returns a new instance of a sashimi compiler
 func NewCompiler() Compiler {
 	return &sashimiCompiler{htmlProc: &htmlProcessor{}}
 }
