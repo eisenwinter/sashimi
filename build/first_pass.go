@@ -27,6 +27,7 @@ func plainFirstPassParser() *firstPass {
 			Warnings:       make([]*lineReporter, 0),
 			Calls:          make(map[string]map[string]map[string][]string),
 			KnownTypeAlias: make(map[string][]*aliasEntry),
+			KnownGlobals:   map[string]bool{"@pages": true},
 		},
 		source:     "not-set",
 		builder:    newTypeBuilder(),
@@ -42,6 +43,7 @@ func firstPassParserWithSource(source string) *firstPass {
 			Warnings:       make([]*lineReporter, 0),
 			Calls:          make(map[string]map[string]map[string][]string),
 			KnownTypeAlias: make(map[string][]*aliasEntry),
+			KnownGlobals:   map[string]bool{"@pages": true},
 		},
 		source:     source,
 		builder:    newTypeBuilder(),
@@ -66,7 +68,6 @@ func (l *firstPass) Dump() {
 }
 
 func (l *firstPass) EnterExport(ctx *ExportContext) {
-	fmt.Println("Parsing sashimi block")
 
 }
 
@@ -191,7 +192,6 @@ func (l *firstPass) EnterAliasDecl(c *AliasDeclContext) {
 }
 
 func (l *firstPass) ExitExport(ctx *ExportContext) {
-	fmt.Println("Parsed sashimi block")
 	if l.current != nil {
 		l.current.IsDefined = true
 	}
@@ -244,7 +244,12 @@ func (l *firstPass) EnterLoopCall(ctx *LoopCallContext) {
 	if ctx.alias != nil {
 		l.loopAliasScopePending = true
 		l.pendingAlias = ctx.alias.GetText()
-		l.pendingAliasType = ctx.Qualifier().GetText()
+		if ctx.GLOBAL() != nil {
+			l.pendingAliasType = ctx.GLOBAL().GetText()
+		} else {
+			l.pendingAliasType = ctx.Qualifier().GetText()
+		}
+
 	}
 }
 
@@ -257,14 +262,22 @@ func (l *firstPass) ExitLoopCall(ctx *LoopCallContext) {
 	if _, ok := l.ctx.Calls[ctx.LOOP().GetText()]; !ok {
 		l.ctx.Calls[ctx.LOOP().GetText()] = make(map[string]map[string][]string)
 	}
-	if _, ok := l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()]; !ok {
-		l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()] = make(map[string][]string, 0)
-		l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()][l.source] = make([]string, 0)
+	var ref string
+	if ctx.GLOBAL() != nil {
+		ref = ctx.GLOBAL().GetText()
+	} else {
+		ref = ctx.Qualifier().GetText()
+	}
+
+	if _, ok := l.ctx.Calls[ctx.LOOP().GetText()][ref]; !ok {
+		l.ctx.Calls[ctx.LOOP().GetText()][ref] = make(map[string][]string, 0)
+		l.ctx.Calls[ctx.LOOP().GetText()][ref][l.source] = make([]string, 0)
 	}
 
 	//set awaiting with scope
-	entries := l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()][l.source]
-	l.ctx.Calls[ctx.LOOP().GetText()][ctx.Qualifier().GetText()][l.source] = append(entries, l.getCurrentScope())
+	entries := l.ctx.Calls[ctx.LOOP().GetText()][ref][l.source]
+	l.ctx.Calls[ctx.LOOP().GetText()][ref][l.source] = append(entries, l.getCurrentScope())
+
 }
 
 func (l *firstPass) ExitScopeBegin(ctx *ScopeBeginContext) {

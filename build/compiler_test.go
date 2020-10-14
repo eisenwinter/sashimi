@@ -24,7 +24,7 @@ func (t *testMockCompilerSource) Format() string {
 }
 
 func TestAnalyzeEmptySourceRun(t *testing.T) {
-	c := NewCompiler()
+	c := NewCompiler(&mockNodeResolver{})
 	es := make([]CompilerSource, 0)
 	r, err := c.Analyze(es, HyperCritical&OptimizeOff)
 	if err != nil {
@@ -36,7 +36,7 @@ func TestAnalyzeEmptySourceRun(t *testing.T) {
 }
 
 func TestAnalyzeSushieRun(t *testing.T) {
-	c := NewCompiler()
+	c := NewCompiler(&mockNodeResolver{})
 	es := make([]CompilerSource, 0)
 	es = append(es, &testMockCompilerSource{
 		f: "sushi",
@@ -65,7 +65,7 @@ func TestAnalyzeSushieRun(t *testing.T) {
 }
 
 func TestAnalyzeTriggerHTMLExtraction(t *testing.T) {
-	c := NewCompiler()
+	c := NewCompiler(&mockNodeResolver{})
 	es := make([]CompilerSource, 0)
 	es = append(es, &testMockCompilerSource{
 		f:       "html",
@@ -91,7 +91,7 @@ func TestAnalyzeTriggerHTMLExtraction(t *testing.T) {
 }
 
 func TestAnalyzeHTMLExtraction(t *testing.T) {
-	c := NewCompiler()
+	c := NewCompiler(&mockNodeResolver{})
 	es := make([]CompilerSource, 0)
 	es = append(es, &testMockCompilerSource{
 		f:       "html",

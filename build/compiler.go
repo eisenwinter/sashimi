@@ -6,6 +6,7 @@ import (
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"github.com/eisenwinter/sashimi/graph"
+	"github.com/eisenwinter/sashimi/resolver"
 )
 
 //CompilerFlags represent possible flags the compiler takes
@@ -40,18 +41,25 @@ type AnalyizeResult interface {
 	GetGraph() *graph.SchemaGraph
 }
 
+//CompileResult contains the result of the compile run
+type CompileResult interface {
+	CompilerResult
+}
+
 //Compiler is a sashimi compiler
 type Compiler interface {
 	Analyze(sources []CompilerSource, flags CompilerFlags) (AnalyizeResult, error)
+	Compile(sources []CompilerSource, out string, flags CompilerFlags) (CompileResult, error)
 }
 
 //NewCompiler returns a new instance of a sashimi compiler
-func NewCompiler() Compiler {
-	return &sashimiCompiler{htmlProc: &htmlProcessor{}}
+func NewCompiler(nodeResolver resolver.NodeResolver) Compiler {
+	return &sashimiCompiler{htmlProc: &htmlProcessor{}, nodeResolver: nodeResolver}
 }
 
 type sashimiCompiler struct {
-	htmlProc *htmlProcessor
+	htmlProc     *htmlProcessor
+	nodeResolver resolver.NodeResolver
 }
 
 func (c *sashimiCompiler) Analyze(sources []CompilerSource, flags CompilerFlags) (AnalyizeResult, error) {
@@ -83,4 +91,8 @@ func (c *sashimiCompiler) Analyze(sources []CompilerSource, flags CompilerFlags)
 	}
 	fp.ctx.Consolidate()
 	return fp.ctx, nil
+}
+
+func (c *sashimiCompiler) Compile(sources []CompilerSource, out string, flags CompilerFlags) (CompileResult, error) {
+	return nil, nil
 }

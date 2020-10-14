@@ -339,6 +339,30 @@ func TestRepeatAliasExplicitScope(t *testing.T) {
 	}
 }
 
+func TestRepeatAliasGlobalExplicitScope(t *testing.T) {
+	is := antlr.NewInputStream(`
+	sashimi:entity(pagepart) of
+		- title is text
+		- description as "Description" is text
+	sashimi:repeat(@pages) as pp
+	sashimi:begin('r:f')
+	sashimi:display(pp.title)
+	sashimi:end('r:f')
+	`)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	firstPass := plainFirstPassParser()
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) > 0 {
+		t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
+}
+
 func TestRepeatAliasExplicitNestedScope(t *testing.T) {
 	is := antlr.NewInputStream(`
 	sashimi:entity(pagepart) of

@@ -15,6 +15,7 @@ type parserContext struct {
 	//Hokay this is very primitive - it doesnt accout for any scoping right now
 	//so it needds to be improved once the ting works
 	KnownTypeAlias map[string][]*aliasEntry
+	KnownGlobals   map[string]bool
 }
 
 func (c *parserContext) GetErrors() []Report {
@@ -63,6 +64,9 @@ func (l *lineReporter) InternalCode() int {
 func (c *parserContext) propertyExists(path string, callSource string, callScopes []string) bool {
 	propParts := strings.Split(path, ".")
 	if len(propParts) > 0 {
+		if _, ok := c.KnownGlobals[propParts[0]]; ok {
+			return true
+		}
 		if val, ok := c.Def[propParts[0]]; ok {
 			for i := 1; i < len(propParts); i++ {
 				t, ok := val.Properties[propParts[i]]
