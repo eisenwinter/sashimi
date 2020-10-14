@@ -15,6 +15,9 @@ type secondPass struct {
 		- for each link directive we look ahead for the next a tag (the next tag SHOULD be an a tag)
 		- for each display directive we try to resolve the entrity and replace any block content that currently exists with the resolved content
 
+	for nested repeats we resolve inner to most outter scope
+	we can basically discard any entity definitions at this point - all we need are command and loop calls
+
 	well this should be easy peasy lemon squeezy - but i guess its going to be hard hard lemon hard.
 
 
