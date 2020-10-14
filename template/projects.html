@@ -1,6 +1,7 @@
 <!-- sashimi:layout(main) -->
-<!-- sashimi:repeat(project) -->
-  <div class="project-item">
-	<h1><!-- sashimi:display(project.title) --> MyProject </h1>
-	
-  </div>
+<!-- sashimi:repeat(project) as p -->
+<div class="project-item">
+	<h1><!-- sashimi:display(p.title) --> MyProject </h1>
+   <!-- sashimi:link(p) -->
+   <a href="#"></a>
+</div>
