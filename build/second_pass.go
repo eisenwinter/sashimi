@@ -1,7 +1,17 @@
 package build
 
+import "github.com/antlr/antlr4/runtime/Go/antlr"
+
 type secondPass struct {
 	*BaseSashimiListener
+}
+
+func interpret(source string) antlr.Tree {
+	is := antlr.NewInputStream(source)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	return p.Block()
 }
 
 /*
@@ -22,14 +32,3 @@ type secondPass struct {
 
 
 */
-func (s *secondPass) EnterLoopCall(ctx *LoopCallContext) {}
-
-func (s *secondPass) ExitLoopCall(ctx *LoopCallContext) {}
-
-func (s *secondPass) EnterCommandCall(ctx *CommandCallContext) {}
-
-func (s *secondPass) ExitCommandCall(ctx *CommandCallContext) {}
-
-func (s *secondPass) EnterBlockScope(ctx *BlockScopeContext) {}
-
-func (s *secondPass) ExitBlockScope(ctx *BlockScopeContext) {}

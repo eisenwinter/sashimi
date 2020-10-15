@@ -16,7 +16,7 @@ func (m *mockNodeResolver) Resolve(nodeType string, predicate resolver.Predicate
 	panic("nan")
 }
 
-var dummyProject = map[string]string{
+var testDummyProject = map[string]string{
 	"page.html": `<!-- sashimi:layout(main) -->
 	<!--
 	  sashimi:entity(page) of
@@ -41,9 +41,9 @@ var dummyProject = map[string]string{
 	 - description as "Description" is text
 	 - image as "Main Image" is picture
 	 - starCount as "Star Count" is number
-	 - category as "Category" is oneOf("Archtiecture,"Misc.")
+	 - category as "Category" is oneOf("Archtiecture","Misc")
 	 - tags as "Tags" is manyOf("Cheap","Fast","Good")
-	 - gallery as "Gallery" is list of picture
+	 - gallery as "Gallery" is list picture
   -->
   <div>
     <!-- sashimi:display(project.title) -->
