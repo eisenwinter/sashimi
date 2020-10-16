@@ -23,15 +23,20 @@ type htmlGenerator struct {
 	sibling           *html.Node
 	currentParent     *html.Node
 	iteration         int
+	callback          func(*html.Node) *html.Node
 }
 
-func (h *htmlGenerator) parseDocument(reader io.Reader) (*html.Node, error) {
+func (h *htmlGenerator) parseDocument(reader io.Reader) ([]*html.Node, error) {
 	root, e := html.Parse(reader)
+	// roots, e := html.ParseFragment(reader, &html.Node{
+	// 	Type:     html.ElementNode,
+	// 	Data:     "div",
+	// 	DataAtom: atom.Div})
 	if e != nil {
 		return nil, e
 	}
 	h.scopeParentNodes = make(map[string]*html.Node)
-	return root, nil
+	return []*html.Node{root}, nil
 }
 
 func (h *htmlGenerator) processScope(n *html.Node, scope string) *html.Node {
@@ -53,7 +58,13 @@ func (h *htmlGenerator) parseScopedBlock(n, p *html.Node, scope string, i int) {
 			}
 		}
 	} else {
-		p.AppendChild(h.copyNode(n))
+		copy := h.copyNode(n)
+		copy.Data = "p"
+		copy.AppendChild(&html.Node{
+			Type: html.TextNode,
+			Data: "This is the replacing content",
+		})
+		p.AppendChild(copy)
 	}
 	c := n.FirstChild
 	for c != nil {
@@ -62,9 +73,18 @@ func (h *htmlGenerator) parseScopedBlock(n, p *html.Node, scope string, i int) {
 	}
 }
 
+func (h *htmlGenerator) Traverse(nodes []*html.Node) *html.Node {
+	rootNode := &html.Node{
+		Type: html.DocumentNode,
+	}
+	for _, n := range nodes {
+		h.traverse(n, rootNode)
+	}
+	return rootNode
+}
+
 func (h *htmlGenerator) traverse(n, p *html.Node) {
 	h.iteration++
-	h.currentParent = p
 	if n.Type == html.CommentNode {
 		if strings.Contains(n.Data, "sashimi:") {
 			//parse
@@ -76,7 +96,8 @@ func (h *htmlGenerator) traverse(n, p *html.Node) {
 					h.scopeStack = make([]string, 0)
 				}
 				h.requireScopeStack = true
-				scope := fmt.Sprintf("%s:%v", h.sibling.Data, h.iteration)
+				//scope := fmt.Sprintf("%s:%v", h.sibling.Data, h.iteration)
+				scope := fmt.Sprintf("%v", h.iteration)
 				implicitDirective := fmt.Sprintf("sashimi:begin('%s')", scope)
 				sashimiCode += implicitDirective
 				//todo: add to loop stack and iterate in loop enter
@@ -84,17 +105,21 @@ func (h *htmlGenerator) traverse(n, p *html.Node) {
 				//h.parseScopedBlock(h.sibling, scope, 0)
 				implicitDirective = fmt.Sprintf("sashimi:end('%s')", scope)
 				sashimiCode += implicitDirective
-				//n = n.NextSibling
-
 			}
 			tree := interpret(sashimiCode)
 			fmt.Println(tree)
 
 			antlr.ParseTreeWalkerDefault.Walk(h, tree)
-
+			p.AppendChild(h.copyNode(n))
 		}
 	} else {
-		p.AppendChild(h.copyNode(n))
+		if h.callback != nil {
+			fmt.Println("exec callback")
+			p.AppendChild(h.callback(n))
+		} else {
+			p.AppendChild(h.copyNode(n))
+		}
+		//p.AppendChild(h.copyNode(n))
 	}
 	c := n.FirstChild
 	for c != nil {
@@ -167,8 +192,16 @@ func (h *htmlGenerator) ExitScopeBegin(ctx *ScopeBeginContext) {
 	if ctx.SCOPEIDENT() != nil {
 		scopeIdent := strings.Trim(ctx.SCOPEIDENT().GetText(), "'")
 		h.scopeStack = append(h.scopeStack, scopeIdent)
-		n := h.processScope(h.sibling, scopeIdent)
-		h.currentParent.AppendChild(n)
+		h.callback = func(n *html.Node) *html.Node {
+			if n.Type != html.ElementNode {
+				return h.copyNode(n)
+			}
+			r := h.processScope(n, scopeIdent)
+			n.FirstChild = nil
+			n.LastChild = nil
+			h.callback = nil
+			return r
+		}
 	}
 }
 

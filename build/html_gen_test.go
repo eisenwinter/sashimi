@@ -17,14 +17,14 @@ func TestValidHtmlWithoutDirective(t *testing.T) {
 	if err != nil {
 		t.Errorf("Could not parse HTML document: %s", val)
 	}
-	rootNode := htmlGen.copyNode(dom)
-	htmlGen.traverse(dom, rootNode)
+	rootNode := htmlGen.Traverse(dom)
 	buf := new(bytes.Buffer)
 	err = html.Render(buf, rootNode)
 	if err != nil {
 		t.Errorf("Could not render processed HTML docuemnt: %s", val)
 	}
 	result := strings.TrimSpace(buf.String())
+	fmt.Println(result)
 	if len(result) == 0 {
 		t.Error("Render output is empty")
 	}
@@ -38,8 +38,7 @@ func TestValidHtmlNestedWithoutDirective(t *testing.T) {
 	if err != nil {
 		t.Errorf("Could not parse HTML document: %s", val)
 	}
-	rootNode := htmlGen.copyNode(dom)
-	htmlGen.traverse(dom, rootNode)
+	rootNode := htmlGen.Traverse(dom)
 	buf := new(bytes.Buffer)
 	err = html.Render(buf, rootNode)
 	if err != nil {
@@ -61,8 +60,7 @@ func TestValidHtmlNestedTwiceWithoutDirective(t *testing.T) {
 	if err != nil {
 		t.Errorf("Could not parse HTML document: %s", val)
 	}
-	rootNode := htmlGen.copyNode(dom)
-	htmlGen.traverse(dom, rootNode)
+	rootNode := htmlGen.Traverse(dom)
 	buf := new(bytes.Buffer)
 	err = html.Render(buf, rootNode)
 	if err != nil {
@@ -88,8 +86,7 @@ func TestProjectSite(t *testing.T) {
 	if err != nil {
 		t.Errorf("Could not parse HTML document: %s", val)
 	}
-	rootNode := htmlGen.copyNode(dom)
-	htmlGen.traverse(dom, rootNode)
+	rootNode := htmlGen.Traverse(dom)
 	buf := new(bytes.Buffer)
 	err = html.Render(buf, rootNode)
 	if err != nil {
@@ -113,8 +110,7 @@ func TestProjectsSite(t *testing.T) {
 	if err != nil {
 		t.Errorf("Could not parse HTML document: %s", val)
 	}
-	rootNode := htmlGen.copyNode(dom)
-	htmlGen.traverse(dom, rootNode)
+	rootNode := htmlGen.Traverse(dom)
 	buf := new(bytes.Buffer)
 	err = html.Render(buf, rootNode)
 	if err != nil {

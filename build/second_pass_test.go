@@ -17,7 +17,7 @@ func (m *mockNodeResolver) Resolve(nodeType string, predicate resolver.Predicate
 }
 
 var testDummyProject = map[string]string{
-	"page.html": `<!-- sashimi:layout(main) -->
+	"page.html": `<!doctype html><html><body><!-- sashimi:layout(main) -->
 	<!--
 	  sashimi:entity(page) of
 	   - title as "Pagetitle" is text
@@ -27,14 +27,15 @@ var testDummyProject = map[string]string{
 	<div class="md-content">
 	  This content wil be replaced with the page contents et al
 	</div>`,
-	"projects.html": `<!-- sashimi:layout(main) -->
+	"projects.html": `<html><body>
+	<!-- sashimi:layout(main) -->
 	<!-- sashimi:repeat(project) as p -->
 	<div class="project-item">
 	   <!-- sashimi:display(p.title) -->
 	   <h1>MyProject </h1>
 	   <!-- sashimi:link(p) -->
 	   <a href="#"></a>
-	</div>`,
+	</div></body></html>`,
 	"project.html": `<!-- 
 	sashimi:entity(project) of
 	 - title as "Project Title" is text
@@ -45,6 +46,8 @@ var testDummyProject = map[string]string{
 	 - tags as "Tags" is manyOf("Cheap","Fast","Good")
 	 - gallery as "Gallery" is list picture
   -->
+  <!doctype html>
+  <html><body>
   <div>
     <!-- sashimi:display(project.title) -->
 	<h1>MyProject </h1>
@@ -52,7 +55,7 @@ var testDummyProject = map[string]string{
 	<p>
 	  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, placeat praesentium, cum tempore in tenetur quo voluptate eum ipsa commodi laudantium assumenda vero modi itaque sunt vel qui est ut.
 	</p>
-  </div>`,
+  </div></body></html>`,
 	"shared/_layout.html": `<!doctype html>
 	<html class="no-js" lang="">
 	<head>
