@@ -20,8 +20,10 @@ type secondPass struct {
 
 	well this should be easy peasy lemon squeezy - but i guess its going to be hard hard lemon hard.
 
-
+	further we could store the offset within the html of each call as well as scope levels in the analyze run to get a better understanding
+	but idk if thats necassary we could as well just get offsets here tbd
 */
+
 func (s *secondPass) EnterLoopCall(ctx *LoopCallContext) {}
 
 func (s *secondPass) ExitLoopCall(ctx *LoopCallContext) {}
