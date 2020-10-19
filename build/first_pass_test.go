@@ -165,6 +165,68 @@ func TestConsolidation(t *testing.T) {
 	if len(firstPass.ctx.Warnings) > 0 {
 		t.Errorf("Consolidation created unwanted warning.")
 	}
+	if len(firstPass.ctx.ProcessedSources) != 1 {
+		t.Error("Wrong source count encountered")
+	} else {
+		val, ok := firstPass.ctx.ProcessedSources["not-set"]
+		if !ok {
+			t.Error("Processed source not collected")
+		}
+		if (len(val.requiredEntities)) != 1 {
+			t.Error("Required entities not collected correctly")
+		} else {
+			if val.requiredEntities[0].name != "page" {
+				t.Errorf("Required entities wrongly collected, expected `page` but got `%s`", val.requiredEntities[0].name)
+			}
+			if !val.requiredEntities[0].many {
+				t.Error("Required entities with wrong cardinality")
+			}
+			if val.requiredEntities[0].predicate != "" {
+				t.Error("Required entities with wrong predicate")
+			}
+		}
+	}
+}
+
+func TestConsolidationWithUniqueEntity(t *testing.T) {
+	is := antlr.NewInputStream(`sashimi:unique entity(page) of
+	- title as "Pagetitle" is text
+	- description as "Description" is text[:markdown]
+	sashimi:display(page.description)
+	`)
+	lexer := NewSashimiLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := NewSashimiParser(stream)
+	firstPass := plainFirstPassParser()
+	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
+	firstPass.ctx.Consolidate()
+	if len(firstPass.ctx.Errors) > 0 {
+		t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
+	}
+	if len(firstPass.ctx.Warnings) > 0 {
+		t.Errorf("Consolidation created unwanted warning.")
+	}
+	if len(firstPass.ctx.ProcessedSources) != 1 {
+		t.Error("Wrong source count encountered")
+	} else {
+		val, ok := firstPass.ctx.ProcessedSources["not-set"]
+		if !ok {
+			t.Error("Processed source not collected")
+		}
+		if (len(val.requiredEntities)) != 1 {
+			t.Error("Required entities not collected correctly")
+		} else {
+			if val.requiredEntities[0].name != "page" {
+				t.Errorf("Required entities wrongly collected, expected `page` but got `%s`", val.requiredEntities[0].name)
+			}
+			if val.requiredEntities[0].many {
+				t.Error("Required entities with wrong cardinality")
+			}
+			if val.requiredEntities[0].predicate != "" {
+				t.Error("Required entities with wrong predicate")
+			}
+		}
+	}
 }
 
 func TestConsolidationReference(t *testing.T) {
@@ -207,6 +269,16 @@ func TestRepeatExplicitHTMLScope(t *testing.T) {
 	}
 	if len(firstPass.ctx.Warnings) > 0 {
 		t.Errorf("Consolidation created unwanted warning.")
+	}
+	if len(firstPass.ctx.ProcessedSources) != 1 {
+		t.Error("Processed sources didnt not get tracked")
+	} else {
+		val, ok := firstPass.ctx.ProcessedSources["not-set"]
+		if !ok {
+			t.Error("Wrong source tracked")
+		} else if !val.isMany {
+			t.Error("Wrong cardinality tracked")
+		}
 	}
 }
 
@@ -303,7 +375,7 @@ func TestRepeatAliasOutOfScopeError(t *testing.T) {
 	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
-	if len(firstPass.ctx.Errors) == 1 {
+	if len(firstPass.ctx.Errors) == 2 {
 		if firstPass.ctx.Errors[0].Message != "Unknown property path: `pp.title`" {
 			t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
 		}
@@ -477,7 +549,7 @@ func TestConsolidationFailedEntity(t *testing.T) {
 	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
-	if len(firstPass.ctx.Errors) == 1 {
+	if len(firstPass.ctx.Errors) == 2 {
 		if firstPass.ctx.Errors[0].Message != "Unknown property path: `nonexistent.title`" {
 			t.Errorf("Consolidation created unwanted error. %v", firstPass.ctx.Errors[0])
 		}
@@ -521,7 +593,7 @@ func TestConsolidationUndefinedDisplay(t *testing.T) {
 	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
-	if len(firstPass.ctx.Errors) == 1 {
+	if len(firstPass.ctx.Errors) == 2 {
 		if firstPass.ctx.Errors[0].Message != "Unknown property path: `project.nonexistent`" {
 			t.Errorf("Consolidation created WRONG error (%s).", firstPass.ctx.Errors[0].Message)
 		}
@@ -541,7 +613,7 @@ func TestConsolidationUndefinedRepeat(t *testing.T) {
 	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
-	if len(firstPass.ctx.Errors) == 1 {
+	if len(firstPass.ctx.Errors) == 2 {
 		if firstPass.ctx.Errors[0].Message != "Unknown property path: `project`" {
 			t.Errorf("Consolidation created WRONG error (%s).", firstPass.ctx.Errors[0].Message)
 		}
@@ -601,7 +673,7 @@ func TestConsolidationUndefinedLink(t *testing.T) {
 	firstPass := plainFirstPassParser()
 	antlr.ParseTreeWalkerDefault.Walk(firstPass, p.Block())
 	firstPass.ctx.Consolidate()
-	if len(firstPass.ctx.Errors) == 1 {
+	if len(firstPass.ctx.Errors) == 2 {
 		if firstPass.ctx.Errors[0].Message != "Unknown property path: `user`" {
 			t.Errorf("Consolidation created WRONG error (%s).", firstPass.ctx.Errors[0].Message)
 		}
