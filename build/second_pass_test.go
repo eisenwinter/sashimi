@@ -16,41 +16,46 @@ func (m *mockNodeResolver) Resolve(nodeType string, predicate resolver.Predicate
 	panic("nan")
 }
 
-var dummyProject = map[string]string{
-	"page.html": `<!-- sashimi:layout(main) -->
+var testDummyProject = map[string]string{
+	"page.html": `<!doctype html><html><body><!-- sashimi:layout(main) -->
 	<!--
 	  sashimi:entity(page) of
 	   - title as "Pagetitle" is text
 	   - description as "Description" is text[:markdown]
 	-->
+	<!-- sashimi:display(page.description) -->
 	<div class="md-content">
-	  <!-- sashimi:display(page.description) -->
 	  This content wil be replaced with the page contents et al
 	</div>`,
-	"projects.html": `<!-- sashimi:layout(main) -->
+	"projects.html": `<html><body>
+	<!-- sashimi:layout(main) -->
 	<!-- sashimi:repeat(project) as p -->
 	<div class="project-item">
-		<h1><!-- sashimi:display(p.title) --> MyProject </h1>
+	   <!-- sashimi:display(p.title) -->
+	   <h1>MyProject </h1>
 	   <!-- sashimi:link(p) -->
 	   <a href="#"></a>
-	</div>`,
+	</div></body></html>`,
 	"project.html": `<!-- 
 	sashimi:entity(project) of
 	 - title as "Project Title" is text
 	 - description as "Description" is text
 	 - image as "Main Image" is picture
 	 - starCount as "Star Count" is number
-	 - category as "Category" is oneOf("Archtiecture,"Misc.")
+	 - category as "Category" is oneOf("Archtiecture","Misc")
 	 - tags as "Tags" is manyOf("Cheap","Fast","Good")
-	 - gallery as "Gallery" is list of picture
+	 - gallery as "Gallery" is list picture
   -->
+  <!doctype html>
+  <html><body>
   <div>
-	<h1><!-- sashimi:display(project.title) --> MyProject </h1>
+    <!-- sashimi:display(project.title) -->
+	<h1>MyProject </h1>
+	<!-- sashimi:display(project.description) --> 
 	<p>
-	  <!-- sashimi:display(project.description) --> 
 	  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, placeat praesentium, cum tempore in tenetur quo voluptate eum ipsa commodi laudantium assumenda vero modi itaque sunt vel qui est ut.
 	</p>
-  </div>`,
+  </div></body></html>`,
 	"shared/_layout.html": `<!doctype html>
 	<html class="no-js" lang="">
 	<head>
@@ -75,8 +80,8 @@ var dummyProject = map[string]string{
 	  </nav>
 	  <div class="main">
 	  </div>
+	  <!-- sashimi:layout_section(main) -->
 	  <div class="content">
-		<!-- sashimi:layout_section(main) -->
 	  </div>
 	</body>
 	</html>
