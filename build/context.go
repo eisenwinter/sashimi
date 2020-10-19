@@ -14,8 +14,9 @@ type parserContext struct {
 	Calls    map[string]map[string]map[string][]string
 	//Hokay this is very primitive - it doesnt accout for any scoping right now
 	//so it needds to be improved once the ting works
-	KnownTypeAlias map[string][]*aliasEntry
-	KnownGlobals   map[string]bool
+	KnownTypeAlias   map[string][]*aliasEntry
+	KnownGlobals     map[string]bool
+	ProcessedSources map[string]*sourceReport
 }
 
 func (c *parserContext) GetErrors() []Report {
@@ -35,6 +36,19 @@ func (c *parserContext) GetWarnings() []Report {
 
 func (c *parserContext) GetGraph() *graph.SchemaGraph {
 	return nil
+}
+
+type sourceReport struct {
+	isMany           bool
+	manyBy           []string
+	requiredEntities []*requiredEntity
+}
+
+type requiredEntity struct {
+	name      string
+	many      bool
+	predicate string
+	scope     string
 }
 
 type lineReporter struct {
@@ -59,6 +73,32 @@ func (l *lineReporter) InSource() string {
 
 func (l *lineReporter) InternalCode() int {
 	return int(l.Code)
+}
+
+func (*parserContext) isGlobal(path string) bool {
+	return strings.HasPrefix(path, "@")
+}
+
+func (c *parserContext) getUnderlyingEntityType(path string, callSource string, callScopes []string) string {
+	propParts := strings.Split(path, ".")
+	if len(propParts) > 0 {
+		if _, ok := c.KnownGlobals[propParts[0]]; ok {
+			return propParts[0]
+		}
+		if alias, ok := c.KnownTypeAlias[propParts[0]]; ok {
+			for _, av := range alias {
+				if av.Source == callSource {
+					for _, scope := range callScopes {
+						if isValidForScope(av.Scope, scope) {
+							return av.UnderlyingType
+						}
+					}
+				}
+			}
+		}
+		return propParts[0]
+	}
+	return ""
 }
 
 func (c *parserContext) propertyExists(path string, callSource string, callScopes []string) bool {
@@ -110,7 +150,6 @@ func (c *parserContext) propertyExists(path string, callSource string, callScope
 					}
 				}
 			}
-
 		}
 	}
 	return false
@@ -183,5 +222,29 @@ func (c *parserContext) Consolidate() {
 
 		}
 
+	}
+	for name, source := range c.ProcessedSources {
+		if source.requiredEntities != nil && len(source.requiredEntities) > 0 {
+			for _, e := range source.requiredEntities {
+				t := c.getUnderlyingEntityType(e.name, name, []string{e.scope})
+				if c.isGlobal(t) {
+					continue
+				}
+				val, ok := c.Def[t]
+				if ok {
+					if val.IsUnique {
+						e.many = false
+					}
+				} else {
+					c.Errors = append(c.Errors, &lineReporter{
+						Line:           0,
+						ErrorMarkerPos: 0,
+						Message:        fmt.Sprintf("Unknown entity: `%s`", e.name),
+						Source:         name,
+						Code:           SashimiUnknownEntity,
+					})
+				}
+			}
+		}
 	}
 }

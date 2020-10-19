@@ -24,6 +24,7 @@ type htmlGenerator struct {
 	currentParent     *html.Node
 	iteration         int
 	callback          func(*html.Node) *html.Node
+	//add entity table with preloaded entities
 }
 
 func (h *htmlGenerator) parseDocument(reader io.Reader) ([]*html.Node, error) {

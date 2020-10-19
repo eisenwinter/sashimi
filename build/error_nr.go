@@ -6,6 +6,8 @@ type SashimiErrorCode int
 const (
 	//SashminiUnknownPropertyPath Unknown property path: `%s`
 	SashminiUnknownPropertyPath SashimiErrorCode = 100
+	//SashimiUnknownEntity Unknown entity: `%s`
+	SashimiUnknownEntity SashimiErrorCode = 104
 	//SashminiUndefinedLayoutSection Undefined layout section `%s`
 	SashminiUndefinedLayoutSection = 101
 	//SashimiPropertyAlreadyDeclared Property with name `%s` has already been declared

@@ -3,6 +3,8 @@ package build
 import (
 	"fmt"
 	"strings"
+
+	"github.com/eisenwinter/sashimi/util"
 )
 
 type firstPass struct {
@@ -22,12 +24,13 @@ type firstPass struct {
 func plainFirstPassParser() *firstPass {
 	return &firstPass{
 		ctx: &parserContext{
-			Def:            make(map[string]*defTableEntry),
-			Errors:         make([]*lineReporter, 0),
-			Warnings:       make([]*lineReporter, 0),
-			Calls:          make(map[string]map[string]map[string][]string),
-			KnownTypeAlias: make(map[string][]*aliasEntry),
-			KnownGlobals:   map[string]bool{"@pages": true},
+			Def:              make(map[string]*defTableEntry),
+			Errors:           make([]*lineReporter, 0),
+			Warnings:         make([]*lineReporter, 0),
+			Calls:            make(map[string]map[string]map[string][]string),
+			KnownTypeAlias:   make(map[string][]*aliasEntry),
+			KnownGlobals:     map[string]bool{"@pages": true},
+			ProcessedSources: make(map[string]*sourceReport),
 		},
 		source:     "not-set",
 		builder:    newTypeBuilder(),
@@ -38,12 +41,13 @@ func plainFirstPassParser() *firstPass {
 func firstPassParserWithSource(source string) *firstPass {
 	return &firstPass{
 		ctx: &parserContext{
-			Def:            make(map[string]*defTableEntry),
-			Errors:         make([]*lineReporter, 0),
-			Warnings:       make([]*lineReporter, 0),
-			Calls:          make(map[string]map[string]map[string][]string),
-			KnownTypeAlias: make(map[string][]*aliasEntry),
-			KnownGlobals:   map[string]bool{"@pages": true},
+			Def:              make(map[string]*defTableEntry),
+			Errors:           make([]*lineReporter, 0),
+			Warnings:         make([]*lineReporter, 0),
+			Calls:            make(map[string]map[string]map[string][]string),
+			KnownTypeAlias:   make(map[string][]*aliasEntry),
+			KnownGlobals:     map[string]bool{"@pages": true},
+			ProcessedSources: make(map[string]*sourceReport),
 		},
 		source:     source,
 		builder:    newTypeBuilder(),
@@ -82,6 +86,10 @@ func (l *firstPass) ExitBlock(ctx *BlockContext) {
 		}
 		l.ctx.Errors = append(l.ctx.Errors, error)
 	}
+	if _, ok := l.ctx.ProcessedSources[l.source]; !ok {
+		l.ctx.ProcessedSources[l.source] = &sourceReport{}
+	}
+
 }
 
 func (l *firstPass) getCurrentScope() string {
@@ -126,6 +134,20 @@ func (l *firstPass) EnterCommandCall(ctx *CommandCallContext) {
 	}
 	entries := l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()][l.source]
 	l.ctx.Calls[ctx.COMMAND().GetText()][ctx.Qualifier().GetText()][l.source] = append(entries, l.getCurrentScope())
+	if !strings.Contains(ctx.COMMAND().GetText(), "layout") {
+		firstPart := strings.Split(ctx.Qualifier().GetText(), ".")[0]
+		entity := &requiredEntity{
+			name:  firstPart,
+			many:  true,
+			scope: l.getCurrentScope(),
+		}
+		if _, ok := l.ctx.ProcessedSources[l.source]; !ok {
+			l.ctx.ProcessedSources[l.source] = &sourceReport{}
+			l.ctx.ProcessedSources[l.source].requiredEntities = make([]*requiredEntity, 0)
+		}
+		l.ctx.ProcessedSources[l.source].requiredEntities = append(l.ctx.ProcessedSources[l.source].requiredEntities, entity)
+
+	}
 }
 
 func (l *firstPass) EnterEntityDef(ctx *EntityDefContext) {
@@ -267,6 +289,33 @@ func (l *firstPass) ExitLoopCall(ctx *LoopCallContext) {
 		ref = ctx.GLOBAL().GetText()
 	} else {
 		ref = ctx.Qualifier().GetText()
+		firstPart := strings.Split(ref, ".")[0]
+		if _, ok := l.ctx.ProcessedSources[l.source]; !ok {
+			l.ctx.ProcessedSources[l.source] = &sourceReport{}
+			l.ctx.ProcessedSources[l.source].requiredEntities = make([]*requiredEntity, 0)
+		}
+		l.ctx.ProcessedSources[l.source].isMany = true
+		if l.ctx.ProcessedSources[l.source].manyBy == nil {
+			l.ctx.ProcessedSources[l.source].manyBy = make([]string, 0)
+		}
+		l.ctx.ProcessedSources[l.source].manyBy = util.AddIfNotContained(l.ctx.ProcessedSources[l.source].manyBy, ref)
+		if ctx.Predicate() != nil && !ctx.Predicate().IsEmpty() {
+			entity := &requiredEntity{
+				name:      firstPart,
+				many:      true,
+				predicate: ctx.Predicate().GetText(),
+				scope:     l.getCurrentScope(),
+			}
+			l.ctx.ProcessedSources[l.source].requiredEntities = append(l.ctx.ProcessedSources[l.source].requiredEntities, entity)
+		} else {
+			entity := &requiredEntity{
+				name:  firstPart,
+				many:  true,
+				scope: l.getCurrentScope(),
+			}
+			l.ctx.ProcessedSources[l.source].requiredEntities = append(l.ctx.ProcessedSources[l.source].requiredEntities, entity)
+		}
+
 	}
 
 	if _, ok := l.ctx.Calls[ctx.LOOP().GetText()][ref]; !ok {

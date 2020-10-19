@@ -110,8 +110,12 @@ func TestAnalyzeHTMLExtraction(t *testing.T) {
 		if len(warnings) > 0 {
 			t.Errorf("Unknown warning triggered (%v)", len(warnings))
 		}
-		if len(errors) != 2 {
+		if len(errors) != 4 {
 			t.Errorf("Unkown errors triggered (%v)", len(errors))
+			for _, e := range errors {
+				t.Errorf("Unknown eror: %+v", e)
+			}
+
 		}
 	}
 }

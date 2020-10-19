@@ -4,15 +4,15 @@ import "github.com/eisenwinter/sashimi/resolver"
 
 type mockNodeResolver struct{}
 
-func (m *mockNodeResolver) ResolveByID(nodeType string, id int) (map[string]interface{}, error) {
+func (m *mockNodeResolver) ResolveByID(nodeType string, id int) (resolver.BaseEntity, error) {
 	panic("nan")
 }
 
-func (m *mockNodeResolver) ResolveAll(nodeType string) ([]map[string]interface{}, error) {
+func (m *mockNodeResolver) ResolveAll(nodeType string) ([]resolver.BaseEntity, error) {
 	panic("nan")
 }
 
-func (m *mockNodeResolver) Resolve(nodeType string, predicate resolver.Predicate) ([]map[string]interface{}, error) {
+func (m *mockNodeResolver) Resolve(nodeType string, predicate resolver.Predicate) ([]resolver.BaseEntity, error) {
 	panic("nan")
 }
 
