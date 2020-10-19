@@ -1,6 +1,7 @@
 package build
 
 import (
+	"fmt"
 	"io"
 	"strings"
 
@@ -19,7 +20,13 @@ const (
 	NoSushi
 	//OptimizeOff do not minify and inline output
 	OptimizeOff
+	//LogToConsole enables direct log to console
+	LogToConsole
 )
+
+func (c CompilerFlags) isSet(flag CompilerFlags) bool {
+	return c&flag != 0
+}
 
 //Report contains hints to certain parts of the source
 type Report interface {
@@ -60,6 +67,7 @@ func NewCompiler(nodeResolver resolver.NodeResolver) Compiler {
 type sashimiCompiler struct {
 	htmlProc     *htmlProcessor
 	nodeResolver resolver.NodeResolver
+	ctx          *parserContext
 }
 
 func (c *sashimiCompiler) Analyze(sources []CompilerSource, flags CompilerFlags) (AnalyizeResult, error) {
@@ -90,9 +98,46 @@ func (c *sashimiCompiler) Analyze(sources []CompilerSource, flags CompilerFlags)
 		antlr.ParseTreeWalkerDefault.Walk(fp, p.Block())
 	}
 	fp.ctx.Consolidate()
+	c.ctx = fp.ctx
 	return fp.ctx, nil
 }
 
 func (c *sashimiCompiler) Compile(sources []CompilerSource, out string, flags CompilerFlags) (CompileResult, error) {
+	res, err := c.Analyze(sources, flags)
+	if err != nil {
+		return res, err
+	}
+	for qualifier, layout := range c.ctx.Calls["layout_section"] {
+		if flags.isSet(LogToConsole) {
+			fmt.Printf("Processing layout: %s", qualifier)
+		}
+		for source := range layout {
+			fmt.Printf("Layout source: %s", source)
+		}
+		//ToDo: basically we transform it to html template layout and store it
+	}
+	for n, s := range c.ctx.ProcessedSources {
+		if flags.isSet(LogToConsole) {
+			fmt.Printf("Processing: %s", n)
+			fmt.Printf("Requires multiple runs: %v", s.isMany)
+		}
+		for _, ed := range s.requiredEntities {
+			if flags.isSet(LogToConsole) {
+				fmt.Printf("Processing required entity: %s", ed.name)
+				fmt.Printf("Requires multiple runs: %v", ed.many)
+				fmt.Printf("Predicate: %s", ed.predicate)
+				fmt.Printf("Scoped to: %s", ed.scope)
+			}
+			if ed.predicate != "" {
+				//ToDo build predicate and call Resolve
+			} else {
+				c.nodeResolver.ResolveAll(ed.name)
+			}
+		}
+		neededTypes := strings.Join(s.manyBy, "_")
+		if flags.isSet(LogToConsole) {
+			fmt.Printf("Constructed postfix: %s", neededTypes)
+		}
+	}
 	return nil, nil
 }
