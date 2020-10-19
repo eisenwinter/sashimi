@@ -13,6 +13,65 @@ type htmlProcessor struct {
 	requireScopeStack bool
 }
 
+//range {{range .Todos}} {{.}} {{end}}
+//display {{.Title}} --> add pipe for resolver (link etc)
+//sub template {{define "sub-template"}}content{{end}}
+func (h *htmlProcessor) transform(reader io.Reader, writer io.Writer, skipSushi bool) error {
+	tokenizer := html.NewTokenizer(reader)
+	for {
+		token := tokenizer.Next()
+		switch token {
+		case html.ErrorToken:
+			err := tokenizer.Err()
+			if err == io.EOF {
+				return nil
+			}
+			return err
+		case html.CommentToken:
+			content := tokenizer.Text()
+			if bytes.Contains(content, []byte("sashimi:")) {
+				if bytes.Contains(content, []byte("sashimi:repeat")) {
+					if !h.requireScopeStack {
+						h.scopeStack = make([]string, 0)
+					}
+					h.requireScopeStack = true
+				}
+				_, err := writer.Write(content)
+				if err != nil {
+					return err
+				}
+			}
+			break
+		case html.TextToken:
+			content := tokenizer.Text()
+			writer.Write(content)
+			break
+		case html.SelfClosingTagToken:
+			content := tokenizer.Text()
+			writer.Write(content)
+			break
+		case html.StartTagToken:
+			content := tokenizer.Text()
+
+			writer.Write(content)
+			break
+		case html.EndTagToken:
+			content := tokenizer.Text()
+			writer.Write(content)
+			break
+		case html.DoctypeToken:
+			content := tokenizer.Text()
+			writer.Write(content)
+			if !skipSushi {
+				writer.Write([]byte("<!--🍣-->"))
+			}
+			break
+		}
+
+	}
+}
+
+//extractFromHTML extracts all sashimi directives from the HTML (basically creates a .sushi files from .html)
 func (h *htmlProcessor) extractFromHTML(reader io.Reader, writer io.Writer) error {
 	tokenizer := html.NewTokenizer(reader)
 	for {

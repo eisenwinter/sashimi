@@ -55,7 +55,7 @@ type CompileResult interface {
 
 //Compiler is a sashimi compiler
 type Compiler interface {
-	Analyze(sources []CompilerSource, flags CompilerFlags) (AnalyizeResult, error)
+	Analyze(sources []CompilerSource) (AnalyizeResult, error)
 	Compile(sources []CompilerSource, out string, flags CompilerFlags) (CompileResult, error)
 }
 
@@ -70,7 +70,7 @@ type sashimiCompiler struct {
 	ctx          *parserContext
 }
 
-func (c *sashimiCompiler) Analyze(sources []CompilerSource, flags CompilerFlags) (AnalyizeResult, error) {
+func (c *sashimiCompiler) Analyze(sources []CompilerSource) (AnalyizeResult, error) {
 	fp := plainFirstPassParser()
 	for _, v := range sources {
 		var sb strings.Builder
@@ -103,8 +103,14 @@ func (c *sashimiCompiler) Analyze(sources []CompilerSource, flags CompilerFlags)
 }
 
 func (c *sashimiCompiler) Compile(sources []CompilerSource, out string, flags CompilerFlags) (CompileResult, error) {
-	res, err := c.Analyze(sources, flags)
+	res, err := c.Analyze(sources)
 	if err != nil {
+		return res, err
+	}
+	if len(res.GetErrors()) > 0 {
+		return res, err
+	}
+	if flags.isSet(HyperCritical) && len(res.GetWarnings()) > 0 {
 		return res, err
 	}
 	for qualifier, layout := range c.ctx.Calls["layout_section"] {

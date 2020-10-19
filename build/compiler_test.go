@@ -26,7 +26,7 @@ func (t *testMockCompilerSource) Format() string {
 func TestAnalyzeEmptySourceRun(t *testing.T) {
 	c := NewCompiler(&mockNodeResolver{})
 	es := make([]CompilerSource, 0)
-	r, err := c.Analyze(es, HyperCritical&OptimizeOff)
+	r, err := c.Analyze(es)
 	if err != nil {
 		t.Errorf("Unexpected error %v", err)
 	}
@@ -46,7 +46,7 @@ func TestAnalyzeSushieRun(t *testing.T) {
 		sashimi:entity(employee) of
 		- name as "Emp. Name" is text`,
 	})
-	r, err := c.Analyze(es, HyperCritical&OptimizeOff)
+	r, err := c.Analyze(es)
 	if err != nil {
 		t.Errorf("Unexpected error %v", err)
 	}
@@ -72,7 +72,7 @@ func TestAnalyzeTriggerHTMLExtraction(t *testing.T) {
 		n:       "testing-dummy.html",
 		content: ``,
 	})
-	r, err := c.Analyze(es, HyperCritical&OptimizeOff)
+	r, err := c.Analyze(es)
 	if err != nil {
 		t.Errorf("Unexpected error %v", err)
 	}
@@ -98,7 +98,7 @@ func TestAnalyzeHTMLExtraction(t *testing.T) {
 		n:       "testing-dummy.html",
 		content: TestValidHTMLUpper + `<!-- sashimi:display(something)--><br><h1><!-- sashimi:display(somethingElse)--></h1>` + TestValidHTMLLower,
 	})
-	r, err := c.Analyze(es, HyperCritical&OptimizeOff)
+	r, err := c.Analyze(es)
 	if err != nil {
 		t.Errorf("Unexpected error %v", err)
 	}
