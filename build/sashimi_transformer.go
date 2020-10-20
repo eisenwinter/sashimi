@@ -41,7 +41,7 @@ func (t *transformer) ExitCommandCall(ctx *CommandCallContext) {
 	case "link":
 		t.postBuffer.WriteString("{{")
 		t.postBuffer.WriteString(qualifier)
-		t.postBuffer.WriteString(" | linkTextt}}")
+		t.postBuffer.WriteString(" | linkText}}")
 		t.attrMod["href"] = "{{" + qualifier + " | link" + "}}"
 		break
 	case "layout_section":
@@ -56,5 +56,16 @@ func (t *transformer) ExitCommandCall(ctx *CommandCallContext) {
 }
 
 func (t *transformer) EnterLoopCall(ctx *LoopCallContext) {
-	t.preBuffer.WriteString("{{range .}}")
+	alias := ctx.GetAlias()
+	qualifier := ctx.Qualifier()
+	if alias != nil {
+		t.preBuffer.WriteString("{{range $")
+		t.preBuffer.WriteString(alias.GetText())
+		t.preBuffer.WriteString(" := ")
+		t.preBuffer.WriteString(qualifier.GetText())
+		t.preBuffer.WriteString("}}")
+	} else {
+		t.preBuffer.WriteString("{{range .}}")
+	}
+
 }

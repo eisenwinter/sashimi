@@ -8,6 +8,7 @@ import (
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"golang.org/x/net/html"
+	"golang.org/x/net/html/atom"
 )
 
 type htmlProcessor struct {
@@ -22,9 +23,6 @@ type htmlProcessor struct {
 	skipNextText      bool
 }
 
-//range {{range .Todos}} {{.}} {{end}}
-//display {{.Title}} --> add pipe for resolver (link etc)
-//sub template {{define "sub-template"}}content{{end}}
 func (h *htmlProcessor) transform(reader io.Reader, writer io.Writer, skipSushi bool) error {
 	h.sashimiBuffer.Reset()
 	h.transformer = &transformer{
@@ -44,6 +42,7 @@ func (h *htmlProcessor) transform(reader io.Reader, writer io.Writer, skipSushi 
 			content := tokenizer.Text()
 			if bytes.Contains(content, []byte("sashimi:")) {
 				h.sashimiBuffer.Write(content)
+				//this is rather cheap but for now enough, it could be determined in the transformer as well
 				if bytes.Contains(content, []byte("sashimi:repeat")) || bytes.Contains(content, []byte("sashimi:layout(")) {
 					if !h.requireDepthStack {
 						h.depthStack = make([]int, 0)
@@ -108,13 +107,17 @@ func (h *htmlProcessor) transform(reader io.Reader, writer io.Writer, skipSushi 
 			} else {
 				content := tokenizer.Raw()
 				writer.Write(content)
+
 			}
 
 			break
 		case html.EndTagToken:
 			h.depth--
-			content := tokenizer.Raw()
-			writer.Write(content)
+			content := tokenizer.Token()
+			if !skipSushi && content.DataAtom == atom.Html {
+				writer.Write([]byte("<!--🍣-->"))
+			}
+			writer.Write([]byte(content.String()))
 			if h.requireDepthStack {
 				n := len(h.depthStack) - 1
 				if n >= 0 {
@@ -132,9 +135,6 @@ func (h *htmlProcessor) transform(reader io.Reader, writer io.Writer, skipSushi 
 		case html.DoctypeToken:
 			content := tokenizer.Raw()
 			writer.Write(content)
-			if !skipSushi {
-				writer.Write([]byte("<!--🍣-->"))
-			}
 			break
 		}
 
