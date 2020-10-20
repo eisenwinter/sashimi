@@ -36,10 +36,7 @@ func (h *htmlProcessor) transform(reader io.Reader, writer io.Writer, skipSushi 
 					}
 					h.requireScopeStack = true
 				}
-				_, err := writer.Write(content)
-				if err != nil {
-					return err
-				}
+
 			}
 			break
 		case html.TextToken:
