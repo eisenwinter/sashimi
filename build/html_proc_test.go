@@ -105,7 +105,7 @@ func TestBasicRepeatScope(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if builder.Len() != 153 {
+	if builder.Len() != 161 {
 		t.Errorf("Unexpected builder length of %v", builder.Len())
 		t.Errorf("Unexpected builder content %v", builder.String())
 	}

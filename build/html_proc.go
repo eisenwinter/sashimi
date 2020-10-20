@@ -162,14 +162,14 @@ func (h *htmlProcessor) extractFromHTML(reader io.Reader, writer io.Writer) erro
 					n := len(h.scopeStack) - 1
 					innerScope := fmt.Sprintf("%s::%s", h.scopeStack[n], scope)
 					h.scopeStack = append(h.scopeStack, innerScope)
-					implicitDirective := fmt.Sprintf("sashimi:begin('%s')", innerScope)
+					implicitDirective := fmt.Sprintf(" sashimi:begin('%s') ", innerScope)
 					_, err := writer.Write([]byte(implicitDirective))
 					if err != nil {
 						return err
 					}
 				} else {
 					h.scopeStack = append(h.scopeStack, scope)
-					implicitDirective := fmt.Sprintf("sashimi:begin('%s')", scope)
+					implicitDirective := fmt.Sprintf(" sashimi:begin('%s') ", scope)
 					_, err := writer.Write([]byte(implicitDirective))
 					if err != nil {
 						return err
@@ -180,7 +180,7 @@ func (h *htmlProcessor) extractFromHTML(reader io.Reader, writer io.Writer) erro
 		if token == html.EndTagToken {
 			if h.requireScopeStack {
 				n := len(h.scopeStack) - 1
-				implicitDirective := fmt.Sprintf("sashimi:end('%s')", h.scopeStack[n])
+				implicitDirective := fmt.Sprintf(" sashimi:end('%s') ", h.scopeStack[n])
 				_, err := writer.Write([]byte(implicitDirective))
 				if err != nil {
 					return err

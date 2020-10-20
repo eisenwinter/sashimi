@@ -91,7 +91,8 @@ func (c *sashimiCompiler) Analyze(sources []CompilerSource) (AnalyizeResult, err
 			}
 		}
 		fp.source = v.Name()
-		is := antlr.NewInputStream(sb.String())
+		sushi := sb.String()
+		is := antlr.NewInputStream(sushi)
 		lexer := NewSashimiLexer(is)
 		stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 		p := NewSashimiParser(stream)
@@ -108,6 +109,11 @@ func (c *sashimiCompiler) Compile(sources []CompilerSource, out string, flags Co
 		return res, err
 	}
 	if len(res.GetErrors()) > 0 {
+		if flags.isSet(LogToConsole) {
+			for _, err := range res.GetErrors() {
+				fmt.Println(err.InSource())
+			}
+		}
 		return res, err
 	}
 	if flags.isSet(HyperCritical) && len(res.GetWarnings()) > 0 {
@@ -137,13 +143,29 @@ func (c *sashimiCompiler) Compile(sources []CompilerSource, out string, flags Co
 			if ed.predicate != "" {
 				//ToDo build predicate and call Resolve
 			} else {
-				c.nodeResolver.ResolveAll(ed.name)
+				//c.nodeResolver.ResolveAll(ed.name)
 			}
 		}
 		neededTypes := strings.Join(s.manyBy, "_")
 		if flags.isSet(LogToConsole) {
 			fmt.Printf("Constructed postfix: %s", neededTypes)
 		}
+		//transform into go templates - and generate a html from it
+		// var sb strings.Builder
+		// file, err := os.Open("path/file.ext")
+		// if err != nil {
+		// 	return nil, err
+		// }
+		// err = c.htmlProc.transform(file, &sb, flags.isSet(NoSushi))
+		// if err != nil {
+		// 	return nil, err
+		// }
+		// t := template.New(n)
+		// t, err = t.Parse(sb.String())
+		// if err != nil {
+		// 	return nil, err
+		// }
+		//t.Execute(os.Stdout, node)
 	}
-	return nil, nil
+	return res, nil
 }

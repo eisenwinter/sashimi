@@ -18,7 +18,7 @@ entityDef : UNIQUE? ENTITY LPAREN IDENT RPAREN OF propDecl (propDecl)*;
 scopeBegin: BEGIN (LPAREN SCOPEIDENT RPAREN)?;
 scopeEnd: DIRECTIVE END (LPAREN SCOPEIDENT RPAREN)?;
 commandCall : COMMAND LPAREN qualifier RPAREN;
-blockScope : scopeBegin export? scopeEnd;
+blockScope : scopeBegin export* scopeEnd;
 export : DIRECTIVE (commandCall | loopCall | entityDef | blockScope);
 block : export* EOF;
 

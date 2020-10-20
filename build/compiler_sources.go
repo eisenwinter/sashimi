@@ -35,8 +35,8 @@ func (f *fileCompilerSource) Format() string {
 //CreateCompilerSourceFromFile creates a new compiler source from the supplied path
 func CreateCompilerSourceFromFile(path string) CompilerSource {
 	_, file := filepath.Split(path)
-	ext := strings.ToLower(filepath.Ext(file))
-	return &fileCompilerSource{fileName: file, ext: ext}
+	ext := strings.TrimPrefix(strings.ToLower(filepath.Ext(file)), ".")
+	return &fileCompilerSource{fileName: file, ext: ext, path: path}
 }
 
 type stringReaderNoopCloser struct {
