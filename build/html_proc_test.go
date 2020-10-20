@@ -110,3 +110,22 @@ func TestBasicRepeatScope(t *testing.T) {
 		t.Errorf("Unexpected builder content %v", builder.String())
 	}
 }
+
+func TestTransformBasicSite(t *testing.T) {
+	val, ok := testDummyProject["projects.html"]
+	if !ok {
+		t.Error("Could not load dummy project data `projects.html`")
+	}
+	r := strings.NewReader(val)
+	p := &htmlProcessor{}
+	var builder strings.Builder
+	err := p.transform(r, &builder, false)
+	if err != nil {
+		t.Error(err)
+	}
+	if builder.Len() != 190 {
+		t.Errorf("Unexpected builder length of %v", builder.Len())
+		t.Errorf("Input file used: %s", val)
+		t.Errorf("Unexpected builder content %v", builder.String())
+	}
+}

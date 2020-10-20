@@ -4,19 +4,32 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"strings"
 
+	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"golang.org/x/net/html"
 )
 
 type htmlProcessor struct {
 	scopeStack        []string
 	requireScopeStack bool
+
+	requireDepthStack bool
+	depth             int
+	depthStack        []int
+	sashimiBuffer     strings.Builder
+	transformer       *transformer
+	skipNextText      bool
 }
 
 //range {{range .Todos}} {{.}} {{end}}
 //display {{.Title}} --> add pipe for resolver (link etc)
 //sub template {{define "sub-template"}}content{{end}}
 func (h *htmlProcessor) transform(reader io.Reader, writer io.Writer, skipSushi bool) error {
+	h.sashimiBuffer.Reset()
+	h.transformer = &transformer{
+		attrMod: make(map[string]string),
+	}
 	tokenizer := html.NewTokenizer(reader)
 	for {
 		token := tokenizer.Next()
@@ -30,34 +43,94 @@ func (h *htmlProcessor) transform(reader io.Reader, writer io.Writer, skipSushi 
 		case html.CommentToken:
 			content := tokenizer.Text()
 			if bytes.Contains(content, []byte("sashimi:")) {
-				if bytes.Contains(content, []byte("sashimi:repeat")) {
-					if !h.requireScopeStack {
-						h.scopeStack = make([]string, 0)
+				h.sashimiBuffer.Write(content)
+				if bytes.Contains(content, []byte("sashimi:repeat")) || bytes.Contains(content, []byte("sashimi:layout(")) {
+					if !h.requireDepthStack {
+						h.depthStack = make([]int, 0)
 					}
-					h.requireScopeStack = true
+					h.requireDepthStack = true
+					h.depthStack = append(h.depthStack, h.depth)
 				}
-
 			}
 			break
 		case html.TextToken:
-			content := tokenizer.Text()
-			writer.Write(content)
+			if h.skipNextText {
+				h.skipNextText = false
+			} else {
+				content := tokenizer.Raw()
+				writer.Write(content)
+			}
 			break
 		case html.SelfClosingTagToken:
-			content := tokenizer.Text()
+			content := tokenizer.Raw()
 			writer.Write(content)
 			break
 		case html.StartTagToken:
-			content := tokenizer.Text()
+			h.depth++
+			if h.sashimiBuffer.Len() > 0 {
+				content := tokenizer.Token()
+				is := antlr.NewInputStream(h.sashimiBuffer.String())
+				lexer := NewSashimiLexer(is)
+				h.sashimiBuffer.Reset()
+				stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+				p := NewSashimiParser(stream)
+				antlr.ParseTreeWalkerDefault.Walk(h.transformer, p.Block())
+				attrMods := h.transformer.FlushAttributeModifiers()
+				for k, v := range attrMods {
+					found := false
+					for i, attr := range content.Attr {
+						if attr.Key == k {
+							content.Attr[i] = html.Attribute{
+								Key: k,
+								Val: v,
+							}
+							found = true
+							break
+						}
+					}
+					if !found {
+						content.Attr = append(content.Attr, html.Attribute{
+							Key: k,
+							Val: v,
+						})
+					}
+				}
+				pre, post := h.transformer.FlushBuffer()
+				if len(pre) > 0 {
+					writer.Write([]byte(pre))
+				}
 
-			writer.Write(content)
+				writer.Write([]byte(content.String()))
+				if len(post) > 0 {
+					writer.Write([]byte(post))
+					h.skipNextText = true
+				}
+			} else {
+				content := tokenizer.Raw()
+				writer.Write(content)
+			}
+
 			break
 		case html.EndTagToken:
-			content := tokenizer.Text()
+			h.depth--
+			content := tokenizer.Raw()
 			writer.Write(content)
+			if h.requireDepthStack {
+				n := len(h.depthStack) - 1
+				if n >= 0 {
+					for n >= 0 && h.depthStack[n] == h.depth {
+						h.depthStack = h.depthStack[:n]
+						writer.Write([]byte("{{end}}"))
+						n = len(h.depthStack) - 1
+					}
+
+				} else {
+					h.requireDepthStack = false
+				}
+			}
 			break
 		case html.DoctypeToken:
-			content := tokenizer.Text()
+			content := tokenizer.Raw()
 			writer.Write(content)
 			if !skipSushi {
 				writer.Write([]byte("<!--🍣-->"))

@@ -1,7 +1,6 @@
 package build
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -9,39 +8,53 @@ import (
 
 type transformer struct {
 	*BaseSashimiListener
-	buffer strings.Builder
+	preBuffer  strings.Builder
+	postBuffer strings.Builder
+	attrMod    map[string]string
+}
+
+func (t *transformer) FlushBuffer() (string, string) {
+	pre := t.preBuffer.String()
+	t.preBuffer.Reset()
+	post := t.postBuffer.String()
+	t.postBuffer.Reset()
+	return pre, post
+}
+
+func (t *transformer) FlushAttributeModifiers() map[string]string {
+	copy := make(map[string]string)
+	for k, v := range t.attrMod {
+		copy[k] = v
+		delete(t.attrMod, k)
+	}
+	return copy
 }
 
 func (t *transformer) ExitCommandCall(ctx *CommandCallContext) {
 	qualifier := ctx.Qualifier().GetText()
 	switch ctx.COMMAND().GetText() {
 	case "display":
-		//resolve type and constraints to validate if next sibling is eligable
-		t.buffer.WriteString("{{")
-		t.buffer.WriteString(qualifier)
-		t.buffer.WriteString("}}")
+		t.postBuffer.WriteString("{{")
+		t.postBuffer.WriteString(qualifier)
+		t.postBuffer.WriteString("}}")
 		break
 	case "link":
-		//resolve type and validate if next sibling is a image
+		t.postBuffer.WriteString("{{")
+		t.postBuffer.WriteString(qualifier)
+		t.postBuffer.WriteString(" | linkTextt}}")
+		t.attrMod["href"] = "{{" + qualifier + " | link" + "}}"
 		break
 	case "layout_section":
 		//this should have been processed before hand
 		break
 	case "layout":
-		//resolve layout_section for layout and store it in gen
-		//if the value is already set throw an error
-		t.buffer.WriteString("{{define \"")
-		t.buffer.WriteString(qualifier)
-		t.buffer.WriteString("\"}}content{{end}}")
+		t.preBuffer.WriteString("{{define \"")
+		t.preBuffer.WriteString(qualifier)
+		t.preBuffer.WriteString("\"}}")
 		break
 	}
 }
 
 func (t *transformer) EnterLoopCall(ctx *LoopCallContext) {
-	fmt.Println("loop call entered")
-	t.buffer.WriteString("{{range .}}")
-}
-
-func (t *transformer) ExitLoopCall(ctx *LoopCallContext) {
-	t.buffer.WriteString("{{end}}")
+	t.preBuffer.WriteString("{{range .}}")
 }

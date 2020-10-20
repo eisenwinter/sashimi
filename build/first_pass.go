@@ -302,7 +302,7 @@ func (l *firstPass) ExitLoopCall(ctx *LoopCallContext) {
 		if ctx.Predicate() != nil && !ctx.Predicate().IsEmpty() {
 			entity := &requiredEntity{
 				name:      firstPart,
-				many:      true,
+				many:      false,
 				predicate: ctx.Predicate().GetText(),
 				scope:     l.getCurrentScope(),
 			}
@@ -310,7 +310,7 @@ func (l *firstPass) ExitLoopCall(ctx *LoopCallContext) {
 		} else {
 			entity := &requiredEntity{
 				name:  firstPart,
-				many:  true,
+				many:  false,
 				scope: l.getCurrentScope(),
 			}
 			l.ctx.ProcessedSources[l.source].requiredEntities = append(l.ctx.ProcessedSources[l.source].requiredEntities, entity)

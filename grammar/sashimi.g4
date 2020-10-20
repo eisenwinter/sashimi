@@ -13,7 +13,7 @@ typeIs : IS typeDef;
 propDecl : PROP_START IDENT aliasDecl? typeIs;
 predicate: IDENT ARROW boolExpression;
 qualifier: IDENT(DOT IDENT)*;
-loopCall: LOOP LPAREN (GLOBAL | qualifier)  RPAREN (AS alias=IDENT)? (HLPAREN predicate HRPAREN)? DIRECTIVE blockScope;
+loopCall: LOOP LPAREN (GLOBAL | qualifier)  RPAREN (AS alias=IDENT)? (HLPAREN predicate HRPAREN)? (DIRECTIVE blockScope)?;
 entityDef : UNIQUE? ENTITY LPAREN IDENT RPAREN OF propDecl (propDecl)*;
 scopeBegin: BEGIN (LPAREN SCOPEIDENT RPAREN)?;
 scopeEnd: DIRECTIVE END (LPAREN SCOPEIDENT RPAREN)?;

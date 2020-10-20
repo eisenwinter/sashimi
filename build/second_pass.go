@@ -1,19 +1,5 @@
 package build
 
-import "github.com/antlr/antlr4/runtime/Go/antlr"
-
-type secondPass struct {
-	*BaseSashimiListener
-}
-
-func interpret(source string) antlr.Tree {
-	is := antlr.NewInputStream(source)
-	lexer := NewSashimiLexer(is)
-	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
-	p := NewSashimiParser(stream)
-	return p.Block()
-}
-
 /*
 	Hookay basically here is what we need to do:
 	First - process the layout pages (layout_section), generate those fully and ready in some intermediate format
